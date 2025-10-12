@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GroundZero 🌍
 
-## Getting Started
+## Where real change begins.
 
-First, run the development server:
+GroundZero is a community-driven issue reporting and volunteering platform designed to empower citizens to identify local problems and take action. From potholes and broken streetlights to waste management and public safety concerns, GroundZero is your starting point for meaningful change in your community.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features (Coming Soon)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Report Local Issues** – Submit problems with photos, location, and descriptions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **AI-Assisted Descriptions** – Automatically generate clear and detailed issue descriptions.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Volunteer Program** – Join as a volunteer to help resolve reported issues.
 
-## Learn More
+- **Admin Dashboard** – Manage users, issues, and volunteers efficiently.
 
-To learn more about Next.js, take a look at the following resources:
+- **Real-Time Updates** – Track issue progress as volunteers and admins act.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Landing Page** – Informative, clean, and inviting introduction for new users.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎯 Goal
 
-## Deploy on Vercel
+GroundZero is built to bridge the gap between citizens and action — empowering communities to take ownership of local improvements. Every report, every volunteer, and every resolved issue begins from the ground up.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚡ Tech Stack (Planned)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:** Next.js + Tailwind CSS + Zustand + ShadCN
+
+- **Backend:** Node.js + Express + MongoDB
+
+- **AI Integration:** OpenAI API for issue description generation
+
+- **Deployment:** Vercel (Frontend) + Render (Backend)
+
+## 🛠️ Project Status
+
+🚧 Currently in development — stay tuned for updates as we build features and expand functionality.
+
+## 🤝 Contribute
+
+GroundZero is open for collaboration! If you’re interested in helping with development, design, or AI integration, feel free to reach out or open an issue.
+
+## 🌟 Contact
+
+- **Developer:** ASHOK KUMAR P
+
+- **Email:** ashokkumarpandian7@gmail.com
