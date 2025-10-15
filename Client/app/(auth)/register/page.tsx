@@ -61,7 +61,7 @@ const Register = () => {
                         </div>
                         <div className="btn-primary">
                             <IoPersonAdd className="text-white" />
-                            <button className="">
+                            <button className="cursor-pointer">
                                 Create Account
                             </button>
                         </div>
