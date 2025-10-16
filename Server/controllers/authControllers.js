@@ -78,8 +78,13 @@ const loginUser = async(req,res)=>{
     });
 }
 
+const logoutUser = async(req,res)=>{
+    res.clearCookie('token');
+    return res.status(200).json({message: "Logout successful"});
+}
 
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    logoutUser
 }
