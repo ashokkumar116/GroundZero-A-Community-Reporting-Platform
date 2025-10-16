@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
             default: null,
         },
         volunteer_request_status: {
-            type: Boolean,
+            type: String,
             enum: ["not_requested", "pending", "approved", "rejected"],
             default: "not_requested",
         },
