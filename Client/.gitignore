@@ -45,3 +45,4 @@ next-env.d.ts
 *.suo
 *.ntvs*
 *.njsproj
+.idea
