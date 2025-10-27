@@ -60,7 +60,12 @@ const loginUser = async(req,res)=>{
         expiresIn: '1d'
     })
 
-   res.cookie('token', token);
+   res.cookie('token', token,{
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === "production" ?'None' : 'Strict',
+    maxAge: 24 * 60 * 60 * 1000 
+   });
 
    await User.updateOne({_id:user._id},{last_login:new Date()});
 
@@ -78,6 +83,16 @@ const loginUser = async(req,res)=>{
     });
 }
 
+const getMe = async(req,res)=>{
+    const {userId} = req.user;
+    const user = await User.findById(userId).select('-password');
+    if(!user){
+        return res.status(404).json({message: "User not found"});
+    }
+    return res.status(200).json({user});
+    
+}
+
 const logoutUser = async(req,res)=>{
     res.clearCookie('token');
     return res.status(200).json({message: "Logout successful"});
@@ -86,5 +101,6 @@ const logoutUser = async(req,res)=>{
 module.exports = {
     createUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getMe
 }
