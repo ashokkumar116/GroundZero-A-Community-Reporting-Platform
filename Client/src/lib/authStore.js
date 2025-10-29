@@ -14,7 +14,6 @@ export const useAuthStore = create((set) => ({
                 return true;
             }
         } catch (error) {
-            set({loading:false});
             console.error("Login failed:", error);
             set({error:error.response?.data?.message || "Login failed"});
             return false;
@@ -30,12 +29,19 @@ export const useAuthStore = create((set) => ({
                 set({user: res.data.user});
             }
         } catch (error) {
-            set({loading:false});
             console.error("Auth verification failed:", error);
             set({user: null});
             set({error: "Auth verification failed"});
         }finally{
             set({loading:false});
+        }
+    },
+    logout:async()=>{
+        try {
+            await axios.post('/auth/logout');
+            set({user:null,error:null});
+        } catch (error) {
+            set({error:error});
         }
     }
 }));
