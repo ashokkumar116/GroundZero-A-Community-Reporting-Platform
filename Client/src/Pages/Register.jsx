@@ -3,17 +3,44 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { IoPersonAdd } from "react-icons/io5";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "../Services/axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
+    const navigate = useNavigate();
+
+    const [loading,setLoading] = useState(false);
     const [username,setUsername] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
 
 
-    const handleSubmit = async()=>{}
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        try {
+            setLoading(true);
+            if(password !== confirmPassword){
+                toast.error("Passwords Doesn't Match");
+                return;
+            }
+            const res = await axios.post("/auth/register",{
+            username,
+            email,
+            password
+        })
+        if(res.status === 201){
+            toast.success("User Account Created");
+            navigate('/login');
+        }
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+        }finally{
+            setLoading(false);
+        }
+    }
 
 
 
