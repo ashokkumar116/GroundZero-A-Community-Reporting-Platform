@@ -24,13 +24,13 @@ GroundZero is built to bridge the gap between citizens and action — empowering
 
 ## ⚡ Tech Stack (Planned)
 
-- **Frontend:** Next.js + Tailwind CSS + Zustand + ShadCN
+- **Frontend:** React.js + Tailwind CSS + Zustand + ShadCN + DaisyUi
 
 - **Backend:** Node.js + Express + MongoDB
 
 - **AI Integration:** OpenAI API for issue description generation
 
-- **Deployment:** Vercel (Frontend) + Render (Backend)
+- **Deployment:** Netlify (Frontend) + Render (Backend)
 
 ## 🛠️ Project Status
 
