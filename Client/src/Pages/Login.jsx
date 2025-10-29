@@ -1,15 +1,30 @@
 import { useState } from 'react'
-import {Toaster} from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { BiLogInCircle } from "react-icons/bi";
+import { useAuthStore } from '../lib/authStore';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
+    const {login,loading,error} = useAuthStore();
+
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        const success = await login({email,password});
+        if(success){
+            toast.success("Login Success");
+            navigate('/');
+        }
+        else{
+            toast.error(error);
+        }
     }
   return (
         <div className="p-10 h-screen justify-center items-center flex bg-gray-100">
