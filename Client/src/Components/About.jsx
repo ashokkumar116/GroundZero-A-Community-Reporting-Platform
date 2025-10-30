@@ -22,7 +22,7 @@ export default function About() {
             <div className="relative max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-8 md:px-0 pt-16">
                 <div className="size-[520px] -top-80 left-1/2 -translate-x-1/2 rounded-full absolute blur-[300px] -z-10 bg-[#FBFFE1]"></div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-emerald-300 border-1 border-emerald-700 rounded text-emerald-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-emerald-300 to-emerald-500  rounded text-emerald-900 shadow-md drop-shadow-md drop-shadow-emerald-300">
                         <TbUsersGroup className="text-xl"/>   
                     </div>
                     <div className="mt-5 space-y-2">
@@ -31,7 +31,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-amber-300 border-amber-700 border-1 rounded text-amber-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded text-yellow-900 shadow-md drop-shadow-md drop-shadow-yellow-300">
                         <BsLightningCharge className="text-xl"/>     
                     </div>
                     <div className="mt-5 space-y-2">
@@ -40,7 +40,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-sky-300 border-sky-700 border-1 rounded text-sky-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-sky-300 to-sky-500 rounded text-sky-900 shadow-md drop-shadow-md drop-shadow-sky-300">
                         <SiTicktick className="text-xl"/>    
                     </div>
                     <div className="mt-5 space-y-2">
@@ -49,7 +49,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-violet-300 border-violet-700 border-1 rounded text-violet-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-violet-300 to-violet-500 rounded text-violet-900 shadow-md drop-shadow-md drop-shadow-violet-300">
                         <RiTimeZoneLine className="text-xl"/>
                     </div>
                     <div className="mt-5 space-y-2">
@@ -58,7 +58,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-rose-300 border-rose-700 border-1 rounded text-rose-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-rose-300 to-rose-500 rounded text-rose-900 shadow-md drop-shadow-md drop-shadow-rose-300">
                         <LuHandHeart className="text-xl"/>
                     </div>
                     <div className="mt-5 space-y-2">
@@ -67,7 +67,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="about-card">
-                    <div className="size-10 p-2 bg-lime-300 border-lime-700 border-1 rounded text-lime-900">
+                    <div className="size-10 p-2 bg-gradient-to-br from-orange-300 to-orange-500 rounded text-orange-900 shadow-md drop-shadow-md drop-shadow-orange-300">
                         <HiMiniFire className="text-xl"/>
                     </div>
                     <div className="mt-5 space-y-2">

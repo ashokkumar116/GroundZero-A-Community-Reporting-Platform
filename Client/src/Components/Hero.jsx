@@ -3,7 +3,6 @@ import { IoBookOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import { useAuthStore } from "../lib/authStore";
 import Loader from "../Loaders/Loader";
-import { useNavigate } from "react-router-dom";
 
 
 const Hero = () => {
@@ -13,7 +12,6 @@ const Hero = () => {
         return <div><Loader /></div>;
     }
 
-    const navigate = useNavigate();
 
     const [menuOpen, setMenuOpen] = useState(false);
 
