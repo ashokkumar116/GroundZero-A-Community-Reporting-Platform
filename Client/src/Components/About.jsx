@@ -1,0 +1,81 @@
+import { TbUsersGroup } from "react-icons/tb";
+import { BsLightningCharge } from "react-icons/bs";
+import { SiTicktick } from "react-icons/si";
+import { RiTimeZoneLine } from "react-icons/ri";
+import { LuHandHeart } from "react-icons/lu";
+import { HiMiniFire } from "react-icons/hi2";
+
+export default function About() {
+    return (
+        <div id="about" className="mb-5">
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+            
+                * {
+                    font-family: 'Poppins', sans-serif;
+                }
+            `}</style>
+            <h1 className="text-3xl font-semibold text-center mx-auto">About GroundZero</h1>
+            <p className="text-sm text-slate-500 text-center mt-2 max-w-lg mx-auto">
+                Empowering real people to solve real problems — one community, one action at a time.
+            </p>
+            <div className="relative max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-8 md:px-0 pt-16">
+                <div className="size-[520px] -top-80 left-1/2 -translate-x-1/2 rounded-full absolute blur-[300px] -z-10 bg-[#FBFFE1]"></div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-emerald-300 border-1 border-emerald-700 rounded text-emerald-900">
+                        <TbUsersGroup className="text-xl"/>   
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Community-Powered Impact</h3>
+                        <p className="text-sm text-slate-500">Every action starts with you. Collaborate with people who care and bring real change where it’s needed most.</p>
+                    </div>
+                </div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-amber-300 border-amber-700 border-1 rounded text-amber-900">
+                        <BsLightningCharge className="text-xl"/>     
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Lightning-Fast Issue Reporting</h3>
+                        <p className="text-sm text-slate-500">Report local issues instantly — no complexity, no delay. Just tap, submit, and make your voice heard.</p>
+                    </div>
+                </div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-sky-300 border-sky-700 border-1 rounded text-sky-900">
+                        <SiTicktick className="text-xl"/>    
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Verified Issue Tracking</h3>
+                        <p className="text-sm text-slate-500">Every report is verified and tracked, ensuring authenticity and accountability from start to finish.</p>
+                    </div>
+                </div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-violet-300 border-violet-700 border-1 rounded text-violet-900">
+                        <RiTimeZoneLine className="text-xl"/>
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Real-Time Updates</h3>
+                        <p className="text-sm text-slate-500">Stay informed as your community acts. Track progress, completion, and contributions in real-time.</p>
+                    </div>
+                </div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-rose-300 border-rose-700 border-1 rounded text-rose-900">
+                        <LuHandHeart className="text-xl"/>
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Designed for Everyone</h3>
+                        <p className="text-sm text-slate-500">Built with inclusivity and simplicity — accessible for all, from rural users to city changemakers.</p>
+                    </div>
+                </div>
+                <div className="about-card">
+                    <div className="size-10 p-2 bg-lime-300 border-lime-700 border-1 rounded text-lime-900">
+                        <HiMiniFire className="text-xl"/>
+                    </div>
+                    <div className="mt-5 space-y-2">
+                        <h3 className="text-base font-medium text-slate-600">Built for Change</h3>
+                        <p className="text-sm text-slate-500">GroundZero isn’t just an app — it’s a movement. A platform where ideas meet action and change begins from the ground up.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};

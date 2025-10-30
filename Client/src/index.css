@@ -17,4 +17,7 @@ body {
     .btn-primary{
         @apply bg-gradient-to-r from-emerald-400 to-teal-600 text-white w-[90%] font-bold px-6 py-3 rounded-xl transition-transform cursor-pointer hover:scale-103 duration-350 flex justify-center items-center gap-2
     }
+    .about-card{
+        @apply bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center justify-center text-center
+    }
 }

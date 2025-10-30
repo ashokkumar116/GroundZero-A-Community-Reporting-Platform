@@ -3,6 +3,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import { useAuthStore } from "../lib/authStore";
 import Loader from "../Loaders/Loader";
+import { useNavigate } from "react-router-dom";
 
 
 const Hero = () => {
@@ -11,6 +12,8 @@ const Hero = () => {
     if (loading) {
         return <div><Loader /></div>;
     }
+
+    const navigate = useNavigate();
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -31,7 +34,7 @@ const Hero = () => {
                             Home
                         </a>
                         <a
-                            href="#features"
+                            href="#about"
                             className="hover:text-indigo-600 transition"
                         >
                             About
@@ -214,10 +217,13 @@ const Hero = () => {
                                 <path d="m12 5 7 7-7 7"></path>
                             </svg>
                         </a>
-                        <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
+                        <a 
+                            className="flex items-center gap-2 cursor-pointer border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700" 
+                            href="#about"
+                        >
                             <IoBookOutline className="text-xl" />
                             <span>Learn More</span>
-                        </button>
+                        </a>
                     </div>
 
                     {/* <p className="py-6 text-slate-600 mt-14">Trusting by leading brands, including</p>
