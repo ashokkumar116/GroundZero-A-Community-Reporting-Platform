@@ -17,7 +17,7 @@ const createUser = async(req,res)=>{
 
     const hashedPassword = await bcrypt.hash(password,salt);
 
-    const profile_image = `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}`;
+    const profile_image = `https://api.dicebear.com/9.x/avataaars/svg?seed=${username}`;
 
 
     try {

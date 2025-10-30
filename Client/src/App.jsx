@@ -5,6 +5,7 @@ import Home from "./Pages/Home";
 import UserProtectedRoute from "./ProtectedRoutes/UserProtectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./lib/authStore";
+import Loader from "./Loaders/Loader";
 
 function App() {
 
@@ -15,14 +16,14 @@ function App() {
   },[]);
 
   if(loading){
-    return <div>Loading</div>
+    return <div className="flex justify-center items-center h-screen"><Loader/></div>
   }
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={user?<UserProtectedRoute><Home /></UserProtectedRoute>:<Navigate to="/login" />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={user?<Navigate to="/" />:<Login />}/>
           <Route path="/register" element={<Register />}/>
         </Routes>

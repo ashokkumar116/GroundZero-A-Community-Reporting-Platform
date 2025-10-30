@@ -1,12 +1,10 @@
-import React from 'react'
-import { useAuthStore } from '../lib/authStore'
+
+import Hero from '../Components/Hero';
 
 const Home = () => {
-    const {logout} = useAuthStore();
   return (
     <div>
-      Home
-      <button className='btn btn-error' onClick={logout}>Logout</button>
+      <Hero />
     </div>
   )
 }
