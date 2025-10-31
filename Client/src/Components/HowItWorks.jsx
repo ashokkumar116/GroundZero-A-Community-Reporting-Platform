@@ -2,7 +2,7 @@
 
 export default function HowItWorks() {
     return (
-        <div id="how" className="mt-20 mb-20 flex flex-col items-center ">
+        <div className="mt-20 mb-20 flex flex-col items-center ">
             <div className="mb-20">
                 <h1 className="landing-header">How GroundZero Works</h1>
                 <p className="landing-subheader">From report to resolve — experience the RRR that powers GroundZero.</p>
@@ -41,6 +41,7 @@ Track progress, see updates, and celebrate when your issue gets resolved — pow
                     </div>
                 </div>
             </div>
+            <div id="testimonials"></div>
         </div>
     );
 };

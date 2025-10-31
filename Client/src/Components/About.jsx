@@ -7,7 +7,7 @@ import { HiMiniFire } from "react-icons/hi2";
 
 export default function About() {
     return (
-        <div id="about" className="mb-5 flex flex-col items-center">
+        <div className="mb-5 flex flex-col items-center -mt-10">
             <h1 className="landing-header">About GroundZero</h1>
             <p className="landing-subheader">
                 Empowering real people to solve real problems — one community, one action at a time.
@@ -69,6 +69,7 @@ export default function About() {
                     </div>
                 </div>
             </div>
+            <div id="how"></div>
         </div>
     );
 };

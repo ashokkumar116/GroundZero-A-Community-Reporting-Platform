@@ -62,10 +62,10 @@ const Hero = () => {
                             How It Works
                         </a>
                         <a
-                            href="#cta"
+                            href="#testimonials"
                             className="hover:text-indigo-600 transition"
                         >
-                            Contact
+                            Testimonials
                         </a>
                     </div>
 
@@ -248,6 +248,7 @@ const Hero = () => {
                         {logos.map((logo, index) => <img key={index} src={logo} alt="logo" className="h-6 w-auto max-w-xs" />)}
                     </div> */}
                 </div>
+                <div id="about"></div>
             </div>
         </>
     );
