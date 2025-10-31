@@ -140,8 +140,8 @@ const Hero = () => {
                     <a href="#how" className="text-white">
                         How It Works
                     </a>
-                    <a href="/pricing" className="text-white">
-                        Pricing
+                    <a href="#testimonials" className="text-white">
+                        Testimonials
                     </a>
                     <button
                         onClick={() => setMenuOpen(false)}
