@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoBookOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import { useAuthStore } from "../lib/authStore";
@@ -15,11 +15,29 @@ const Hero = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
 
+    const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // when the scrollY is greater than 50, mark as scrolled
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // cleanup when unmounts
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
     return (
         <>
             <div className="min-h-screen pb-20">
                 {/* Navbar */}
-                <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
+                <nav className={` z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm ${scrolled ? "fixed top-0 bg-white/90 backdrop-blur-sm shadow-md" : "fixed top-0 bg-transparent"} transition-all duration-500 ease-in-out `}>
                     <a href="#" className="text-3xl font-bold text-primary">
                         GroundZero
                     </a>
@@ -38,10 +56,10 @@ const Hero = () => {
                             About
                         </a>
                         <a
-                            href="#testimonials"
+                            href="#how"
                             className="hover:text-indigo-600 transition"
                         >
-                            Testimonials
+                            How It Works
                         </a>
                         <a
                             href="#cta"
@@ -62,7 +80,7 @@ const Hero = () => {
                                             alt="userImage1"
                                         />
                                     </div>
-                                    <p className="text-gray-800 font-bold uppercase">{user.username}</p>
+                                    <p className="text-gray-800 max-md:hidden font-bold uppercase">{user.username}</p>
                                 </div>
                                 <div>
                                     <button 
@@ -115,14 +133,14 @@ const Hero = () => {
                         menuOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                 >
-                    <a href="/" className="text-white">
+                    <a href="#" className="text-white">
                         Home
                     </a>
-                    <a href="/products" className="text-white">
-                        Products
+                    <a href="#about" className="text-white">
+                        About
                     </a>
-                    <a href="/stories" className="text-white">
-                        Stories
+                    <a href="#how" className="text-white">
+                        How It Works
                     </a>
                     <a href="/pricing" className="text-white">
                         Pricing
@@ -136,7 +154,7 @@ const Hero = () => {
                 </div>
 
                 {/* Hero Section */}
-                <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
+                <div className="mt-15 relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
                     <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-indigo-300 blur-[100px] opacity-30"></div>
 
                     {/* Avatars + Stars */}
