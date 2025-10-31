@@ -19,7 +19,6 @@ const Hero = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // when the scrollY is greater than 50, mark as scrolled
       if (window.scrollY > 0) {
         setScrolled(true);
       } else {
@@ -29,7 +28,6 @@ const Hero = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // cleanup when unmounts
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
