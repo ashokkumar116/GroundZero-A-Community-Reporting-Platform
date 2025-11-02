@@ -38,4 +38,12 @@ const VolunteerRequestSchema = new mongoose.Schema({
     timestamps:true
 })
 
+VolunteerRequestSchema.index({ 
+    report: 1, 
+    volunteer: 1 
+}, { 
+    unique: true 
+});
+
+
 export const VolunteerRequest = mongoose.model.VolunteerRequest || mongoose.model("VolunteerRequest",VolunteerRequestSchema);
