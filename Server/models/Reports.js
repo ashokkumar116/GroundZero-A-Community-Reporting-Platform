@@ -25,16 +25,16 @@ const imageSchema = new mongoose.Schema({
     }
 })
 
-const commentSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+const commentSchema = new mongoose.Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   text: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 }, { _id: true });
 
-const statusHistorySchema = new Schema({
+const statusHistorySchema = new mongoose.Schema({
   from: { type: String, enum: StatusEnum },
   to: { type: String, enum: StatusEnum, required: true },
-  changedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  changedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   note: { type: String },
   at: { type: Date, default: Date.now }
 }, { _id: false });
