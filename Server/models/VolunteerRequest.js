@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const VolunteerRequestSchema = new mongoose.Schema({
     report:{
         type:mongoose.Schema.Types.ObjectId,
@@ -46,4 +45,6 @@ VolunteerRequestSchema.index({
 });
 
 
-export const VolunteerRequest = mongoose.model.VolunteerRequest || mongoose.model("VolunteerRequest",VolunteerRequestSchema);
+const VolunteerRequest = mongoose.model.VolunteerRequest || mongoose.model("VolunteerRequest",VolunteerRequestSchema);
+
+module.exports = VolunteerRequest;

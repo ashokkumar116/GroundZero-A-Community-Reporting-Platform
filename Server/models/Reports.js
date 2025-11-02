@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const CategoryEnum = [
   'pothole',
@@ -155,4 +155,6 @@ const reportSchema = new mongoose.Schema({
 
 
 
-export const Reports = mongoose.model.Reports || mongoose.model("Reports",reportSchema);
+const Reports = mongoose.model.Reports || mongoose.model("Reports",reportSchema);
+
+module.exports = Reports;

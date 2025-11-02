@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const volunteerWorkSchema = new mongoose.Schema({
     report:{
@@ -90,4 +90,6 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+
+module.exports = User;

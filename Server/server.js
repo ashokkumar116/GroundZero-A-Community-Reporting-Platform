@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const requestRoutes = require('./routes/requestRoutes');
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth',authRoutes);
-app.use("/api/reports",reportRoutes)
+app.use("/api/reports",reportRoutes);
+app.use("/api/request",requestRoutes);
 
 const PORT = process.env.PORT || 8080;
 

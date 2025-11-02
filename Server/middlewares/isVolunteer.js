@@ -1,7 +1,7 @@
 const User =  require("../models/User");
 
 
-const isVolunteer = async(req,resizeBy,next)=>{
+const isVolunteer = async(req,res,next)=>{
     const userId = req.user.userId;
     const reportId = req.params.id;
 

@@ -67,4 +67,6 @@ statusUpdateRequestSchema.index({
     partialFilterExpression:{status:"pending"}
 });
 
-export const StatusUpdateRequest = mongoose.model.StatusUpdateRequest || mongoose.model("StatusUpdateRequest",statusUpdateRequestSchema);
+const StatusUpdateRequest = mongoose.model.StatusUpdateRequest || mongoose.model("StatusUpdateRequest",statusUpdateRequestSchema);
+
+module.exports = StatusUpdateRequest;
