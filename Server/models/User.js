@@ -1,5 +1,18 @@
 import mongoose from "mongoose";
 
+const volunteerWorkSchema = new mongoose.Schema({
+    report:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Reports",
+        required:true,
+    },
+    joinedAt:{
+        type:Date,
+        default:Date.now,
+    },
+    
+})
+
 const userSchema = new mongoose.Schema(
     {
         username: {
@@ -19,11 +32,6 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "Small actions, real impact — I’m in.",
         },
-        role: {
-            type: String,
-            enum: ["admin", "user", "volunteer"],
-            default: "user",
-        },
         profile_image: {
             type: String,
             default: "",
@@ -35,11 +43,6 @@ const userSchema = new mongoose.Schema(
         dob: {
             type: Date,
             default: null,
-        },
-        volunteer_request_status: {
-            type: String,
-            enum: ["not_requested", "pending", "approved", "rejected"],
-            default: "not_requested",
         },
         village_name: {
             type: String,
@@ -77,6 +80,10 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default:null
         },
+        volunteer_works:{
+            type:[volunteerWorkSchema],
+            default:[]
+        }
     },
     {
         timestamps: true,

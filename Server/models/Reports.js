@@ -25,6 +25,18 @@ const imageSchema = new mongoose.Schema({
     }
 })
 
+const volunteerSchema = new mongoose.Schema({
+    volunteerId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+    },
+    joinedAt:{
+        type:Date,
+        default:Date.now,
+    },
+})
+
 const commentSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   text: { type: String, required: true },
@@ -88,9 +100,9 @@ const reportSchema = new mongoose.Schema({
         ref:"User",
         required:true,
     },
-    assignedTo:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+    volunteers:{
+        type:[volunteerSchema],
+        default:[]
     },
     status:{
         type:String,
