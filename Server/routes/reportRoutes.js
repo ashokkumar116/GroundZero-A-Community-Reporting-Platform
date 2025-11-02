@@ -2,9 +2,10 @@ const express = require('express');
 const isLoggedIn = require('../middlewares/isLoggedIn');
 const uploadImage = require('../Services/cloudinary');
 const router = express.Router();
-const { createReport } = require('../controllers/reportControllers');
+const { createReport, fetchReports } = require('../controllers/reportControllers');
 
 router.post('/createreport',isLoggedIn,uploadImage.array("images",10),createReport);
+router.get('/fetchreports',fetchReports);
 
 
 

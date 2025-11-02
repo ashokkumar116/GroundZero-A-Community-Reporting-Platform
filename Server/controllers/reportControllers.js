@@ -40,6 +40,19 @@ const createReport = async(req,res)=>{
 
 }
 
+const fetchReports = async(req,res)=>{
+    const reports = await Reports.find()
+                            .populate("reportedBy","-password")
+                            .populate("assignedTo")
+                            .populate("comments.author")
+                            .populate("history.changedBy")
+    return res.status(200).json({
+        message:"Reports Fetched",
+        reports
+    })
+}
+
 module.exports = {
-    createReport
+    createReport,
+    fetchReports
 }
