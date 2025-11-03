@@ -5,12 +5,13 @@ const VolunteerRequest = require("../models/VolunteerRequest");
 const UpdateStatusRequest = async (req, res) => {
     try {
         const reportId = req.params.id;
-        const { status, note } = req.body;
+        const { status, note } = req.body  || {};
         const userId = req.user.userId;
         const images = req.files;
 
-        if (!status) {
-            return res.status(400).json({ message: "Status is required" });
+
+        if (!status || !note  || !images) {
+            return res.status(400).json({ message: "All Fields are required" });
         }
 
         const report = await Reports.findById(reportId);
