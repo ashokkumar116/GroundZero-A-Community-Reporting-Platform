@@ -48,6 +48,7 @@ const statusHistorySchema = new mongoose.Schema({
   to: { type: String, enum: StatusEnum, required: true },
   changedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   note: { type: String },
+  images:{type:[imageSchema],default:[]},
   at: { type: Date, default: Date.now }
 }, { _id: false });
 

@@ -61,8 +61,8 @@ const fetchReports = async (req, res) => {
     const reports = await Reports.find()
         .populate("reportedBy", "-password")
         .populate("volunteers.volunteer","-password")
-        .populate("comments.author")
-        .populate("history.changedBy");
+        .populate("comments.author","-password")
+        .populate("history.changedBy","-password");
     return res.status(200).json({
         message: "Reports Fetched",
         reports,
