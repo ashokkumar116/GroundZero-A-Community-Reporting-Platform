@@ -1,5 +1,6 @@
 const Reports = require("../models/Reports");
-const { StatusUpdateRequest } = require("../models/StatusUpdateRequest");
+const StatusUpdateRequest = require("../models/StatusUpdateRequest");
+const VolunteerRequest = require("../models/VolunteerRequest");
 
 const UpdateStatusRequest = async (req, res) => {
     try {
@@ -54,6 +55,52 @@ const UpdateStatusRequest = async (req, res) => {
     }
 };
 
+const volunteerRequest = async (req, res) => {
+    try {
+        const { note } = req.body || {};
+        const userId = req.user.userId;
+        const reportId = req.params.id;
+
+        if (!note) {
+            return res.status(400).json({ message: "Note is required" });
+        }
+
+        const report = await Reports.findById(reportId);
+
+        if (!report) {
+            return res.status(404).json({ message: "Report not found" });
+        }
+
+        const isAlreadyRequested = await VolunteerRequest.findOne({
+            report: reportId,
+            volunteer: userId,
+        });
+
+        if (isAlreadyRequested) {
+            return res.status(400).json({
+                message:
+                    "You have already requested to volunteer for this report",
+            });
+        }
+
+        const request = new VolunteerRequest({
+            report: reportId,
+            volunteer: userId,
+            note,
+        });
+
+        await request.save();
+
+        return res.status(201).json({
+            message: "Volunteer Request Created",
+            request,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Server Error" });
+    }
+};
+
 module.exports = {
-    UpdateStatusRequest
-}
+    UpdateStatusRequest,
+    volunteerRequest,
+};

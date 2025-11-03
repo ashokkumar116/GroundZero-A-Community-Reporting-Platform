@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "Small actions, real impact — I’m in.",
         },
+        isAdmin:{
+            type:Boolean,
+            default:false,
+        },
         profile_image: {
             type: String,
             default: "",

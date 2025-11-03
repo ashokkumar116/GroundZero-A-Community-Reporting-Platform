@@ -26,7 +26,7 @@ const imageSchema = new mongoose.Schema({
 })
 
 const volunteerSchema = new mongoose.Schema({
-    volunteerId:{
+    volunteer:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true,

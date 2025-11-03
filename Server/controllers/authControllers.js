@@ -55,7 +55,8 @@ const loginUser = async(req,res)=>{
 
     const token = await jwt.sign({
         userId: user._id,
-        role: user.role
+        email:user.email,
+        isAdmin:user.isAdmin
     },process.env.JWT_SECRET,{
         expiresIn: '1d'
     })
@@ -77,7 +78,7 @@ const loginUser = async(req,res)=>{
             userId: user._id,
             username: user.username,
             email: user.email,
-            role: user.role,
+            isAdmin:user.isAdmin,
             profile_image: user.profile_image,
         }
     });

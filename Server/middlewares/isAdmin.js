@@ -9,7 +9,7 @@ const isAdmin = async(req,res,next)=>{
 
     try {
         const decoded = await jwt.verify(token,process.env.JWT_SECRET);
-        if(decoded.role !== "admin"){
+        if(!decoded.isAdmin){
             return res.status(403).json({message: "Forbidden: Admins Only"});
         }
         req.user = decoded;
@@ -18,3 +18,5 @@ const isAdmin = async(req,res,next)=>{
         return res.status(401).json({message: "Unauthorized"});
     }
 }
+
+module.exports = isAdmin;
