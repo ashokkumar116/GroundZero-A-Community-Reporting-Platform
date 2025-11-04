@@ -20,7 +20,7 @@ const Footer = () => {
         <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-20 bg-gray-100/30">
             <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-gray-500/30 text-gray-500">
                 <div>
-                    <h1 className="text-3xl font-bold text-primary">GroundZero</h1>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-900 bg-clip-text text-transparent">GroundZero</h1>
                     <p className="max-w-[410px] mt-6">GroundZero is where real change begins.
 We empower people to report local issues, collaborate with volunteers, and drive grassroots impact that transforms communities from the ground up.</p>
                 </div>
