@@ -6,6 +6,7 @@ import UserProtectedRoute from "./ProtectedRoutes/UserProtectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./lib/authStore";
 import Loader from "./Loaders/Loader";
+import ExploreIssues from "./Pages/ExploreIssues";
 
 function App() {
 
@@ -21,13 +22,12 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={user?<Navigate to="/" />:<Login />}/>
           <Route path="/register" element={<Register />}/>
+          <Route path="/issues" element={<ExploreIssues />}/>
         </Routes>
-      </BrowserRouter>
     </>
   )
 }
