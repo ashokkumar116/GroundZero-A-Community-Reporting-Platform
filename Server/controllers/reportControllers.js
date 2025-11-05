@@ -58,18 +58,35 @@ const createReport = async (req, res) => {
 };
 
 const fetchReports = async (req, res) => {
-    const reports = await Reports.find()
-        .populate("reportedBy", "-password")
-        .populate("volunteers.volunteer","-password")
-        .populate("comments.author","-password")
-        .populate("history.changedBy","-password");
-    return res.status(200).json({
-        message: "Reports Fetched",
-        reports,
-    });
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+
+        const skip = (page - 1) * limit;
+
+        const reports = await Reports.find()
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .populate("reportedBy", "-password")
+            .populate("volunteers.volunteer", "-password")
+            .populate("comments.author", "-password")
+            .populate("history.changedBy", "-password");
+
+        const totalReports = await Reports.countDocuments();
+
+        return res.status(200).json({
+            message: "Reports Fetched Successfully",
+            currentPage: page,
+            totalPages: Math.ceil(totalReports / limit),
+            totalReports,
+            reports,
+        });
+    } catch (error) {
+        console.error("Error fetching reports:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
 };
-
-
 
 module.exports = {
     createReport,
