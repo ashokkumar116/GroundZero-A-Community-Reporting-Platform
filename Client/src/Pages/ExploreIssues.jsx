@@ -1,11 +1,89 @@
-import React from 'react'
+import axios from "../Services/axios";
+import React from "react";
+import { useCallback } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import IssuesCard from "../Components/IssuesCard";
 
 const ExploreIssues = () => {
-  return (
-    <div>
-      ExploreIssues
-    </div>
-  )
-}
+    const [reports, setReports] = useState([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-export default ExploreIssues
+    const observerRef = useRef();
+
+    const fetchReports = async (pageNumber) => {
+        setLoading(true);
+        const res = await axios.get(
+            `/reports/fetchreports?page=${pageNumber}&limit=5`
+        );
+        const newReports = res.data.reports;
+
+        setReports((prev) => {
+            const prevIds = new Set(prev.map((r) => r._id));
+            const merged = [
+                ...prev,
+                ...newReports.filter((r) => !prevIds.has(r._id)),
+            ];
+            return merged;
+        });
+
+        setHasMore(pageNumber < res.data.totalPages);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        fetchReports(page);
+    }, [page]);
+
+    const lastItemRef = useCallback(
+        (node) => {
+            if (loading) {
+                return;
+            }
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+            if (!node) return;
+
+            observerRef.current = new IntersectionObserver((entries) => {
+                const entry = entries[0];
+                if (entry.isIntersecting && hasMore && !loading) {
+                    setPage((prev) => prev + 1);
+                }
+            });
+            observerRef.current.observe(node);
+        },
+        [loading, hasMore]
+    );
+
+    if (loading) {
+        return <div>Loading</div>;
+    }
+
+    return (
+        <div className="py-20 px-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {reports.length > 0 ? (
+                    reports.map((report, index) => {
+                        const isLast = index === reports.length - 1;
+                        return (
+                            <IssuesCard
+                                isLast={isLast}
+                                report={report}
+                                lastItemRef={lastItemRef}
+                            />
+                        );
+                    })
+                ) : (
+                    <p>No Post</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default ExploreIssues;
