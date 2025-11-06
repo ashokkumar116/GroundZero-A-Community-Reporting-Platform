@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import IssuesCard from "../Components/IssuesCard";
+import CardSkeleton from "../Skeletons/CardSkeleton";
 
 const ExploreIssues = () => {
     const [reports, setReports] = useState([]);
@@ -39,6 +40,8 @@ const ExploreIssues = () => {
         fetchReports(page);
     }, [page]);
 
+
+
     const lastItemRef = useCallback(
         (node) => {
             if (loading) {
@@ -60,12 +63,17 @@ const ExploreIssues = () => {
         [loading, hasMore]
     );
 
-    if (loading) {
-        return <div>Loading</div>;
+    if(loading){
+        return <div className="pt-30 px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+        </div>
     }
 
     return (
-        <div className="py-20 px-10">
+        <div className="pt-30 px-20">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {reports.length > 0 ? (
                     reports.map((report, index) => {
