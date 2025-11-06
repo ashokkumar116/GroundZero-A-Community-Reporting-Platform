@@ -44,9 +44,9 @@ const Navbar = () => {
             >
                 <a
                     href="/"
-                    className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-900 bg-clip-text text-transparent"
+                    className=""
                 >
-                    GroundZero
+                    <img src="/navlogo.png" alt="" className="h-10" />
                 </a>
 
                 <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
@@ -176,9 +176,9 @@ const Navbar = () => {
             >
                 <a
                     href="/"
-                    className="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-900 bg-clip-text text-transparent"
+                    className=""
                 >
-                    GroundZero
+                    <img src="/navlogo.png" alt="" className="h-10" />
                 </a>
 
                 <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
