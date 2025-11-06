@@ -68,10 +68,7 @@ const fetchReports = async (req, res) => {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
-            .populate("reportedBy", "-password")
-            .populate("volunteers.volunteer", "-password")
-            .populate("comments.author", "-password")
-            .populate("history.changedBy", "-password");
+            .populate("reportedBy", "username profile_image")
 
         const totalReports = await Reports.countDocuments();
 
@@ -88,7 +85,28 @@ const fetchReports = async (req, res) => {
     }
 };
 
+const fetchSingleReport = async(req,res)=>{
+    const id = req.params.id;
+    const report = await Reports.find({_id : id})
+                                .populate("reportedBy", "-password")
+                                .populate("volunteers.volunteer", "-password")
+                                .populate("comments.author", "-password")
+                                .populate("history.changedBy", "-password");
+    if(!report){
+        return res.status(404).json({
+            message:"Report Not Found"
+        })
+    }
+
+    return res.status(200).json({
+        message:"Report Fetched Successfully",
+        report
+    })
+
+}
+
 module.exports = {
     createReport,
     fetchReports,
+    fetchSingleReport
 };
