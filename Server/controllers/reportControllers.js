@@ -87,7 +87,9 @@ const fetchReports = async (req, res) => {
 
 const fetchSingleReport = async(req,res)=>{
     const id = req.params.id;
-    const report = await Reports.find({_id : id})
+    const userId = req.user.userId;
+
+    const report = await Reports.findById(id)
                                 .populate("reportedBy", "-password")
                                 .populate("volunteers.volunteer", "-password")
                                 .populate("comments.author", "-password")
@@ -97,6 +99,13 @@ const fetchSingleReport = async(req,res)=>{
             message:"Report Not Found"
         })
     }
+
+    if(!report.viewedBy.includes(userId)){
+        report.views += 1;
+        report.viewedBy.push(userId)
+        await report.save();
+    }
+
 
     return res.status(200).json({
         message:"Report Fetched Successfully",

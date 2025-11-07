@@ -6,7 +6,7 @@ const { createReport, fetchReports, fetchSingleReport } = require('../controller
 
 router.post('/createreport',isLoggedIn,uploadImage.array("images",10),createReport);
 router.get('/fetchreports',fetchReports);
-router.get('/fetchsingle/:id',fetchSingleReport);
+router.get('/fetchsingle/:id',isLoggedIn,fetchSingleReport);
 
 
 
