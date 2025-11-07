@@ -6,23 +6,28 @@ import CardButton from "./CardButton";
 import { BiUpvote } from "react-icons/bi";
 import { MdOutlineModeComment } from "react-icons/md";
 import { RiShareForwardLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { FaRegEye } from "react-icons/fa";
 
 const IssuesCard = ({ isLast, report, lastItemRef }) => {
     const [isHovering, setIsHovering] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <div
             ref={isLast ? lastItemRef : null}
-            className="bg-white shadow-md border border-green-700/60 overflow-hidden rounded-xl cursor-pointer flex flex-col hover:shadow-xl"
+            className="bg-white shadow-md border border-green-700/60 overflow-hidden rounded-xl flex flex-col hover:shadow-xl"
         >
-            <div className="relative h-60 overflow-hidden">
-                <ProfileOverlay username={report.reportedBy.username} profile_image={report.reportedBy.profile_image} />
+            <div className="relative h-60 overflow-hidden"
+                onClick={()=>navigate(`/issues/${report._id}`)}
+            >
+                <ProfileOverlay username={report.reportedBy.username} profile_image={report.reportedBy.profile_image} onClick={()=>navigate("/")} />
                 <Badge text={report.category} />
                 <div>
                     <img
                         src={report.images[0].url}
                         alt={report.title}
-                        className="absolute inset-0 h-full w-full hover:scale-105 transition duration-300 mb-3 object-cover"
+                        className="absolute inset-0 h-full w-full hover:scale-105 transition duration-300 mb-3 object-cover cursor-pointer"
                         onMouseOver={() => setIsHovering(true)}
                         onMouseOut={() => setIsHovering(false)}
                     />
@@ -41,7 +46,7 @@ const IssuesCard = ({ isLast, report, lastItemRef }) => {
                 </div>
             </div>
             <div className="mt-2 px-2 flex flex-col gap-2 mb-2">
-                <p className="text-gray-800 text-sm line-clamp-2 capitalize">
+                <p className="text-gray-800 text-sm line-clamp-2 capitalize cursor-pointer" onClick={()=>navigate(`/issues/${report._id}`)}>
                     {report.description}
                 </p>
                 <div className="flex justify-between gap-1 items-center text-gray-700">
@@ -54,6 +59,10 @@ const IssuesCard = ({ isLast, report, lastItemRef }) => {
                     <div>
                       <Badge severity={report.priority} text={report.priority} inLine />
                     </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-700 px-1">
+                    <FaRegEye/>
+                    <p>{report.views} Views</p>
                 </div>
                 <hr className="text-gray-400 mt-2" />
                 <div className=" text-xs items-center">

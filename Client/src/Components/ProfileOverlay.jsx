@@ -1,8 +1,16 @@
 import React from "react";
 
-const ProfileOverlay = ({ username, profile_image }) => {
+const ProfileOverlay = ({ username, profile_image ,onClick }) => {
+
+  const handleClick = (e)=>{
+    e.stopPropagation();
+    if(onClick){
+      onClick();
+    }
+  }
+
   return (
-    <div className="absolute top-2 left-2 z-30 flex items-center gap-2">
+    <div className="absolute top-2 left-2 z-30 flex items-center gap-2 cursor-pointer" onClick={handleClick}>
       {/* Profile image with glow ring */}
       <div className="relative">
         <img
