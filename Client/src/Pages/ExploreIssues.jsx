@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import IssuesCard from "../Components/Cards/IssuesCard";
 import CardSkeleton from "../Skeletons/CardSkeleton";
+import { useAuthStore } from "../lib/authStore";
 
 const ExploreIssues = () => {
     const [reports, setReports] = useState([]);
@@ -13,6 +14,8 @@ const ExploreIssues = () => {
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const {user} = useAuthStore();
 
     const observerRef = useRef();
 
@@ -84,6 +87,7 @@ const ExploreIssues = () => {
                                 report={report}
                                 lastItemRef={lastItemRef}
                                 key={report._id}
+                                userId={user?._id}
                             />
                         );
                     })

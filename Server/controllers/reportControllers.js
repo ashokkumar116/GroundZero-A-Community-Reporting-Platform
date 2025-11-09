@@ -162,7 +162,7 @@ const upVote = async(req,res)=>{
         report.upvotesBy.pull(userId);
         await report.save();
         return res.status(200).json({
-            message:"Upvote removed Successfully",
+            message:"Upvote Removed Successfully",
             report
         })
     }else{
@@ -170,7 +170,7 @@ const upVote = async(req,res)=>{
         report.upvotesBy.push(userId);
         await report.save();
         return res.status(200).json({
-            message:"Report Upvoted Successfully",
+            message:"Upvoted Successfully",
             report
         })
     }
