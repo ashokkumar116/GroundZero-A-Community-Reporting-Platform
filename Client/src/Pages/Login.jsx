@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { BiLogInCircle } from "react-icons/bi";
@@ -37,7 +37,6 @@ const Login = () => {
     };
     return (
         <div className="p-10 h-screen justify-center items-center flex bg-gray-100">
-            <Toaster />
             <div className="flex justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
                 <div className="flex-1 py-10">
                     <h1 className="text-4xl font-bold mb-5 ml-10 text-transparent bg-clip-text inline-flex py-2 bg-gradient-to-r from-emerald-400 to-teal-600">

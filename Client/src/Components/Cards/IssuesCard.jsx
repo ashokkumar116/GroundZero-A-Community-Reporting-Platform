@@ -8,6 +8,7 @@ import { MdOutlineModeComment } from "react-icons/md";
 import { RiShareForwardLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
+import { HashLink } from "react-router-hash-link";
 
 const IssuesCard = ({ isLast, report, lastItemRef }) => {
     const [isHovering, setIsHovering] = useState(false);
@@ -68,7 +69,9 @@ const IssuesCard = ({ isLast, report, lastItemRef }) => {
                 <div className=" text-xs items-center">
                   <div className="flex gap-2 justify-around">
                     <CardButton text="Upvote" icon={BiUpvote} />
-                    <CardButton text="Comment" icon={MdOutlineModeComment} />
+                    <HashLink to={`/issues/${report._id}/#commentsection`}>
+                        <CardButton text="Comment" icon={MdOutlineModeComment} />
+                    </HashLink>
                     <CardButton text="Share" icon={RiShareForwardLine} />
                   </div>
                 </div>  

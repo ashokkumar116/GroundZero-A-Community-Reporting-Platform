@@ -3,7 +3,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { IoPersonAdd } from "react-icons/io5";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "../Services/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +46,6 @@ const Register = () => {
 
     return (
         <div className="p-10 h-screen justify-center items-center flex bg-gray-100">
-            <Toaster />
             <div className="flex justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
                 <div className="flex-1 relative"
                     style={{backgroundImage: 'url("/bg-login.jpg")', backgroundSize: 'cover', backgroundPosition: 'left'}}

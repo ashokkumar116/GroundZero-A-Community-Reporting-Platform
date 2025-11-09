@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import { Toaster } from "react-hot-toast";
 
 const theme = createTheme({
     typography: {
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")).render(
             <PrimeReactProvider>
                 <ThemeProvider theme={theme}>
                 <Navbar />
+                 <Toaster position="top-center" />
                 <App />
                 <Footer />
             </ThemeProvider>
