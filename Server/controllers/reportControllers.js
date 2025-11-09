@@ -158,18 +158,22 @@ const upVote = async(req,res)=>{
     }
 
     if(report.upvotesBy.includes(userId)){
-        return res.status(400).json({
-            message:"You have already upvoted this report"
+        report.upvotes -= 1;
+        report.upvotesBy.pull(userId);
+        await report.save();
+        return res.status(200).json({
+            message:"Upvote removed Successfully",
+            report
         })
     }else{
         report.upvotes += 1;
         report.upvotesBy.push(userId);
+        await report.save();
+        return res.status(200).json({
+            message:"Report Upvoted Successfully",
+            report
+        })
     }
-    await report.save();
-    return res.status(200).json({
-        message:"Report Upvoted Successfully",
-        report
-    })
 }
 
 module.exports = {
