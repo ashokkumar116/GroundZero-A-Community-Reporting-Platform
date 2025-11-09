@@ -118,8 +118,10 @@ const addComment = async(req,res)=>{
     const id = req.params.id;
     const userId = req.user.userId;
     const {comment} = req.body;
+    console.log("BODY:", req.body);
 
     const report = await Reports.findById(id);
+
     if(!report){
         return res.status(404).json({
             message:"Report Not Found"
@@ -145,9 +147,35 @@ const addComment = async(req,res)=>{
     })
 }
 
+const upVote = async(req,res)=>{
+    const id = req.params.id;
+    const userId = req.user.userId;
+    const report = await Reports.findById(id);
+    if(!report){
+        return res.status(404).json({
+            message:"Report Not Found"
+        })
+    }
+
+    if(report.upvotesBy.includes(userId)){
+        return res.status(400).json({
+            message:"You have already upvoted this report"
+        })
+    }else{
+        report.upvotes += 1;
+        report.upvotesBy.push(userId);
+    }
+    await report.save();
+    return res.status(200).json({
+        message:"Report Upvoted Successfully",
+        report
+    })
+}
+
 module.exports = {
     createReport,
     fetchReports,
     fetchSingleReport,
-    addComment
+    addComment,
+    upVote
 };
