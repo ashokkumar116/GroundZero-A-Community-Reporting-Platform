@@ -20,6 +20,7 @@ import StatusTimeLine from "../Components/UI/StatusTimeLine";
 import { Editor } from 'primereact/editor';
 import { TbSend } from "react-icons/tb";
 import Back from "../Components/Buttons/Back";
+import SingleReportSkeleton from "../Skeletons/SingleReportSkeleton";
 
 const SingleReport = () => {
     const { id } = useParams();
@@ -51,7 +52,9 @@ const SingleReport = () => {
     }, [report]);
 
     if (loading) {
-        return <p className="py-30 px-20 text-center">Loading</p>;
+        return <div className="mt-20">
+            <SingleReportSkeleton />
+        </div>
     }
 
     const settings = {
