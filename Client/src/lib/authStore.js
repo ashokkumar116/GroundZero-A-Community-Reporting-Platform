@@ -1,7 +1,8 @@
 import axios from "../Services/axios";
 import { create } from "zustand";
+import {persist} from "zustand/middleware"
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create(persist((set) => ({
     user: null,
     error: null,
     loading:false,
@@ -44,4 +45,6 @@ export const useAuthStore = create((set) => ({
             set({error:error});
         }
     }
+}),{
+    name:"auth-storage",
 }));

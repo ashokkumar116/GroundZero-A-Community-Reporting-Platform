@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import IssuesCard from "../Components/IssuesCard";
+import IssuesCard from "../Components/Cards/IssuesCard";
 import CardSkeleton from "../Skeletons/CardSkeleton";
 
 const ExploreIssues = () => {
@@ -83,6 +83,7 @@ const ExploreIssues = () => {
                                 isLast={isLast}
                                 report={report}
                                 lastItemRef={lastItemRef}
+                                key={report._id}
                             />
                         );
                     })

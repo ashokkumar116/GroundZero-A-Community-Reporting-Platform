@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useAuthStore } from "../lib/authStore";
-import Loader from "../Loaders/Loader";
+import { useAuthStore } from "../../lib/authStore";
+import Loader from "../../Loaders/Loader";
 import { IoMdLogOut } from "react-icons/io";
 import { useLocation } from "react-router-dom";
 

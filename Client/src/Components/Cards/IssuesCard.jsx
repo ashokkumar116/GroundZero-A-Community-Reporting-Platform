@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Badge from "./Badge";
+import Badge from "../UI/Badge";
 import { CiLocationOn } from "react-icons/ci";
-import ProfileOverlay from "./ProfileOverlay";
-import CardButton from "./CardButton";
+import ProfileOverlay from "../UI/ProfileOverlay";
+import CardButton from "../UI/CardButton";
 import { BiUpvote } from "react-icons/bi";
 import { MdOutlineModeComment } from "react-icons/md";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -71,7 +71,7 @@ const IssuesCard = ({ isLast, report, lastItemRef }) => {
                     <CardButton text="Comment" icon={MdOutlineModeComment} />
                     <CardButton text="Share" icon={RiShareForwardLine} />
                   </div>
-                </div>
+                </div>  
             </div>
         </div>
     );

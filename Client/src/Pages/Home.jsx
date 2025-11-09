@@ -1,10 +1,9 @@
+import About from "../Components/Landing/About"
+import Cta from "../Components/Landing/Cta"
+import Hero from "../Components/Landing/Hero"
+import HowItWorks from "../Components/Landing/HowItWorks"
+import Testimonials from "../Components/Landing/Testimonials"
 
-import About from '../Components/About';
-import Cta from '../Components/Cta';
-import Footer from '../Components/Footer';
-import Hero from '../Components/Hero';
-import HowItWorks from '../Components/HowItWorks';
-import Testimonials from '../Components/Testimonials';
 
 const Home = () => {
   return (
@@ -13,7 +12,7 @@ const Home = () => {
       <About />
       <HowItWorks />
       <Testimonials />
-      <Cta/>
+      <Cta />
     </div>
   )
 }

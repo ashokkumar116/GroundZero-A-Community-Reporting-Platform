@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "./lib/authStore";
 import Loader from "./Loaders/Loader";
 import ExploreIssues from "./Pages/ExploreIssues";
+import SingleReport from "./Pages/SingleReport";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={user?<Navigate to="/" />:<Login />}/>
           <Route path="/register" element={<Register />}/>
           <Route path="/issues" element={<ExploreIssues />}/>
+          <Route path="/issues/:id" element={<UserProtectedRoute><SingleReport /></UserProtectedRoute>}/>
         </Routes>
     </>
   )

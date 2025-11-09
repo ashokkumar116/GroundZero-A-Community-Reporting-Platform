@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { IoBookOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
-import { useAuthStore } from "../lib/authStore";
-import Loader from "../Loaders/Loader";
+import { useAuthStore } from "../../lib/authStore";
+import Loader from "../../Loaders/Loader";
 
 
 const Hero = () => {
