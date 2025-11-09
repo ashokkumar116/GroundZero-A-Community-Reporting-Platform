@@ -114,8 +114,40 @@ const fetchSingleReport = async(req,res)=>{
 
 }
 
+const addComment = async(req,res)=>{
+    const id = req.params.id;
+    const userId = req.user.userId;
+    const {comment} = req.body;
+
+    const report = await Reports.findById(id);
+    if(!report){
+        return res.status(404).json({
+            message:"Report Not Found"
+        })
+    }
+
+    if(!comment){
+        return res.status(400).json({
+            message:"Comment is required"
+        })
+    }
+    const newComment = {
+        author:userId,
+        text:comment
+    }
+
+    report.comments.push(newComment);
+    await report.save();
+
+    return res.status(201).json({
+        message:"Comment Added Successfully",
+        comment:newComment
+    })
+}
+
 module.exports = {
     createReport,
     fetchReports,
-    fetchSingleReport
+    fetchSingleReport,
+    addComment
 };
