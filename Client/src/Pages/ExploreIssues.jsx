@@ -77,7 +77,7 @@ const ExploreIssues = () => {
 
     return (
         <div className="pt-30 px-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {reports.length > 0 ? (
                     reports.map((report, index) => {
                         const isLast = index === reports.length - 1;

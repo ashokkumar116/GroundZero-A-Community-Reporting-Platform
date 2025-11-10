@@ -12,8 +12,13 @@ import { toast } from "react-hot-toast";
 import axios from "../../Services/axios";
 import CardButton from "../UI/CardButton";
 import { BiSolidUpvote } from "react-icons/bi";
+import { useAuthStore } from "../../lib/authStore";
 
 const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
+
+    const {user} = useAuthStore();
+
+
     const [isHovering, setIsHovering] = useState(false);
     const navigate = useNavigate();
 
@@ -28,6 +33,13 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
     const handleUpvote = async (e) => {
         // e.preventDefault();
         try {
+
+            if(!user){
+                toast.error("Please Login to Upvote");
+                navigate("/login");
+                return;
+            }
+
             const res = await axios.post(`/reports/upvote/${report._id}`);
             if (res.status === 200) {
                 const isUpvoted = res.data.message.includes(
@@ -61,6 +73,23 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
     
     const hasUserUpvoted = localReport.upvotesBy.includes(userId);
     const upvoteTextColor = hasUserUpvoted ? "text-green-700" : "text-gray-700";
+
+    const handleShare = async()=>{
+        const url = encodeURI(`${window.location.origin}/issues/${report._id}`)
+        if(navigator.share){
+            try {
+                await navigator.share({
+                    title: report.title,
+                    text: report.description,
+                    url: url
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }else{
+            toast.error("Your browser doesn't support sharing")
+        }
+    }
     
     return (
         <div
@@ -143,7 +172,7 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                             <MdOutlineModeComment />
                             <p className="text-xs">{`${report.comments.length} Comments`}</p>
                         </HashLink>
-                        {/* <CardButton text="Share" icon={RiShareForwardLine} /> */}
+                        <CardButton text="Share" icon={RiShareForwardLine} onClick={handleShare} />
                     </div>
                 </div>
             </div>
