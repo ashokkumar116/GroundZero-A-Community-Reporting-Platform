@@ -5,11 +5,10 @@ import App from "./App.jsx";
 import Navbar from "./Components/global/Navbar.jsx";
 import { BrowserRouter } from "react-router-dom";
 import Footer from "./Components/global/Footer.jsx";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
-
-
-
+import "primereact/resources/themes/lara-light-teal/theme.css";
+import 'primeicons/primeicons.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import "react-country-state-city/dist/react-country-state-city.css";
 
 
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';

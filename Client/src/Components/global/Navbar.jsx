@@ -191,6 +191,12 @@ const Navbar = () => {
                     >
                         Explore Issues
                     </a>
+                    <a
+                        href="/create-report"
+                        className="hover:scale-102 transition text-transparent bg-gradient-to-r from-red-500 to-red-800 bg-clip-text font-bold"
+                    >
+                        Report an Issue
+                    </a>
                 </div>
 
                 <div className="flex gap-2">

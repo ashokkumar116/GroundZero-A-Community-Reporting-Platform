@@ -1,3 +1,4 @@
+const { set } = require("mongoose");
 const mongoose = require("mongoose");
 
 const CategoryEnum = [
@@ -89,12 +90,14 @@ const reportSchema = new mongoose.Schema(
             required: true,
             enum: CategoryEnum,
             default: "other",
+            set: (value) => value.toLowerCase(),
         },
         priority: {
             type: String,
             required: true,
             enum: PriorityEnum,
             default: "medium",
+            set: (value) => value.toLowerCase(),
         },
         village: {
             type: String,
