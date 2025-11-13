@@ -11,6 +11,7 @@ import { BiCategory } from "react-icons/bi";
 import { TiInfoOutline } from "react-icons/ti";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
+import { IoSparklesOutline } from "react-icons/io5";
 
 import { Dropdown } from "primereact/dropdown";
 import { Categories, IndianStatesAndDistricts, Priorities } from "../../Contents/constants";
@@ -18,6 +19,8 @@ import { AutoComplete } from "primereact/autocomplete";
 
 import { CountrySelect, StateSelect, CitySelect } from "react-country-state-city";
 import { InputText } from "primereact/inputtext";
+import axios from '../Services/axios';
+import { toast } from 'react-hot-toast';
 
 const CreateReport = () => {
     const [selectedImages, setSelectedImages] = useState([]);
@@ -37,6 +40,9 @@ const CreateReport = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [filteredStates, setFilteredStates] = useState([]);
     const [filteredDistricts, setFilteredDistricts] = useState([]);
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     
 
     const handleImageChange = (e) => {
@@ -100,6 +106,26 @@ const CreateReport = () => {
     },[selectedState,selectedDistrict])
 
 
+    const generateDescription = async(e)=>{
+        e.preventDefault();
+        if(!title){
+            toast.error("Title is required");
+            return;
+        }
+        try {
+            setLoading(true);
+            const res = await axios.post('/ai/generatedesc',{title});
+            if(res.status === 200){
+                setDescription(res.data.description);
+                toast.success("Description Generated");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message);
+        }finally{
+            setLoading(false);
+        }
+    }
 
     return (
         <div className="px-50 py-30 bg-gray-100">
@@ -174,9 +200,28 @@ const CreateReport = () => {
                     </div>
                     <div>
                         <label htmlFor="description" className="space-y-2">
-                            <div className="flex items-center gap-2 text-emerald-800">
-                                <MdInfoOutline />
-                                <p className="label-text">Description</p>
+                            <div className="flex items-center justify-between gap-2 text-emerald-800">
+                                <div className="flex items-center gap-2">
+                                    <MdInfoOutline />
+                                    <p className="label-text">Description</p>
+                                </div>
+                                <div>
+                                    <button className="flex items-center bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-3 py-2 gap-2 shadow-md hover:shadow-lg transition-all duration-200 text-white rounded-lg cursor-pointer" onClick={generateDescription}>
+                                        {
+                                            loading ? (
+                                                <>
+                                                    <span className="loading loading-sm"></span>
+                                                    <p>Generating</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <IoSparklesOutline/>
+                                                    <p>Generate with AI</p>
+                                                </>
+                                            )
+                                        }
+                                    </button>
+                                </div>
                             </div>
                             <Editor style={{ height: "200px" }} placeholder="Describe the issue in detail..." 
                                 value={description}
