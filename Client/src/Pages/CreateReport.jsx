@@ -127,6 +127,57 @@ const CreateReport = () => {
         }
     }
 
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        if(!title || !description || !priority || !category || !state || !district || !village || !pincode){
+            toast.error("All fields are required");
+            return;
+        }
+        if(selectedImages.length === 0){
+            toast.error("Images are required");
+            return;
+        }
+        try {
+            setLoading(true);
+            const formData = new FormData();
+            formData.append('title',title);
+            formData.append('description',description);
+            formData.append('priority',priority);
+            formData.append('category',category);
+            formData.append('state',state);
+            formData.append('district',district);
+            formData.append('village',village);
+            formData.append('pincode',pincode);
+            selectedImages.forEach((image)=>formData.append('images',image));
+
+            const res = await axios.post('/reports/createreport',formData);
+            if(res.status === 201){
+                toast.success("Report Created");
+                setTitle("");
+                setDescription("");
+                setPriority("");
+                setCategory("");
+                setState("");
+                setDistrict("");
+                setVillage("");
+                setPincode("");
+                setSelectedState(null);
+                setSelectedDistrict(null);
+                setSelectedImages([]);
+                setFilteredPriorities([]);
+                setFilteredCategories([]);
+                setFilteredStates([]);
+                setFilteredDistricts([]);
+            }
+            
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message);
+        }finally{
+            setLoading(false);
+        }
+    }
+
     return (
         <div className="px-50 py-30 bg-gray-100">
             <div className="mb-10">
@@ -206,7 +257,7 @@ const CreateReport = () => {
                                     <p className="label-text">Description</p>
                                 </div>
                                 <div>
-                                    <button className="flex items-center bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-3 py-2 gap-2 shadow-md hover:shadow-lg transition-all duration-200 text-white rounded-lg cursor-pointer" onClick={generateDescription}>
+                                    <button className="flex items-center bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-3 py-2 gap-2 shadow-md hover:shadow-lg transition-all duration-200 text-white rounded-lg cursor-pointer" onClick={generateDescription} disabled={loading}>
                                         {
                                             loading ? (
                                                 <>
@@ -298,8 +349,8 @@ const CreateReport = () => {
                                 suggestions={filteredDistricts}
                                 completeMethod={searchDistrict}
                                 dropdown
-                                value={selectedDistrict}
-                                onChange={(e) => setSelectedDistrict(e.value)}
+                                value={district}
+                                onChange={(e) => setDistrict(e.value)}
                                 placeholder="District"
                             />
                         </label>
@@ -327,9 +378,23 @@ const CreateReport = () => {
                     <div>
                         <button className="flex items-center gap-2 w-full justify-center bg-gradient-to-br from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 shadow-md hover:shadow-lg hover:scale-102 transition rounded-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50
                         px-6 py-4 text-white
-                        ">
-                            <FiSend/>
-                            <p>Submit Report</p>
+                        "
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        >
+                            {
+                                loading ? (
+                                    <>
+                                        <span className="loading loading-md"></span>
+                                        <p>Submiting Report...</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <FiSend/>
+                                        <p>Submit Report</p>
+                                    </>
+                                )
+                            }
                         </button>
                     </div>
                 </div>
