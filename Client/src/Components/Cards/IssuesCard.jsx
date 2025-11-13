@@ -129,12 +129,11 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                 </div>
             </div>
             <div className="mt-2 px-2 flex flex-col gap-2 mb-2">
-                <p
-                    className="text-gray-800 text-sm line-clamp-2 capitalize cursor-pointer"
+                <div
                     onClick={() => navigate(`/issues/${report._id}`)}
-                >
-                    {report.description}
-                </p>
+                    className="text-gray-800 text-sm line-clamp-2 capitalize cursor-pointer prose prose-invert leading-relaxed max-w-none"
+                    dangerouslySetInnerHTML={{__html:report.description}}
+                />
                 <div className="flex justify-between gap-1 items-center text-gray-700">
                     <div className="flex gap-1 items-center">
                         <CiLocationOn />

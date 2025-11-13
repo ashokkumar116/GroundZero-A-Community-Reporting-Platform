@@ -134,9 +134,12 @@ const SingleReport = () => {
                         <h1 className="text-xl font-bold text-green-700">
                             {report?.title}
                         </h1>
-                        <p className="text-sm text-gray-700 text-justify">
-                            {report?.description}
-                        </p>
+                        <div
+                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-50 overflow-y-scroll border border-gray-600/60 p-2 rounded-md "
+                            dangerouslySetInnerHTML={{
+                                __html: report?.description,
+                            }}
+                        />
                         <div className="flex items-center gap-3">
                             <CiLocationOn className="text-green-600 text-[20px]" />
                             <p className="text-gray-700">
@@ -185,7 +188,7 @@ const SingleReport = () => {
                                 key={index}
                                 src={image.url}
                                 alt={`report-${index}`}
-                                className="h-96 w-96 object-cover rounded-lg"
+                                className="h-116 w-96 object-cover rounded-lg"
                             />
                         ))}
                     </Slider>
