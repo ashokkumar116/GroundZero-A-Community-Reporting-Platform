@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const requestRoutes = require('./routes/requestRoutes');
 const adminRoutes = require("./routes/adminRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
@@ -21,7 +22,9 @@ app.use(cookieParser());
 app.use('/api/auth',authRoutes);
 app.use("/api/reports",reportRoutes);
 app.use("/api/request",requestRoutes);
-app.use("/api/admin",adminRoutes)
+app.use("/api/admin",adminRoutes);
+app.use("/api/ai",aiRoutes);
+
 
 const PORT = process.env.PORT || 8080;
 
