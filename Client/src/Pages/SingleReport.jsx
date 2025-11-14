@@ -173,8 +173,8 @@ const SingleReport = () => {
                 <MdOutlineVolunteerActivism className="text-white text-lg" />
                 <p className="transition">Become a Volunteer</p>
             </button>
-            <div className="flex items-start mt-5 bg-white p-5 rounded-2xl shadow-lg gap-15 ">
-                <div className="flex flex-col w-[50%]">
+            <div className="flex flex-col xl:flex-row items-start mt-5 bg-white p-5 rounded-2xl shadow-lg gap-15 ">
+                <div className="flex flex-col w-[50%] max-xl:w-full">
                     <div className="mb-5 flex items-center gap-2">
                         <div>
                             <img
@@ -197,15 +197,15 @@ const SingleReport = () => {
                             {report?.title}
                         </h1>
                         <div
-                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-60 overflow-y-scroll border border-gray-600/60 p-2 rounded-md "
+                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-60 overflow-y-scroll border border-gray-600/60 p-2 rounded-lg "
                             dangerouslySetInnerHTML={{
                                 __html: report?.description,
                             }}
                         />
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col lg:flex-row gap-3 items-center justify-between lg:items-center ">
                             <div className="flex items-center gap-3">
                             <CiLocationOn className="text-green-600 text-[20px]" />
-                            <p className="text-gray-700">
+                            <p className="text-gray-700 text-sm lg:text-medium">
                                 {report?.village}, {report?.district},{" "}
                                 {report?.state} - {report?.pincode}
                             </p>
@@ -220,7 +220,7 @@ const SingleReport = () => {
                         </div>
                         <div className="px-1 flex flex-col gap-4 mt-2 text-sm text-gray-700">
                             
-                            <div className="flex justify-start gap-5 text-black px-3 py-3 rounded-lg">
+                            <div className="flex flex-col lg:flex-row justify-between items-center gap-5 text-black py-3 rounded-lg">
                                 <div className="report-btn">
                                     <FaRegEye />
                                     <p>{report?.views} Views</p>
@@ -228,7 +228,7 @@ const SingleReport = () => {
                                 <button className="report-btn" onClick={handleUpvote}>
                                     {hasUserUpvoted ? <BiSolidUpvote className="text-green-700" /> : <BiUpvote className={``} />}
                                                                 
-                                    <p className={`text-xs ${upvoteTextColor} ${hasUserUpvoted ? "font-bold":""} `}>{`${localReport?.upvotes} Upvotes`}</p>
+                                    <p className={` ${upvoteTextColor} ${hasUserUpvoted ? "font-bold":""} `}>{`${localReport?.upvotes} Upvotes`}</p>
                                 </button>
                                 <div className="report-btn">
                                     <MdOutlineModeComment />
@@ -240,7 +240,7 @@ const SingleReport = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-[50%] relative mb-4 flex flex-col gap-8">
+                <div className="w-[50%] max-xl:w-full relative mb-4 flex flex-col gap-8">
                     <Badge text={report?.category} />
                     <Slider {...settings}>
                         {report?.images?.map((image, index) => (
@@ -311,7 +311,7 @@ const SingleReport = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex gap-10">
+            <div className="flex flex-col lg:flex-row gap-10">
                 <div className="flex flex-col mt-5 bg-white p-5 rounded-2xl shadow-lg gap-4 flex-1">
                     <div>
                         <h1 className="text-2xl font-bold">Work History</h1>
