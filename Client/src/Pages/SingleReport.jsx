@@ -23,6 +23,7 @@ import Back from "../Components/Buttons/Back";
 import SingleReportSkeleton from "../Skeletons/SingleReportSkeleton";
 import { toast } from "react-hot-toast";
 import { formatDateTime } from "../utils/formatDateTime";
+import { LiaCommentSolid } from "react-icons/lia";
 
 const SingleReport = () => {
     const { id } = useParams();
@@ -255,6 +256,7 @@ const SingleReport = () => {
                             <Editor
                                 value={comment}
                                 onTextChange={(e) => setComment(e.htmlValue)}
+                                placeholder="Write a comment..."
                             />
                         </div>
                         <div>
@@ -269,8 +271,9 @@ const SingleReport = () => {
                         </div>
                     </form>
                     <div>
-                        <div>
-                            <h1 className="text-2xl font-bold mb-2">Comments</h1>
+                        <div className="flex items-center gap-2 mb-3">
+                            <LiaCommentSolid className="text-medium" />
+                            <h1 className="text-medium font-semibold">Comments</h1>
                         </div>
                         <div className="overflow-y-scroll h-100 flex flex-col gap-3 border border-green-900/30 rounded-md p-2">
                             {report?.comments?.length > 0 ? (
@@ -304,7 +307,11 @@ const SingleReport = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p>No Comments</p>
+                                <div className="flex flex-col items-center gap-2 h-full justify-center text-gray-600">
+                                    <LiaCommentSolid className="text-5xl" />
+                                    <p className="">No comments yet</p>
+                                    <p className="">Be the first to comment</p>
+                                </div>
                             )}
                         </div>
                     </div>
