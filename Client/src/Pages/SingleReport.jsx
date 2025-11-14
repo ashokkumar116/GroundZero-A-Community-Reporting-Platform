@@ -11,8 +11,8 @@ import Badge from "../Components/UI/Badge";
 import { formatStatus } from "../utils/formatStatus";
 import { FaRegEye } from "react-icons/fa";
 import { BiSolidUpvote, BiUpvote } from "react-icons/bi";
-import { IoCaretBackCircleOutline } from "react-icons/io5";
-import { MdOutlineModeComment } from "react-icons/md";
+import { IoCaretBackCircleOutline, IoCheckmarkDoneOutline } from "react-icons/io5";
+import { MdOutlineModeComment, MdOutlineReportProblem } from "react-icons/md";
 import { MdOutlineVolunteerActivism } from "react-icons/md";
 import { FaRegFrownOpen } from "react-icons/fa";
 import VolunteerCard from "../Components/Cards/VolunteerCard";
@@ -25,6 +25,7 @@ import { toast } from "react-hot-toast";
 import { formatDateTime } from "../utils/formatDateTime";
 import { LiaCommentSolid } from "react-icons/lia";
 import { useAuthStore } from "../lib/authStore";
+import { CgSandClock } from "react-icons/cg";
 
 const SingleReport = () => {
 
@@ -196,12 +197,13 @@ const SingleReport = () => {
                             {report?.title}
                         </h1>
                         <div
-                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-50 overflow-y-scroll border border-gray-600/60 p-2 rounded-md "
+                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-60 overflow-y-scroll border border-gray-600/60 p-2 rounded-md "
                             dangerouslySetInnerHTML={{
                                 __html: report?.description,
                             }}
                         />
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
                             <CiLocationOn className="text-green-600 text-[20px]" />
                             <p className="text-gray-700">
                                 {report?.village}, {report?.district},{" "}
@@ -215,13 +217,9 @@ const SingleReport = () => {
                                 inLine
                             />
                         </div>
+                        </div>
                         <div className="px-1 flex flex-col gap-4 mt-2 text-sm text-gray-700">
-                            <div className="px-2 py-2 border border-green-800 rounded-md">
-                                <p className="capitalize text-green-700 font-bold">
-                                    Current Status :{" "}
-                                    {formatStatus(report?.status)}
-                                </p>
-                            </div>
+                            
                             <div className="flex justify-start gap-5 text-black px-3 py-3 rounded-lg">
                                 <div className="report-btn">
                                     <FaRegEye />
@@ -242,7 +240,7 @@ const SingleReport = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-[50%] relative mb-4">
+                <div className="w-[50%] relative mb-4 flex flex-col gap-8">
                     <Badge text={report?.category} />
                     <Slider {...settings}>
                         {report?.images?.map((image, index) => (
@@ -250,10 +248,29 @@ const SingleReport = () => {
                                 key={index}
                                 src={image.url}
                                 alt={`report-${index}`}
-                                className="h-116 w-96 object-cover rounded-lg"
+                                className="h-96 w-96 object-cover rounded-lg"
                             />
                         ))}
                     </Slider>
+                    <div className="flex items-center gap-3 bg-white border border-green-600/40 px-4 py-3 rounded-lg shadow-md justify-between">
+                        <p className="text-gray-700 font-semibold">Current Status</p>
+                        <div className="flex items-center gap-3">
+                            {report?.status === "reported" && (
+                            <MdOutlineReportProblem className="text-red-500 text-xl" />
+                        )}
+                        {report?.status === "in_progress" && (
+                            <CgSandClock className="text-yellow-600 text-xl" />
+                        )}
+                        {report?.status === "resolved" && (
+                            <IoCheckmarkDoneOutline className="text-green-600 text-xl" />
+                        )}
+
+                        <p className={`font-bold capitalize ${report?.status === "reported" ? "text-red-500" : report?.status === "in_progress" ? "text-yellow-600" : "text-green-600"}`}>
+                            {formatStatus(report?.status)}
+                        </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div>
