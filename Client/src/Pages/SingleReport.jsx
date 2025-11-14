@@ -10,7 +10,7 @@ import { CiLocationOn } from "react-icons/ci";
 import Badge from "../Components/UI/Badge";
 import { formatStatus } from "../utils/formatStatus";
 import { FaRegEye } from "react-icons/fa";
-import { BiUpvote } from "react-icons/bi";
+import { BiSolidUpvote, BiUpvote } from "react-icons/bi";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { MdOutlineModeComment } from "react-icons/md";
 import { MdOutlineVolunteerActivism } from "react-icons/md";
@@ -24,8 +24,12 @@ import SingleReportSkeleton from "../Skeletons/SingleReportSkeleton";
 import { toast } from "react-hot-toast";
 import { formatDateTime } from "../utils/formatDateTime";
 import { LiaCommentSolid } from "react-icons/lia";
+import { useAuthStore } from "../lib/authStore";
 
 const SingleReport = () => {
+
+    const {user} = useAuthStore();
+    const userId = user?._id;
     const { id } = useParams();
     const [report, setReport] = useState({});
     const [loading, setLoading] = useState(false);
@@ -33,7 +37,16 @@ const SingleReport = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
+        
+    const [localReport, setLocalReport] = useState(report);
+
     const navigate = useNavigate();
+    
+    
+    useEffect(() => {
+        setLocalReport(report);
+    }, [report]);
+
 
     const fetchReport = async () => {
         try {
@@ -62,6 +75,53 @@ const SingleReport = () => {
             </div>
         );
     }
+
+
+
+
+    const handleUpvote = async (e) => {
+        e.preventDefault();
+        try {
+
+            if(!user){
+                toast.error("Please Login to Upvote");
+                navigate("/login");
+                return;
+            }
+
+            const res = await axios.post(`/reports/upvote/${report._id}`);
+            if (res.status === 200) {
+                const isUpvoted = res.data.message.includes(
+                    "Upvoted Successfully"
+                );
+                
+                setLocalReport((prev) => {
+                    const newUpvote = isUpvoted
+                    ? prev.upvotes + 1
+                    : prev.upvotes - 1;
+                    const newUpvotedBy = isUpvoted
+                    ? [...prev.upvotesBy, userId]
+                    : prev.upvotesBy.filter((id) => id !== userId);
+                    
+                    return {
+                        ...prev,
+                        upvotes: newUpvote,
+                        upvotesBy: newUpvotedBy,
+                    };
+                });
+                
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(
+                error?.response?.data?.message || "Something went wrong"
+            );
+        }
+    };
+    
+    const hasUserUpvoted = localReport.upvotesBy?.includes(userId);
+    const upvoteTextColor = hasUserUpvoted ? "text-green-700" : "text-gray-700";
 
     const settings = {
         dots: true,
@@ -162,16 +222,17 @@ const SingleReport = () => {
                                     {formatStatus(report?.status)}
                                 </p>
                             </div>
-                            <div className="flex justify-start gap-5 bg-gradient-to-br from-green-600 to-green-900 text-white px-3 py-3 rounded-lg">
-                                <div className="flex items-center gap-2">
+                            <div className="flex justify-start gap-5 text-black px-3 py-3 rounded-lg">
+                                <div className="report-btn">
                                     <FaRegEye />
                                     <p>{report?.views} Views</p>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <BiUpvote />
-                                    <p>{report?.upvotes} Upvotes</p>
-                                </div>
-                                <div className="flex items-center gap-2">
+                                <button className="report-btn" onClick={handleUpvote}>
+                                    {hasUserUpvoted ? <BiSolidUpvote className="text-green-700" /> : <BiUpvote className={``} />}
+                                                                
+                                    <p className={`text-xs ${upvoteTextColor} ${hasUserUpvoted ? "font-bold":""} `}>{`${localReport?.upvotes} Upvotes`}</p>
+                                </button>
+                                <div className="report-btn">
                                     <MdOutlineModeComment />
                                     <p>
                                         {report?.comments?.length || 0} Comments

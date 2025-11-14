@@ -36,6 +36,9 @@ body {
     .form-input{
       @apply border border-gray-400 w-full px-5 py-3 rounded-lg outline-teal-300 focus:ring-teal-400 focus:ring-3
     }
+    .report-btn{
+      @apply flex items-center gap-2 bg-white shadow-md px-5 py-2 rounded-full border border-gray-300/90 hover:shadow-xl hover:bg-gray-100 transition cursor-pointer
+    }
 }
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
