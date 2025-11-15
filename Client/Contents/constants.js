@@ -1,3 +1,66 @@
+import { FaRegUser } from "react-icons/fa";
+import { MdOutlineVolunteerActivism } from "react-icons/md";
+import { TbReportAnalytics } from "react-icons/tb";
+import { LuHandshake } from "react-icons/lu";
+
+export const ProfileMenuItems = [
+    {
+        name: "Profile",
+        icon:FaRegUser
+    },
+    {
+        name: "My Requests",
+        icon:LuHandshake
+
+    },
+    {
+        name: "My Reports",
+        icon:TbReportAnalytics
+    },
+    {
+        name: "My Works",
+        icon:MdOutlineVolunteerActivism
+    }
+]
+
+export const HomeMenuItems = [
+    {
+        name:"Home",
+        link:"/"
+    },
+    {
+        name:"About",
+        link:"#about"
+    },
+    {
+        name:"How It Works",
+        link:"#how"
+    },
+    {
+        name:"Testimonials",
+        link:"#testimonials"
+    },
+    {
+        name:"Explore Issues",
+        link:"/issues"
+    }
+]
+
+export const OtherPageMenuItems = [
+    {
+        name:"Home",
+        link:"/"
+    },
+    {
+        name:"Explore Issues",
+        link:"/issues"
+    },
+    {
+        name:"Report an Issue",
+        link:"/create-report"
+    }
+]
+
 export const Priorities = [
     "Critical",
     "High",

@@ -168,7 +168,7 @@ const SingleReport = () => {
     };
 
     return (
-        <div className="py-30 px-20 bg-gray-200">
+        <div className="py-30 px-10 lg:px-20 bg-gray-200">
             <Back scrolled={scrolled} />
             <button
                 onClick={() => setModalVisible(true)}

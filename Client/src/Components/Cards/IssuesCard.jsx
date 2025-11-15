@@ -155,7 +155,7 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                 </div>
                 <hr className="text-gray-400 mt-2" />
                 <div className=" text-xs items-center">
-                    <div className="flex gap-2 justify-around text-xs">
+                    <div className="flex flex-col items-center xl:flex-row gap-2 justify-around text-xs">
                         <button
                             className={`flex gap-1 items-center cursor-pointer text-sm text-gray-700 px-3 py-1`}
                             onClick={handleUpvote}
