@@ -26,6 +26,7 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { LiaCommentSolid } from "react-icons/lia";
 import { useAuthStore } from "../lib/authStore";
 import { CgSandClock } from "react-icons/cg";
+import VolunteerRequestModal from "../Components/UI/VolunteerRequestModal";
 
 const SingleReport = () => {
 
@@ -35,6 +36,9 @@ const SingleReport = () => {
     const [report, setReport] = useState({});
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState("");
+
+    const [modalVisible, setModalVisible] = useState(false);
+    
 
     const [scrolled, setScrolled] = useState(false);
 
@@ -167,7 +171,7 @@ const SingleReport = () => {
         <div className="py-30 px-20 bg-gray-200">
             <Back scrolled={scrolled} />
             <button
-                onClick={() => navigate(-1)}
+                onClick={() => setModalVisible(true)}
                 className={`bg-gradient-to-br from-green-500 to-green-800 px-2 py-2 text-white rounded-lg flex items-center gap-1 hover:scale-105 transition-all duration-300 cursor-pointer fixed bottom-10 right-10 z-30`}
             >
                 <MdOutlineVolunteerActivism className="text-white text-lg" />
@@ -395,6 +399,11 @@ const SingleReport = () => {
                     </div>
                 </div>
             </div>
+            {
+                modalVisible && (
+                    <VolunteerRequestModal visible={modalVisible} setVisible={setModalVisible} reportId={id} />
+                )
+            }
         </div>
     );
 };
