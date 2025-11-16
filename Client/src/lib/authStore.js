@@ -1,14 +1,21 @@
+import toast from "react-hot-toast";
 import axios from "../Services/axios";
 import { create } from "zustand";
 import {persist} from "zustand/middleware"
 
-export const useAuthStore = create(persist((set) => ({
+export const useAuthStore = create(persist((set, get) => ({
     user: null,
     error: null,
     loading:false,
+    loginLoading:false,
     login: async ({ email, password }) => {
         try {
-            set({loading:true});
+            if (!email || !password) {
+                toast.error("Please provide all the details");
+                set({ error: "Please provide all the details" });
+                return false;
+            }
+            set({loginLoading:true});
             const res = await axios.post("/auth/login", { email, password });
             if (res.status === 200) {
                 set({ user: res.data.user });
@@ -16,10 +23,11 @@ export const useAuthStore = create(persist((set) => ({
             }
         } catch (error) {
             console.error("Login failed:", error);
-            set({error:error.response?.data?.message || "Login failed"});
+            toast.error(error.response.data.message);
+            set({ error: error.response.data.message });
             return false;
         }finally{
-            set({loading:false});
+            set({loginLoading:false});
         }
     },
     verifyAuth: async () => {
@@ -35,6 +43,7 @@ export const useAuthStore = create(persist((set) => ({
             set({error: "Auth verification failed"});
         }finally{
             set({loading:false});
+            set({loginLoading:false})
         }
     },
     logout:async()=>{
@@ -43,6 +52,13 @@ export const useAuthStore = create(persist((set) => ({
             set({user:null,error:null});
         } catch (error) {
             set({error:error});
+        }
+    },
+    upadateProfileImage:(profile_image)=>{
+        const user = get().user;
+        if(user){
+            user.profile_image = profile_image;
+            set({user});
         }
     }
 }),{

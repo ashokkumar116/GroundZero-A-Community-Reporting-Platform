@@ -107,10 +107,24 @@ const Register = () => {
                             />
                         </div>
                         <div className="btn-primary">
-                            <IoPersonAdd className="text-white" />
-                            <button className="cursor-pointer" type="submit">
-                                Create Account
-                            </button>
+                            {loading ? (
+                                <span className="loading loading-sm"></span>
+                            ) : (
+                                <IoPersonAdd className="text-white" />
+                            )
+                            
+                        }
+                           {
+                            loading ? (
+                                <button className="cursor-pointer" type="submit" disabled>
+                                    Creating Account...
+                                </button>
+                            ) : (
+                                 <button className="cursor-pointer" type="submit">
+                                    Create Account
+                                </button>
+                            )
+                           }
                         </div>
                     </form>
                     <p className="mt-3 text-center w-[90%]">

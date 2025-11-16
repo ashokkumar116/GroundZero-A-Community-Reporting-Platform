@@ -1,38 +1,35 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { BiLogInCircle } from "react-icons/bi";
 import { useAuthStore } from "../lib/authStore";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loader from "../Loaders/Loader";
 
 const Login = () => {
     const navigate = useNavigate();
 
-    const { login, loading, error } = useAuthStore();
+    const { login, loading, error ,loginLoading , verifyAuth} = useAuthStore();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     if (loading) {
-        if (loading) {
             return (
                 <div className="flex justify-center items-center h-screen">
                     <Loader />
-                </div>
+                </div>  
             );
-        }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const success = await login({ email, password });
         if (success) {
-            toast.success("Login Success");
+            verifyAuth();
             navigate("/");
         } else {
-            toast.error(error);
+            console.log(error)
         }
     };
     return (
@@ -49,7 +46,7 @@ const Login = () => {
                         <div className="inputbox">
                             <MdOutlineEmail className="text-gray-600" />
                             <input
-                                type="text"
+                                type="email"
                                 className="outline-none border-none w-full"
                                 placeholder="John@groundzero.com"
                                 value={email}
@@ -67,9 +64,9 @@ const Login = () => {
                             />
                         </div>
                         <div className="btn-primary">
-                            <BiLogInCircle className="text-white" />
-                            <button className="cursor-pointer" type="submit">
-                                Login
+                            {loginLoading ? <span className="loading loading-sm"></span> : <BiLogInCircle className="text-white" />}
+                            <button className="cursor-pointer" type="submit" disabled={loginLoading}>
+                                <span>{loginLoading ? "Logging in..." : "Login"}</span>
                             </button>
                         </div>
                     </form>
