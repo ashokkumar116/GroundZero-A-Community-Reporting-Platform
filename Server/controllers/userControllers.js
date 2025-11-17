@@ -109,7 +109,7 @@ const updateProfileImage = async(req,res)=>{
 const updateProfile = async(req,res)=>{
     const userId = req.user.userId;
 
-    const {username,bio,phone,dob,village_name,district,state,country,pincode} = req.body;
+    const {username,bio,phone,dob,village_name,district,state,pincode} = req.body;
 
     const user = await User.findById(userId).select("-password");
 
@@ -122,7 +122,6 @@ const updateProfile = async(req,res)=>{
     user.village_name = village_name || user.village_name
     user.district = district || user.district
     user.state = state || user.state
-    user.country = country || user.country
     user.pincode = pincode || user.pincode
 
     await user.save();

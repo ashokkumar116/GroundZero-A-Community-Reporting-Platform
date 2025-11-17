@@ -18,10 +18,14 @@ import { FaArrowRight, FaHashtag } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa6";
 import Back from '../Components/Buttons/Back';
 import { AiOutlineBarChart } from "react-icons/ai";
+import { formatDate } from '../utils/formatDate';
+import ProfileEditModal from '../Components/Modals/ProfileEditModal';
 
 const Profile = () => {
   const {user,upadateProfileImage} = useAuthStore();
   const {id} = useParams();
+
+  const [modalVisible,setModalVisible] = useState(false);
 
   useEffect(()=>{
     if(id){
@@ -128,7 +132,9 @@ const Profile = () => {
             {
               user._id === id && (
                 <div className='flex-1'>
-                  <button className='px-3 py-2 bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-xl flex items-center gap-2 hover:scale-103 cursor-pointer transition'>
+                  <button className='px-3 py-2 bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-xl flex items-center gap-2 hover:scale-103 cursor-pointer transition'
+                    onClick={()=>setModalVisible(true)}
+                  >
                     <FiEdit />
                     <p>Edit Profile</p>
                   </button>
@@ -147,16 +153,16 @@ const Profile = () => {
             </div>
             <div className='flex flex-wrap gap-5'>
               <PersonalInfoCard icon={LuPhone} heading="Phone Number" data={userDetails?.phone}/>
-              <PersonalInfoCard icon={MdOutlineDateRange} heading="Date of Birth" data={userDetails?.dob}/>
+              <PersonalInfoCard icon={MdOutlineDateRange} heading="Date of Birth" data={formatDate(userDetails?.dob)}/>
               <PersonalInfoCard icon={IoLocationOutline} heading="Village" data={userDetails?.village_name}/>
               <PersonalInfoCard icon={LuMap} heading="District" data={userDetails?.district}/>
               <PersonalInfoCard icon={LuMap} heading="State" data={userDetails?.state}/>
-              <PersonalInfoCard icon={TbWorld} heading="Country" data={userDetails?.country}/>
+              <PersonalInfoCard icon={TbWorld} heading="Country" data={userDetails?.country || "India"}/>
               <PersonalInfoCard icon={FaHashtag} heading="Postal Code" data={userDetails?.pincode}/>
             </div>
         </div>
         <div className='flex flex-1 flex-col gap-3 text-white'>
-            <div className='flex-1 bg-gradient-to-br from-emerald-500 to-green-400 rounded-4xl relative overflow-hidden p-5 flex flex-col items-start justify-around'>
+            <div className='flex-1 bg-gradient-to-br from-emerald-500 to-green-400 rounded-4xl relative overflow-hidden  p-5 flex flex-col items-start justify-around'>
               <div className='absolute bg-emerald-300/40 h-50 w-50 rounded-full -top-20 -right-20'></div>
               <div className='absolute bg-emerald-300/40 h-40 w-40 rounded-full -bottom-25 -left-25'></div>
               <div className='bg-emerald-300/50 inline-flex p-3 rounded-xl'>
@@ -236,6 +242,7 @@ const Profile = () => {
             </div>
         </div>
       </div>
+      <ProfileEditModal visible={modalVisible} setVisible={setModalVisible} user={userDetails} fetchUser={fetchUser} />
     </div>
   )
 }

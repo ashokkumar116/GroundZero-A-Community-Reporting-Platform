@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAuthStore } from "../../lib/authStore";
 import { useLocation } from "react-router-dom";
-import ProfileOverlayPanel from "../UI/ProfileOverlayPanel";
+import ProfileOverlayPanel from "../Overlays/ProfileOverlayPanel";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { HomeMenuItems, OtherPageMenuItems } from "../../../Contents/constants";
 import NavProfile from "./NavProfile";

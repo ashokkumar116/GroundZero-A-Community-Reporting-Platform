@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema(
         },
         country: {
             type: String,
-            default: "",
+            default: "india ",
         },
         pincode: {
             type: String,

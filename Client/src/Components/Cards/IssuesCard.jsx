@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Badge from "../UI/Badge";
 import { CiLocationOn } from "react-icons/ci";
-import ProfileOverlay from "../UI/ProfileOverlay";
+import ProfileOverlay from "../Overlays/ProfileOverlay";
 import { BiUpvote } from "react-icons/bi";
 import { MdOutlineModeComment } from "react-icons/md";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -10,7 +10,7 @@ import { FaRegEye } from "react-icons/fa";
 import { HashLink } from "react-router-hash-link";
 import { toast } from "react-hot-toast";
 import axios from "../../Services/axios";
-import CardButton from "../UI/CardButton";
+import CardButton from "../Buttons/CardButton";
 import { BiSolidUpvote } from "react-icons/bi";
 import { useAuthStore } from "../../lib/authStore";
 

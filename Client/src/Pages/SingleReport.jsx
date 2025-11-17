@@ -26,7 +26,7 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { LiaCommentSolid } from "react-icons/lia";
 import { useAuthStore } from "../lib/authStore";
 import { CgSandClock } from "react-icons/cg";
-import VolunteerRequestModal from "../Components/UI/VolunteerRequestModal";
+import VolunteerRequestModal from "../Components/Modals/VolunteerRequestModal";
 
 const SingleReport = () => {
 
