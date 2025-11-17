@@ -91,11 +91,11 @@ const Profile = () => {
       window.addEventListener("scroll", handleScroll);
 
   return (
-    <div className='py-35 px-20 bg-gray-100 flex flex-col gap-10'>
+    <div className='py-35 px-10 lg:px-20 bg-gray-100 flex flex-col gap-10'>
       <Back scrolled={scrolled} />
-      <div className='bg-gradient-to-br from-green-500 to-teal-800 w-full h-120 rounded-4xl shadow-xl flex flex-col overflow-hidden'>
-        <div className='flex-1'></div>
-        <div className='flex-5 lg:flex-1 bg-white p-5 flex flex-col lg:flex-row justify-between gap-4'>
+      <div className='bg-gradient-to-br from-green-500 to-teal-800 w-full h-130 rounded-4xl shadow-xl flex flex-col overflow-hidden'>
+        <div className='flex-2 lg:flex-1'></div>
+        <div className='flex-6 lg:flex-1 bg-white p-5 flex flex-col lg:flex-row justify-between gap-4'>
             <div className='relative flex-1'>
               <div className='p-2 bg-white absolute -top-20 rounded-2xl shadow-md shadow-teal-500/30'>
               <img src={userDetails?.profile_image} className='h-30 w-30 lg:h-40 lg:w-40  object-cover rounded-2xl' />
@@ -119,7 +119,7 @@ const Profile = () => {
               }
             </div>
             </div>
-            <div className='flex-3 lg:flex-5 flex flex-col gap-2 '>
+            <div className='flex-3 lg:flex-3 xl:flex-5 flex flex-col gap-2 mt-5 '>
               <h1 className='text-3xl text-black font-bold uppercase text-emerald-600'>{userDetails?.username}</h1>
               <div className='text-sm text-gray-700 flex items-center gap-2'>
                 <MdMailOutline />
@@ -170,12 +170,12 @@ const Profile = () => {
                 <h1 className='font-bold'>Volunteer Impact</h1>
                 <p className='text-sm'>Your contribution to making a difference in the community</p>
               </div>
-              <div className='mt-5 flex flex-col gap-5'>
+              <div className='mt-5 flex flex-col w-full gap-5'>
                 <div className='bg-emerald-300/50 p-4 rounded-xl flex justify-between items-center'>
                   <h1>Total Volunteered</h1>
                   <p>{userDetails?.volunteer_works?.length}</p>
                 </div>
-                <div className='flex gap-5 items-center justify-between'>
+                <div className='flex gap-5 flex-wrap items-center justify-between'>
                   <div className='bg-emerald-300/50 p-4 rounded-xl flex justify-between items-center flex-1' >
                     <h1>Active Campaigns</h1>
                     <p>{userDetails?.volunteer_works?.filter(w => w.status !== "resolved").length}</p>
@@ -194,7 +194,7 @@ const Profile = () => {
                 <div className='px-5'>
                   <hr className='my-3 text-emerald-300' />
                 </div>
-                <div className='' >
+                <div className='mb-3 xl:mb-10' >
                   <p className='text-center'>"Every action counts. Together, we create change."</p>
                 </div>
               </div>
@@ -209,12 +209,12 @@ const Profile = () => {
                 <h1 className='font-bold'>My Posts</h1>
                 <p className='text-sm'>Track and manage your community reports</p>
               </div>
-              <div className='mt-5 flex flex-col gap-5'>
+              <div className='mt-5 flex flex-col gap-5 w-full'>
                 <div className='bg-emerald-300/50 p-4 rounded-xl flex justify-between items-center'>
                   <h1>Total Posts</h1>
                   <p>{userDetails?.posts?.length}</p>
-                </div>
-                <div className='flex gap-5 items-center justify-between'>
+                </div> 
+                <div className='flex gap-5 flex-wrap items-center justify-between'>
                   <div className='bg-emerald-300/50 p-4 rounded-xl flex justify-between items-center flex-1'>
                     <h1>Active</h1>
                     <p>{userDetails?.posts?.filter(w => w.status !== "resolved").length}</p>

@@ -128,7 +128,7 @@ const Navbar = () => {
                     <img src="/navlogo.png" alt="" className="h-10" />
                 </a>
 
-                <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
+                <div className="hidden lg:flex items-center gap-8 transition duration-500 text-slate-800">
                     {
                         OtherPageMenuItems.map((item,index)=>{
                             return (
@@ -150,7 +150,7 @@ const Navbar = () => {
 
                 <button
                     onClick={(e)=>menu.current.toggle(e)}
-                    className="md:hidden active:scale-90 transition"
+                    className="lg:hidden active:scale-90 transition"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
