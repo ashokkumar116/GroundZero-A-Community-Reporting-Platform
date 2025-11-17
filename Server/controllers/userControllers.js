@@ -106,9 +106,38 @@ const updateProfileImage = async(req,res)=>{
 }
 
 
+const updateProfile = async(req,res)=>{
+    const userId = req.user.userId;
+
+    const {username,bio,phone,dob,village_name,district,state,country,pincode} = req.body;
+
+    const user = await User.findById(userId).select("-password");
+
+    user.username = username || user.username;
+    user.bio = bio || user.bio;
+    user.phone = phone || user.phone;
+    if(dob){
+        user.dob = dob;
+    }
+    user.village_name = village_name || user.village_name
+    user.district = district || user.district
+    user.state = state || user.state
+    user.country = country || user.country
+    user.pincode = pincode || user.pincode
+
+    await user.save();
+
+    return res.status(200).json({
+        message:"Profile Updated Successfully",
+        user
+    })
+
+}
+
 
 
 module.exports = {
     getUser,
-    updateProfileImage
+    updateProfileImage,
+    updateProfile
 }
