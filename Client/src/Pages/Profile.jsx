@@ -93,14 +93,12 @@ const Profile = () => {
   return (
     <div className='py-35 px-20 bg-gray-100 flex flex-col gap-10'>
       <Back scrolled={scrolled} />
-      <div className='bg-gradient-to-br from-green-500 to-teal-800 w-full h-100 rounded-4xl shadow-xl flex flex-col overflow-hidden'>
-        <div className='flex-1'>
-
-        </div>
-        <div className='flex-1 bg-white p-5 flex justify-between gap-4'>
+      <div className='bg-gradient-to-br from-green-500 to-teal-800 w-full h-120 rounded-4xl shadow-xl flex flex-col overflow-hidden'>
+        <div className='flex-1'></div>
+        <div className='flex-5 lg:flex-1 bg-white p-5 flex flex-col lg:flex-row justify-between gap-4'>
             <div className='relative flex-1'>
               <div className='p-2 bg-white absolute -top-20 rounded-2xl shadow-md shadow-teal-500/30'>
-              <img src={userDetails?.profile_image} className='h-40 w-40 rounded-2xl' />
+              <img src={userDetails?.profile_image} className='h-30 w-30 lg:h-40 lg:w-40  object-cover rounded-2xl' />
               {
                 user._id === id && (
                   <>
@@ -121,7 +119,7 @@ const Profile = () => {
               }
             </div>
             </div>
-            <div className='flex-5 flex flex-col gap-2 '>
+            <div className='flex-3 lg:flex-5 flex flex-col gap-2 '>
               <h1 className='text-3xl text-black font-bold uppercase text-emerald-600'>{userDetails?.username}</h1>
               <div className='text-sm text-gray-700 flex items-center gap-2'>
                 <MdMailOutline />
@@ -143,7 +141,7 @@ const Profile = () => {
             }
         </div>
       </div>
-      <div className='flex gap-5 h-300'>
+      <div className='flex flex-col lg:flex-row gap-5 h-full '>
         <div className='bg-white shadow-xl p-10 rounded-4xl flex flex-col gap-5 flex-2'>
             <div className='flex items-center gap-2'>
               <div className='p-2 text-white bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl'>
@@ -162,7 +160,7 @@ const Profile = () => {
             </div>
         </div>
         <div className='flex flex-1 flex-col gap-3 text-white'>
-            <div className='flex-1 bg-gradient-to-br from-emerald-500 to-green-400 rounded-4xl relative overflow-hidden  p-5 flex flex-col items-start justify-around'>
+            <div className='flex-1 bg-gradient-to-br from-emerald-500 to-green-400 rounded-4xl relative overflow-hidden  p-7 flex flex-col items-start justify-around'>
               <div className='absolute bg-emerald-300/40 h-50 w-50 rounded-full -top-20 -right-20'></div>
               <div className='absolute bg-emerald-300/40 h-40 w-40 rounded-full -bottom-25 -left-25'></div>
               <div className='bg-emerald-300/50 inline-flex p-3 rounded-xl'>
