@@ -1,7 +1,7 @@
 const express = require('express');
 const isLoggedIn = require('../middlewares/isLoggedIn');
 const isVolunteer = require('../middlewares/isVolunteer');
-const uploadImage = require('../Services/cloudinary');
+const {uploadImage} = require('../Services/cloudinary');
 const { UpdateStatusRequest, volunteerRequest } = require('../controllers/requestControllers');
 const router = express.Router();
 
