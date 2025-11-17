@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -20,13 +20,14 @@ const theme = createTheme({
     },
 });
 
+
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <BrowserRouter>
             <PrimeReactProvider>
                 <ThemeProvider theme={theme}>
                 <Navbar />
-                 <Toaster position="top-center" />
+                <Toaster position="top-center" />
                 <App />
                 <Footer />
             </ThemeProvider>

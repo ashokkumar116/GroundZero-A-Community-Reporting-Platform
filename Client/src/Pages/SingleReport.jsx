@@ -179,12 +179,14 @@ const SingleReport = () => {
             </button>
             <div className="flex flex-col xl:flex-row items-start mt-5 bg-white p-5 rounded-2xl shadow-lg gap-15 ">
                 <div className="flex flex-col w-[50%] max-xl:w-full">
-                    <div className="mb-5 flex items-center gap-2">
+                    <div className="mb-5 flex items-center gap-2 cursor-pointer"
+                        onClick={()=>navigate(`/profile/${report?.reportedBy?._id}`)}
+                    >
                         <div>
                             <img
                                 src={report?.reportedBy?.profile_image}
                                 alt=""
-                                className="h-10 rounded-full border border-green-600/70"
+                                className="h-10 w-10 rounded-full border border-green-600/70"
                             />
                         </div>
                         <div>
@@ -287,7 +289,7 @@ const SingleReport = () => {
                     <div id="commentsection">
                         {report?.volunteers?.length > 0 ? (
                             report?.volunteers?.map((volunteer, index) => (
-                                <div>
+                                <div onClick={()=>navigate(`/profile/${volunteer.volunteer._id}`)}>
                                     <VolunteerCard
                                         volunteer={volunteer.volunteer}
                                         joinedAt={volunteer.joinedAt}

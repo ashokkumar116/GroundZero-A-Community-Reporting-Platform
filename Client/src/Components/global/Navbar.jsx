@@ -8,6 +8,7 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { HomeMenuItems, OtherPageMenuItems } from "../../../Contents/constants";
 import NavProfile from "./NavProfile";
 import NavStarted from "./NavStarted";
+import Loader from "../../Loaders/Loader";
 
 const Navbar = () => {
 
@@ -17,7 +18,8 @@ const Navbar = () => {
 
     const [scrolled, setScrolled] = useState(false);
 
-    const { user } = useAuthStore();
+    const { user , loading} = useAuthStore();
+
 
     const op = useRef(null);
     const menu = useRef(null);
@@ -36,12 +38,17 @@ const Navbar = () => {
         window.addEventListener("scroll", handleScroll);
 
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [isHome]);
+
+
+        if (loading) return null;
+
+        const userId = user?._id;
 
     if(isHome){
         return (
             <div>
-                <ProfileOverlayPanel ref={op} />
+                <ProfileOverlayPanel panelRef={op} />
                 <nav
                     className={` z-50 flex items-center justify-around lg:justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm transition-all duration-500 ease-in-out 
                         ${scrolled
@@ -110,7 +117,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <ProfileOverlayPanel ref={op} />
+            <ProfileOverlayPanel panelRef={op} userId={userId} key={userId ?? "nouser"} />
             <nav
                 className="z-50 flex items-center justify-around lg:justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm fixed top-0 bg-white shadow-md"
             >

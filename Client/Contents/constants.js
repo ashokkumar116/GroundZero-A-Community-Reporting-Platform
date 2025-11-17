@@ -6,20 +6,23 @@ import { LuHandshake } from "react-icons/lu";
 export const ProfileMenuItems = [
     {
         name: "Profile",
-        icon:FaRegUser
+        icon:FaRegUser,
+        link:"/profile"
     },
     {
         name: "My Requests",
-        icon:LuHandshake
-
+        icon:LuHandshake,
+        link:"/my-requests"
     },
     {
         name: "My Reports",
-        icon:TbReportAnalytics
+        icon:TbReportAnalytics,
+        link:"/my-reports"
     },
     {
         name: "My Works",
-        icon:MdOutlineVolunteerActivism
+        icon:MdOutlineVolunteerActivism,
+        link:"/my-works"
     }
 ]
 

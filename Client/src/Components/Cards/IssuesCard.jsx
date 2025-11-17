@@ -103,7 +103,7 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                 <ProfileOverlay
                     username={report.reportedBy.username}
                     profile_image={report.reportedBy.profile_image}
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(`/profile/${report.reportedBy._id}`)}
                 />
                 <Badge text={report.category} />
                 <div>
