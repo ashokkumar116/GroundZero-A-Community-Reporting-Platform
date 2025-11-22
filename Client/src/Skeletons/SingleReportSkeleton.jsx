@@ -15,9 +15,6 @@ const SingleReportSkeleton = () => {
             </div>
             <div className='flex flex-col gap-2 flex-1'>
                 <Skeleton variant='rectangle' width={550} height={200} animation="wave" className='rounded-lg' />
-                {/* <Skeleton variant='text' width={500} animation="wave" className='rounded-lg' />
-                <Skeleton variant='text' width={450} animation="wave" className='rounded-lg' />
-                <Skeleton variant='text' width={400} animation="wave" className='rounded-lg' /> */}
             </div>
             </div>
             <div className='flex-1'>

@@ -99,14 +99,14 @@ const ProfileEditModal = ({ visible, setVisible, user , fetchUser}) => {
 
     return (
         <Dialog visible={visible} onHide={() => setVisible(false)} header="Edit Profile Details">
-            <form className="flex flex-col gap-3">
+            <form className="flex flex-col gap-3 ">
                 <div className="edit-modal-input">
                     <label htmlFor="username">Username</label>
                     <InputText value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
                 <div className="edit-modal-input">
                     <label htmlFor="bio">Bio</label>
-                    <InputTextarea value={bio} rows={4} cols={70} onChange={(e) => setBio(e.target.value)}/>
+                    <InputTextarea value={bio} rows={4} onChange={(e) => setBio(e.target.value)}/>
                 </div>
                 <div className="edit-modal-input">
                     <label htmlFor="phone">Phone Number</label>

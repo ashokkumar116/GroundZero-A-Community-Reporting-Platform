@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthStore } from '../lib/authStore'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../Services/axios';
 import { MdMailOutline } from "react-icons/md";
 import { FiBarChart, FiEdit } from "react-icons/fi";
@@ -20,10 +20,12 @@ import Back from '../Components/Buttons/Back';
 import { AiOutlineBarChart } from "react-icons/ai";
 import { formatDate } from '../utils/formatDate';
 import ProfileEditModal from '../Components/Modals/ProfileEditModal';
+import ProfileSkeleton from '../Skeletons/ProfileSkeleton';
 
 const Profile = () => {
   const {user,upadateProfileImage} = useAuthStore();
   const {id} = useParams();
+  const navigate = useNavigate();
 
   const [modalVisible,setModalVisible] = useState(false);
 
@@ -53,6 +55,10 @@ const Profile = () => {
     }finally{
       setIsFetching(false);
     }
+  }
+
+  if(isFetching){
+    return <ProfileSkeleton />
   }
 
  
@@ -186,7 +192,9 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className='flex items-center justify-center'>
-                  <button className='flex items-center gap-2 bg-white text-emerald-600 font-semibold px-5 py-3 w-[90%] justify-center rounded-xl shadow-md hover:scale-101 transition group cursor-pointer'>
+                  <button className='flex items-center gap-2 bg-white text-emerald-600 font-semibold px-5 py-3 w-[90%] justify-center rounded-xl shadow-md hover:scale-101 transition group cursor-pointer'
+                    onClick={()=>navigate(`/volunteer-works/${userDetails._id}`)}
+                  >
                     <p>View Details</p>
                     <FaArrowRight className='group-hover:translate-x-2 transition' />
                   </button>
@@ -240,7 +248,7 @@ const Profile = () => {
             </div>
         </div>
       </div>
-      <ProfileEditModal visible={modalVisible} setVisible={setModalVisible} user={userDetails} fetchUser={fetchUser} />
+      <ProfileEditModal visible={modalVisible} setVisible={setModalVisible} user={userDetails} fetchUser={fetchUser} className="" />
     </div>
   )
 }
