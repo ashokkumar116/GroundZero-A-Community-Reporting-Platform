@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const User = require("../models/User");
 const { cloudinary } = require("../Services/cloudinary");
+const Reports = require("../models/Reports");
 
 const getUser = async (req, res) => {
   const userId = req.params.id;
@@ -133,10 +134,22 @@ const updateProfile = async(req,res)=>{
 
 }
 
+const getVolunteerWorks = async(req,res)=>{
+    const userId = req.user.userId;
+    const volunteerWorks = await Reports.find({
+      "volunteers.volunteer":userId
+    }).populate("reportedBy","username profile_image")
+    return res.status(200).json({
+      message:"Volunteer Works Fetched Successfully",
+      volunteerWorks
+    })
+}
+
 
 
 module.exports = {
     getUser,
     updateProfileImage,
-    updateProfile
+    updateProfile,
+    getVolunteerWorks
 }
