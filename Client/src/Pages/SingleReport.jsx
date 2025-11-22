@@ -203,7 +203,7 @@ const SingleReport = () => {
                             {report?.title}
                         </h1>
                         <div
-                            className="text-sm text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-60 overflow-y-scroll border border-gray-600/60 p-2 rounded-lg "
+                            className="text-sm !text-gray-700 text-justify prose prose-invert leading-relaxed max-w-none h-60 overflow-y-scroll border border-gray-600/60 p-2 rounded-lg "
                             dangerouslySetInnerHTML={{
                                 __html: report?.description,
                             }}
@@ -382,7 +382,7 @@ const SingleReport = () => {
                                                </div>
                                             </div>
                                             <div
-                                                className="prose prose-invert leading-relaxed text-gray-800 max-w-none p-5"
+                                                className="prose prose-invert leading-relaxed !text-gray-800 max-w-none p-5"
                                                 dangerouslySetInnerHTML={{
                                                     __html: comment.text,
                                                 }}

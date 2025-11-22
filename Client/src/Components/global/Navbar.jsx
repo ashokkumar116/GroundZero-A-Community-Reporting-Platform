@@ -8,7 +8,6 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { HomeMenuItems, OtherPageMenuItems } from "../../../Contents/constants";
 import NavProfile from "./NavProfile";
 import NavStarted from "./NavStarted";
-import Loader from "../../Loaders/Loader";
 
 const Navbar = () => {
 

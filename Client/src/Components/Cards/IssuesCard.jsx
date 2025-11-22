@@ -131,7 +131,7 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
             <div className="mt-2 px-2 flex flex-col gap-2 mb-2">
                 <div
                     onClick={() => navigate(`/issues/${report._id}`)}
-                    className="text-gray-800 text-sm line-clamp-2 capitalize cursor-pointer prose prose-invert leading-relaxed max-w-none"
+                    className="!text-gray-700 text-sm line-clamp-2 capitalize cursor-pointer prose prose-invert leading-relaxed max-w-none"
                     dangerouslySetInnerHTML={{__html:report.description}}
                 />
                 <div className="flex justify-between gap-1 items-center text-gray-700">
@@ -160,7 +160,7 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                             className={`flex gap-1 items-center cursor-pointer text-sm text-gray-700 px-3 py-1`}
                             onClick={handleUpvote}
                         >
-                            {hasUserUpvoted ? <BiSolidUpvote className="text-green-700" /> : <BiUpvote className={``} />}
+                            {hasUserUpvoted ? <BiSolidUpvote className="text-green-700" /> : <BiUpvote className={`text-gray-700 ${upvoteTextColor}`} />}
                             
                             <p className={`text-xs ${upvoteTextColor} ${hasUserUpvoted ? "font-bold":""} `}>{`${localReport.upvotes} Upvotes`}</p>
                         </button>

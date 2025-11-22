@@ -17,7 +17,7 @@ const ProfileOverlayPanel = ({panelRef}) => {
                     if (item.name === "Profile" && !userId) {
                         return null;
                     }
-                    const link = item.name === "Profile" ? `/profile/${userId}` : item.link;
+                    const link = item.name === "Profile" ? `/profile/${userId}` : item.name === "Volunteer Works" ? `/volunteer-works/${userId}` : item.name === "My Reports" ? `/my-reports/${userId}` : item.link;
                 return (
                     <a 
                         href={link}

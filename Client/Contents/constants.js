@@ -20,9 +20,9 @@ export const ProfileMenuItems = [
         link:"/my-reports"
     },
     {
-        name: "My Works",
+        name: "Volunteer Works",
         icon:MdOutlineVolunteerActivism,
-        link:"/my-works"
+        link:"/volunteer-works"
     }
 ]
 

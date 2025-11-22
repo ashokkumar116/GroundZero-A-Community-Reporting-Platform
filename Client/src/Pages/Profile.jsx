@@ -157,7 +157,7 @@ const Profile = () => {
             </div>
             <div className='flex flex-wrap gap-5'>
               <PersonalInfoCard icon={LuPhone} heading="Phone Number" data={userDetails?.phone}/>
-              <PersonalInfoCard icon={MdOutlineDateRange} heading="Date of Birth" data={formatDate(userDetails?.dob)}/>
+              <PersonalInfoCard icon={MdOutlineDateRange} heading="Date of Birth" data={userDetails?.dob ? formatDate(userDetails?.dob) : ""}/>
               <PersonalInfoCard icon={IoLocationOutline} heading="Village" data={userDetails?.village_name}/>
               <PersonalInfoCard icon={LuMap} heading="District" data={userDetails?.district}/>
               <PersonalInfoCard icon={LuMap} heading="State" data={userDetails?.state}/>

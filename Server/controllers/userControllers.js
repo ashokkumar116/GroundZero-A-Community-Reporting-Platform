@@ -135,7 +135,7 @@ const updateProfile = async(req,res)=>{
 }
 
 const getVolunteerWorks = async(req,res)=>{
-    const userId = req.user.userId;
+    const userId = req.params.id;
     const volunteerWorks = await Reports.find({
       "volunteers.volunteer":userId
     }).populate("reportedBy","username profile_image")
