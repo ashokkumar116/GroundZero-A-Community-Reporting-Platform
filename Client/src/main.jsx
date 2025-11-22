@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 import { Toaster } from "react-hot-toast";
-
+import ScrollToTop from "./utils/ScrollToTop.js";
 const theme = createTheme({
     typography: {
         fontFamily: '"Poppins", "sans-serif"',
@@ -24,6 +24,7 @@ const theme = createTheme({
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <BrowserRouter>
+            <ScrollToTop />
             <PrimeReactProvider>
                 <ThemeProvider theme={theme}>
                 <Navbar />
