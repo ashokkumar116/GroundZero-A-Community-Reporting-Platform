@@ -5,6 +5,7 @@ import axios from '../Services/axios';
 import IssuesCard from '../Components/Cards/IssuesCard';
 import { useAuthStore } from '../lib/authStore';
 import { IoBanOutline } from "react-icons/io5";
+import VolunteerWorksCard from '../Components/Cards/VolunteerWorksCard';
 
 const VolunteerWorks = () => {
     const userId = useAuthStore((state)=>state.user._id);
@@ -57,7 +58,7 @@ const VolunteerWorks = () => {
                                     key={volunteerWork._id}
                                     className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'
                                 >
-                                    <IssuesCard report={volunteerWork} userId={userId} />
+                                    <VolunteerWorksCard report={volunteerWork} userId={userId} />
                                 </div>
                             ))
                         )

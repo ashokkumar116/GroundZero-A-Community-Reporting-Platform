@@ -82,6 +82,21 @@ export const Categories = [
     "Other",
 ]
 
+export const Status = [
+    {
+        name:"Reported",
+        value:"reported"
+    },
+    {
+        name:"In Progress",
+        value:"in_progress"
+    },
+    {
+        name:"Resolved",
+        value:"resolved"
+    }
+]
+
 export const IndianStatesAndDistricts = [
     {
         name: "Andhra Pradesh",
