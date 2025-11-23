@@ -11,6 +11,7 @@ import SingleReport from "./Pages/SingleReport";
 import CreateReport from "./Pages/CreateReport";
 import Profile from "./Pages/Profile";
 import VolunteerWorks from "./Pages/VolunteerWorks";
+import UserReports from "./Pages/UserReports";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/create-report" element={<UserProtectedRoute><CreateReport /></UserProtectedRoute>}/>
           <Route path="/profile/:id" element={<UserProtectedRoute><Profile /></UserProtectedRoute>}/>
           <Route path="/volunteer-works/:id" element={<UserProtectedRoute><VolunteerWorks /></UserProtectedRoute>}/>
+          <Route path="/user-reports/:id" element={<UserProtectedRoute><UserReports /></UserProtectedRoute>}/>
         </Routes>
     </>
   )

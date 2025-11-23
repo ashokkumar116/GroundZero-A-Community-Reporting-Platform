@@ -17,7 +17,7 @@ export const ProfileMenuItems = [
     {
         name: "My Reports",
         icon:TbReportAnalytics,
-        link:"/my-reports"
+        link:"/user-reports"
     },
     {
         name: "Volunteer Works",

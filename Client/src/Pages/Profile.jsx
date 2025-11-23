@@ -233,7 +233,9 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className='flex items-center justify-center'>
-                  <button className='flex items-center gap-2 bg-white text-emerald-600 font-semibold px-5 py-3 w-[90%] justify-center rounded-xl shadow-md hover:scale-101 transition group cursor-pointer'>
+                  <button className='flex items-center gap-2 bg-white text-emerald-600 font-semibold px-5 py-3 w-[90%] justify-center rounded-xl shadow-md hover:scale-101 transition group cursor-pointer'
+                    onClick={()=>navigate(`/user-reports/${userDetails?._id}`)}
+                  >
                     <p>View Details</p>
                     <FaArrowRight className='group-hover:translate-x-2 transition' />
                   </button>
