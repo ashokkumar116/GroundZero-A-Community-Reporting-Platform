@@ -169,8 +169,8 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                 <hr className="text-gray-400 mt-2" />
                 <div className=" text-xs items-center">
                     {userId === report.volunteers[0].volunteer ? (
-                        <div className="flex flex-col items-center xl:flex-row gap-2 justify-around text-xs">
-                        <button className="flex gap-1 items-center justify-center cursor-pointer text-sm text-gray-700 px-5 py-3 bg-gradient-to-br from-green-500 to-emerald-800 text-white rounded-2xl hover:scale-102 transition duration-300 w-[80%]"
+                        <div className="flex flex-col items-center xl:flex-row gap-2 justify-end text-xs">
+                        <button className="flex gap-1 items-center justify-center cursor-pointer text-sm text-gray-700 px-5 py-2 bg-gradient-to-br from-green-500 to-emerald-800 text-white rounded-md hover:scale-102 transition duration-300"
                             onClick={() => setUpdateStatusVisible(true)}
                         >
                             <FaRegEdit />

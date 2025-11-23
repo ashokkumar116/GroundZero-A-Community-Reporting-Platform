@@ -145,11 +145,22 @@ const getVolunteerWorks = async(req,res)=>{
     })
 }
 
+const getUserReports = async(req,res)=>{
+  const userId = req.params.id;
+  const userReports = await Reports.find({
+    "reportedBy":userId
+  }).populate("reportedBy","username profile_image")
+  return res.status(200).json({
+    message:"User Reports Fetched Successfully",
+    userReports
+  })
+}
 
 
 module.exports = {
     getUser,
     updateProfileImage,
     updateProfile,
-    getVolunteerWorks
+    getVolunteerWorks,
+    getUserReports
 }
