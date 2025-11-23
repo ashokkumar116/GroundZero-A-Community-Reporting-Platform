@@ -139,28 +139,33 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                     className="!text-gray-700 text-sm line-clamp-2 capitalize cursor-pointer prose prose-invert leading-relaxed max-w-none"
                     dangerouslySetInnerHTML={{__html:report.description}}
                 />
-                <div className="flex justify-between gap-1 items-center text-gray-700">
+                <div className="flex flex-col md:flex-row gap-3 md:gap-5 justify-between md:items-center">
+                    <div className="flex flex-row md:flex-col justify-between md:justify-start gap-1 items-start gap-2 text-gray-700">
                     <div className="flex gap-1 items-center">
                         <CiLocationOn />
                         <p className="text-xs">
                             {report.village}, {report.district}
                         </p>
                     </div>
-                    <div className="flex gap-1 items-center">
+                    <div className="flex items-center gap-2 text-xs text-gray-700 px-1">
+                        <FaRegEye />
+                        <p>{report.views} Views</p>
+                    </div>
+                </div>
+                <div className="flex flex-row md:flex-col justify-between gap-1 items-start gap-2 text-gray-700">
+                    <div className="flex justify-between w-full gap-1 items-center">
                         <Badge
                             severity={report.priority}
                             text={report.priority}
                             inLine
                         />
-                        <div className="px-2 py-1 bg-green-600/50 border border-green-600/50 text-emerald-900 rounded-full text-xs">
-                            <p className="capitalize">{formatStatus(report.status)}</p>
-                        </div>
+                    </div>
+                    <div className="px-2 py-1 bg-green-600/50 border border-green-600/50 text-emerald-900 rounded-full w-full flex justify-center items-center text-xs">
+                        <p className="capitalize">{formatStatus(report.status)}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-700 px-1">
-                    <FaRegEye />
-                    <p>{report.views} Views</p>
                 </div>
+                
                 <hr className="text-gray-400 mt-2" />
                 <div className=" text-xs items-center">
                     {userId === report.volunteers[0].volunteer ? (
