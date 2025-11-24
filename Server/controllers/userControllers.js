@@ -161,7 +161,11 @@ const getUserVolunteerRequests = async(req,res)=>{
   const {userId} = req.user;
   const requests = await VolunteerRequest.find({
     "volunteer":userId
-  }).populate("volunteer","username profile_image").populate("report","title description status")
+  }).populate("volunteer","username profile_image")
+    .populate("report","title description status")
+    .populate("report.reportedBy","username profile_image")
+    .populate("report.volunteers.volunteer","username profile_image")
+    .populate("reviewedBy","username profile_image")
   return res.status(200).json({
     message:"User Volunteer Requests Fetched Successfully",
     requests
