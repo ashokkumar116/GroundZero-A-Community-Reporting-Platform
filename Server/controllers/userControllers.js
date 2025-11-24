@@ -3,6 +3,7 @@ const User = require("../models/User");
 const { cloudinary } = require("../Services/cloudinary");
 const Reports = require("../models/Reports");
 const VolunteerRequest = require("../models/VolunteerRequest");
+const StatusUpdateRequest = require("../models/StatusUpdateRequest");
 
 const getUser = async (req, res) => {
   const userId = req.params.id;
@@ -172,6 +173,21 @@ const getUserVolunteerRequests = async(req,res)=>{
   })
 }
 
+const getStatusUpdateRequests = async(req,res)=>{
+  const {userId} = req.user;
+  const requests = await StatusUpdateRequest.find({
+    "requestedBy":userId
+  }).populate("requestedBy","username profile_image")
+    .populate("report","title description status")
+    .populate("report.reportedBy","username profile_image")
+    .populate("report.volunteers.volunteer","username profile_image")
+    .populate("reviewedBy","username profile_image")
+  return res.status(200).json({
+    message:"User Volunteer Requests Fetched Successfully",
+    requests
+  })
+}
+
 
 module.exports = {
     getUser,
@@ -179,5 +195,6 @@ module.exports = {
     updateProfile,
     getVolunteerWorks,
     getUserReports,
-    getUserVolunteerRequests
+    getUserVolunteerRequests,
+    getStatusUpdateRequests
 }
