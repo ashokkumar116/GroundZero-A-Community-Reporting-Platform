@@ -21,8 +21,12 @@ const UserRequests = () => {
         try {
             setLoading(true);
             const volunteerResponse = await axios.get('/users/user-volunteer-requests');
+            const statusUpdateResponse = await axios.get('/users/user-status-update-requests');
         if(volunteerResponse.status === 200){
             setVolunteerRequests(volunteerResponse.data.requests);
+        }
+        if(statusUpdateResponse.status === 200){
+            setStatusUpdateRequests(statusUpdateResponse.data.requests);
         }
             
         } catch (error) {
@@ -39,7 +43,8 @@ const UserRequests = () => {
 
     useEffect(()=>{
         console.log(volunteerRequests)
-    },[volunteerRequests])
+        console.log(statusUpdateRequests)
+    },[volunteerRequests,statusUpdateRequests])
 
     if(loading){
         return <div className='flex items-center justify-center h-screen w-screen'>
@@ -54,24 +59,29 @@ const UserRequests = () => {
         <h1 className='text-3xl font-bold text-green-700 mb-5'>Your Requests</h1>
         <div>
             <TabGroup>
-      <TabList className="flex space-x-4">
-        <Tab className="px-4 py-2 bg-green-700 text-white">Volunteer Requests</Tab>
-        <Tab className="px-4 py-2 bg-green-700 text-white">Status Update Requests</Tab>
-      </TabList>
-      <TabPanels className="mt-4">
-        <TabPanel className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <TabList className="flex space-x-4">
+                    <Tab className="px-4 py-2 bg-green-700 text-white">Volunteer Requests</Tab>
+                    <Tab className="px-4 py-2 bg-green-700 text-white">Status Update Requests</Tab>
+                </TabList>
+                <TabPanels className="mt-4">
+                    <TabPanel className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {volunteerRequests.map((request,index)=>(
                 <RequestCard 
                     key={index}
                     request={request}
                 />
-            ))}
-        </TabPanel>
-        <TabPanel className="p-4">
-            
-        </TabPanel>
-      </TabPanels>
-    </TabGroup>
+            ))} 
+            </TabPanel>
+            <TabPanel className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {statusUpdateRequests.map((request,index)=>(
+                    <RequestCard 
+                        key={index}
+                        request={request}
+                    />
+                ))} 
+            </TabPanel>
+                </TabPanels>
+            </TabGroup>
         </div>
     </div>
   )

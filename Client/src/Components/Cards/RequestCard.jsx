@@ -19,7 +19,7 @@ const RequestCard = ({request}) => {
   return (
     <div className='p-5 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg cursor-pointer hover:border-green-500/60 hover:bg-green-50/50 transition-all duration-300'>
         <div className='flex justify-between items-center'>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2' onClick={()=>navigate(`/profile/${user?._id}`)}>
                 <div>
                     <img src={user?.profile_image} alt="" className='h-10 w-10 rounded-full' />
                 </div>
@@ -50,7 +50,7 @@ const RequestCard = ({request}) => {
                 />
             </div>
         </div>
-        <div className='flex items-center justify-between mt-3'>
+        <div className='flex items-center justify-between px-2 py-3'>
             <div>
                 <p className='text-sm text-gray-500'>Requested At</p>
                 <p className='text-xs'>{formatDate(request.requestedAt)}</p>
@@ -60,6 +60,14 @@ const RequestCard = ({request}) => {
                 <p className='text-xs'>{request.reviewedAt ? formatDate(request.reviewedAt) : "Not Reviewed Yet"}</p>
             </div>
         </div>
+        {
+            request?.requestedStatus && (
+                <div className='px-2 py-3'>
+                    <p className='text-sm text-gray-500'>Requested Status</p>
+                    <p className='text-xs capitalize'>{formatStatus(request?.requestedStatus)}</p>
+                </div>
+            )
+        }
         <div className='flex items-center gap-2 mt-3 cursor-pointer' onClick={()=>navigate(`/profile/${request?.reviewedBy?._id}`)}>
             {request?.reviewedBy && (
                 <>
