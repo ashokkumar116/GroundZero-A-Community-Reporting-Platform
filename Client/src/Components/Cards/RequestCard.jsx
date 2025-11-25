@@ -8,7 +8,7 @@ import { PiHandWithdraw } from "react-icons/pi";
 import { SiTicktick } from "react-icons/si";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import CardSkeleton from '../../Skeletons/CardSkeleton';
+
 
 const RequestCard = ({request}) => {
     const {user} = useAuthStore();
@@ -24,7 +24,7 @@ const RequestCard = ({request}) => {
                     <img src={user?.profile_image} alt="" className='h-10 w-10 rounded-full' />
                 </div>
                 <div>
-                    <p className='font-semibold'>{user?.username}</p>
+                    <p className='font-semibold capitalize'>{user?.username}</p>
                     <p className='text-sm text-gray-500'>Requested on {formatDate(request.requestedAt)}</p>
                 </div>
             </div>
@@ -32,13 +32,13 @@ const RequestCard = ({request}) => {
                 <Tag value={request.status}  severity={request.status === "pending" ? "warning" : request.status === "approved" ? "success" : "danger"}  className='capitalize' />
             </div>
         </div>
-        <div className='mt-2'>
+        <div className='px-2 py-3 mt-2'>
             <p className='text-sm text-gray-500'>"{request?.note}"</p>
         </div>
         <div className='p-2 border border-gray-200 bg-gray-50 mt-3 flex flex-col gap-2'>
             <div className='flex items-center gap-2'>
                 <div className='flex-1'>
-                    <p className='text-sm font-semibold line-clamp-2'>{request?.report?.title}</p>
+                    <p className='text-sm font-semibold line-clamp-2 capitalize'>{request?.report?.title}</p>
                 </div>
                 <div className=''>
                     <Tag value={formatStatus(request?.report?.status)} severity={request?.report?.status === "in_progress" ? "warning" : request?.report?.status === "resolved" ? "success" : "danger"} className='capitalize' />
