@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import Loader from '../Loaders/Loader';
 import { MdOutlineVolunteerActivism } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
+import { ConfirmDialog } from 'primereact/confirmdialog';
 
 
 const UserRequests = () => {
@@ -23,12 +24,12 @@ const UserRequests = () => {
             setLoading(true);
             const volunteerResponse = await axios.get('/users/user-volunteer-requests');
             const statusUpdateResponse = await axios.get('/users/user-status-update-requests');
-        if(volunteerResponse.status === 200){
-            setVolunteerRequests(volunteerResponse.data.requests);
-        }
-        if(statusUpdateResponse.status === 200){
-            setStatusUpdateRequests(statusUpdateResponse.data.requests);
-        }
+            if(volunteerResponse.status === 200){
+                setVolunteerRequests(volunteerResponse.data.requests);
+            }
+            if(statusUpdateResponse.status === 200){
+                setStatusUpdateRequests(statusUpdateResponse.data.requests);
+            }
             
         } catch (error) {
             console.log(error);
@@ -58,6 +59,7 @@ const UserRequests = () => {
         className='px-20 py-30'
     >
         <h1 className='text-3xl font-bold text-green-700 mb-5'>Your Requests</h1>
+        <ConfirmDialog/>
         <div>
             <TabGroup>
                 <TabList className="flex space-x-4 inline-flex items-center rounded-xl transition-all duration-300 ">
@@ -66,20 +68,35 @@ const UserRequests = () => {
                 </TabList>
                 <TabPanels className="mt-4">
                     <TabPanel className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {volunteerRequests.map((request,index)=>(
-                <RequestCard 
-                    key={index}
-                    request={request}
-                />
-            ))} 
-            </TabPanel>
+                        {
+                            volunteerRequests.length > 0 ? (
+                                volunteerRequests.map((request,index)=>(
+                                    <RequestCard 
+                                        key={index}
+                                        request={request}
+                                        fetchRequests={fetchRequests}
+                                        isStatusUpdateRequest={false}
+                                    />
+                                ))
+                            ) : (
+                                <p className='text-center text-gray-500'>No Volunteer Requests Found</p>
+                            )
+                        }
+                    </TabPanel>
             <TabPanel className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {statusUpdateRequests.map((request,index)=>(
-                    <RequestCard 
-                        key={index}
-                        request={request}
-                    />
-                ))} 
+                {
+                    statusUpdateRequests.length > 0 ? (
+                        statusUpdateRequests.map((request,index)=>(
+                            <RequestCard 
+                                key={index}
+                                request={request}
+                                isStatusUpdateRequest={true}
+                            />
+                        ))
+                    ) : (
+                        <p className='text-left text-gray-500'>No Status Update Requests Found</p>
+                    )
+                } 
             </TabPanel>
                 </TabPanels>
             </TabGroup>
