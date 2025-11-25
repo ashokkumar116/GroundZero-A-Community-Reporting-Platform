@@ -12,7 +12,7 @@ export const ProfileMenuItems = [
     {
         name: "My Requests",
         icon:LuHandshake,
-        link:"/my-requests"
+        link:"/user-requests"
     },
     {
         name: "My Reports",
