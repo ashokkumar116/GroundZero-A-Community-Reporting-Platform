@@ -101,7 +101,28 @@ const volunteerRequest = async (req, res) => {
     }
 };
 
+const withdrawVolunteerRequest = async(req,res)=>{
+    const {id} = req.params;
+    const userId = req.user.userId;
+
+    const request = await VolunteerRequest.findById(id);
+
+    if(!request){
+        return res.status(404).json({message:"Request not found"});
+    }
+
+    if(request.volunteer.toString() !== userId){
+        return res.status(401).json({message:"Unauthorized"});
+    }
+
+    request.status = "withdrawn";
+    await request.save();
+
+    return res.status(200).json({message:"Request Withdrawn Successfully",request});
+}
+
 module.exports = {
     UpdateStatusRequest,
     volunteerRequest,
+    withdrawVolunteerRequest,
 };
