@@ -64,7 +64,7 @@ const RequestCard = ({request,fetchRequests,isStatusUpdateRequest}) => {
         <div className='px-2 py-3 mt-2'>
             <p className='text-sm text-gray-500'>"{request?.note}"</p>
         </div>
-        <div className='p-2 border border-gray-200 bg-gray-50 mt-3 flex flex-col gap-2'>
+        <div className='p-2 border border-gray-200 bg-gray-50 mt-3 flex flex-col gap-2' onClick={()=>navigate(`/issues/${request?.report?._id}`)}>
             <div className='flex items-center gap-2'>
                 <div className='flex-1'>
                     <p className='text-sm font-semibold line-clamp-2 capitalize'>{request?.report?.title}</p>

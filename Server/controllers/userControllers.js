@@ -149,27 +149,61 @@ const getVolunteerWorks = async(req,res)=>{
 
 const getUserReports = async(req,res)=>{
   const userId = req.params.id;
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 5;
+  const skip = (page - 1) * limit;
   const userReports = await Reports.find({
     "reportedBy":userId
-  }).populate("reportedBy","username profile_image")
+  })
+  .sort({
+    createdAt:-1
+  })
+  .populate("reportedBy","username profile_image")
+  .skip(skip)
+  .limit(limit)
+
+  const totalReports = await Reports.countDocuments({
+    "reportedBy":userId
+  })
+
   return res.status(200).json({
     message:"User Reports Fetched Successfully",
-    userReports
+    userReports,
+    totalReports,
+    currentPage:page,
+    totalPages:Math.ceil(totalReports/limit)
   })
 }
 
 const getUserVolunteerRequests = async(req,res)=>{
   const {userId} = req.user;
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 5;
+  const skip = (page - 1) * limit;
   const requests = await VolunteerRequest.find({
     "volunteer":userId
-  }).populate("volunteer","username profile_image")
+  }) 
+    .sort({
+      createdAt:-1
+    })
+    .skip(skip)
+    .limit(limit)
+    .populate("volunteer","username profile_image")
     .populate("report","title description status")
     .populate("report.reportedBy","username profile_image")
     .populate("report.volunteers.volunteer","username profile_image")
     .populate("reviewedBy","username profile_image")
+
+    const totalReports = await VolunteerRequest.countDocuments({
+      "volunteer":userId
+    })
+    
   return res.status(200).json({
     message:"User Volunteer Requests Fetched Successfully",
-    requests
+    requests,
+    totalReports,
+    currentPage:page,
+    totalPages:Math.ceil(totalReports/limit)
   })
 }
 
