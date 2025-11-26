@@ -197,7 +197,7 @@ const getUserVolunteerRequests = async(req,res)=>{
     const totalReports = await VolunteerRequest.countDocuments({
       "volunteer":userId
     })
-    
+
   return res.status(200).json({
     message:"User Volunteer Requests Fetched Successfully",
     requests,
@@ -209,16 +209,33 @@ const getUserVolunteerRequests = async(req,res)=>{
 
 const getStatusUpdateRequests = async(req,res)=>{
   const {userId} = req.user;
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 5;
+  const skip = (page - 1) * limit;
   const requests = await StatusUpdateRequest.find({
     "requestedBy":userId
-  }).populate("requestedBy","username profile_image")
+  }) 
+    .sort({
+      createdAt:-1
+    })
+    .skip(skip)
+    .limit(limit)
+    .populate("requestedBy","username profile_image")
     .populate("report","title description status")
     .populate("report.reportedBy","username profile_image")
     .populate("report.volunteers.volunteer","username profile_image")
     .populate("reviewedBy","username profile_image")
+
+    const totalReports = await StatusUpdateRequest.countDocuments({
+      "requestedBy":userId
+    })
+
   return res.status(200).json({
     message:"User Volunteer Requests Fetched Successfully",
-    requests
+    requests,
+    totalReports,
+    currentPage:page,
+    totalPages:Math.ceil(totalReports/limit)
   })
 }
 

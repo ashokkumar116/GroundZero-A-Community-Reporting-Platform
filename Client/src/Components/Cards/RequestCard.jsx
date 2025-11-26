@@ -12,7 +12,7 @@ import axios from '../../Services/axios';
 import toast from 'react-hot-toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
-const RequestCard = ({request,fetchRequests,isStatusUpdateRequest}) => {
+const RequestCard = ({request,fetchRequests,isStatusUpdateRequest,lastItemRef,isLast}) => {
     const {user} = useAuthStore();
     const navigate = useNavigate();
     const [loading,setLoading] = useState(false);
@@ -46,7 +46,9 @@ const RequestCard = ({request,fetchRequests,isStatusUpdateRequest}) => {
     }
 
   return (
-    <div className='p-5 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg cursor-pointer hover:border-green-500/60 hover:bg-green-50/50 transition-all duration-300'>
+    <div className='p-5 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg cursor-pointer hover:border-green-500/60 hover:bg-green-50/50 transition-all duration-300'
+    ref={isLast ? lastItemRef : null}
+    >
         <div className='flex justify-between items-center'>
             <div className='flex items-center gap-2' onClick={()=>navigate(`/profile/${user?._id}`)}>
                 <div>

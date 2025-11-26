@@ -2,7 +2,7 @@
 import 'primereact/resources/themes/lara-light-green/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { TabGroup, TabList, TabPanel, TabPanels, Tab } from '@headlessui/react'
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import axios from '../Services/axios';
 import { useEffect } from 'react';
 import RequestCard from '../Components/Cards/RequestCard';
@@ -18,17 +18,23 @@ const UserRequests = () => {
     const [volunteerRequests,setVolunteerRequests] = useState([]);
     const [statusUpdateRequests,setStatusUpdateRequests] = useState([]);
     const [loading,setLoading] = useState(false);
+    const [page,setPage] = useState(1);
+    const [hasMore,setHasMore] = useState(true);
+
+    const observerRef = useRef();
 
     const fetchRequests = async()=>{
         try {
             setLoading(true);
-            const volunteerResponse = await axios.get('/users/user-volunteer-requests');
-            const statusUpdateResponse = await axios.get('/users/user-status-update-requests');
+            const volunteerResponse = await axios.get(`/users/user-volunteer-requests?page=${page}&limit=5`);
+            const statusUpdateResponse = await axios.get(`/users/user-status-update-requests?page=${page}&limit=5`);
             if(volunteerResponse.status === 200){
                 setVolunteerRequests(volunteerResponse.data.requests);
+                setHasMore(volunteerResponse.data.hasMore);
             }
             if(statusUpdateResponse.status === 200){
                 setStatusUpdateRequests(statusUpdateResponse.data.requests);
+                setHasMore(statusUpdateResponse.data.hasMore);
             }
             
         } catch (error) {
@@ -47,6 +53,27 @@ const UserRequests = () => {
         console.log(volunteerRequests)
         console.log(statusUpdateRequests)
     },[volunteerRequests,statusUpdateRequests])
+
+    const lastItemRef = useCallback(
+        node=>{
+            if(loading){
+                return;
+            }
+            if(observerRef.current){
+                observerRef.current.disconnect();
+            }
+            if(!node){
+                return;
+            }
+            observerRef.current = new IntersectionObserver(entries=>{
+                if(entries[0].isIntersecting && hasMore){
+                    setPage(prevPage=>prevPage+1);
+                }
+            })
+            observerRef.current.observe(node);
+        },
+        [loading,hasMore]
+    )
 
     if(loading){
         return <div className='flex items-center justify-center h-screen w-screen'>
@@ -76,6 +103,8 @@ const UserRequests = () => {
                                         request={request}
                                         fetchRequests={fetchRequests}
                                         isStatusUpdateRequest={false}
+                                        lastItemRef={lastItemRef}
+                                        isLastItem={index === volunteerRequests.length - 1}
                                     />
                                 ))
                             ) : (
@@ -91,6 +120,8 @@ const UserRequests = () => {
                                 key={index}
                                 request={request}
                                 isStatusUpdateRequest={true}
+                                lastItemRef={lastItemRef}
+                                isLastItem={index === statusUpdateRequests.length - 1}
                             />
                         ))
                     ) : (
