@@ -7,13 +7,18 @@ import { useState } from "react";
 import IssuesCard from "../Components/Cards/IssuesCard";
 import CardSkeleton from "../Skeletons/CardSkeleton";
 import { useAuthStore } from "../lib/authStore";
+import FilterPanel from "../Components/Panels/FilterPanel";
+import toast from "react-hot-toast";
 
 const ExploreIssues = () => {
     const [reports, setReports] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState([]);
+    const [selectedPriority, setSelectedPriority] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState([]);
 
     const {user} = useAuthStore();
 
@@ -39,11 +44,39 @@ const ExploreIssues = () => {
         setLoading(false);
     };
 
-    useEffect(() => {
-        fetchReports(page);
-    }, [page]);
+    const fetchReportsByFilter = async(pageNumber = 1)=>{
+        try {
+            setLoading(true)
+            const response = await axios.get(`/reports/filter`,{
+                params:{
+                    page:pageNumber,
+                    limit:5,
+                    category:selectedCategory.length > 0 ? selectedCategory.join(',') : "",
+                    status:selectedStatus.length > 0 ? selectedStatus.join(',') : "",
+                    priority : selectedPriority.length > 0 ? selectedPriority.join(',') : ""
+                }
+            })
 
+            const newReports = response.data.reports
 
+            if(pageNumber === 1 ){
+                setReports(newReports)
+            } else{
+                const prevIds = new Set(reports.map(r=>r._id));
+                setReports((prev)=>[
+                    ...prev,
+                    ...newReports.filter((r)=>!prevIds.has(r._id))
+                ])
+            }
+            setHasMore(pageNumber < response.data.totalPages)
+
+        } catch (error) {
+            console.log(error)
+            toast.error(error?.response?.data?.message);
+        }finally{
+            setLoading(false)
+        }
+    }
 
     const lastItemRef = useCallback(
         (node) => {
@@ -66,6 +99,26 @@ const ExploreIssues = () => {
         [loading, hasMore]
     );
 
+    const clearFilter = ()=>{
+        setSelectedCategory([])
+        setSelectedPriority([])
+        setSelectedStatus([])
+        fetchReports(1)
+    }
+
+
+
+    useEffect(()=>{
+        if(selectedCategory.length > 0 || selectedPriority.length > 0 || selectedStatus.length > 0 ){
+            fetchReportsByFilter(page)
+        }
+        else{
+            fetchReports(page)
+        }
+    },[page])
+
+
+
     if(loading){
         return <div className="pt-30 px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             <CardSkeleton />
@@ -75,9 +128,23 @@ const ExploreIssues = () => {
         </div>
     }
 
+    
+
     return (
-        <div className="pt-30 px-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="pt-30 px-20     ">
+            <FilterPanel 
+                selectedCategory={selectedCategory}
+                selectedPriority={selectedPriority}
+                selectedStatus={selectedStatus}
+                setSelectedCategory={setSelectedCategory}
+                setSelectedPriority={setSelectedPriority}
+                setSelectedStatus={setSelectedStatus}
+                fetchReportsByFilter={fetchReportsByFilter}
+                setReports={setReports}
+                setPage={setPage}
+                clearFilter={clearFilter}
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
                 {reports.length > 0 ? (
                     reports.map((report, index) => {
                         const isLast = index === reports.length - 1;
