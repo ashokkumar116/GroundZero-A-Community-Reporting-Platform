@@ -239,6 +239,9 @@ const searchReports = async(req,res)=>{
             {category:{$regex:search,$options:'i'}},
             {priority:{$regex:search,$options:'i'}},
             {status:{$regex:search,$options:'i'}},
+            {state:{$regex:search,$options:'i'}},
+            {district:{$regex:search,$options:'i'}},
+            {village:{$regex:search,$options:'i'}}
         ]
     }
 

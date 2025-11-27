@@ -6,6 +6,7 @@ import { InputIcon } from 'primereact/inputicon'
 import { InputText } from 'primereact/inputtext'
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom'
 
 
 const FilterPanel = ({
@@ -19,7 +20,17 @@ const FilterPanel = ({
     setReports,
     fetchReportsByFilter,
     clearFilter,
+    setSearch,
+    search
 }) => {
+
+    const navigate = useNavigate();
+
+    const handleSearch = (e)=>{
+        e.preventDefault();
+        navigate(`/search?search=${search}`)
+    }
+
   return (
     <div className='p-5 border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg cursor-pointer hover:border-green-500/60 hover:bg-green-50/50 transition-all duration-300'>
         <p className='text-gray-600 pb-4'>Filter your issues</p>
@@ -41,6 +52,7 @@ const FilterPanel = ({
                             setReports([])
                             fetchReportsByFilter(1)
                         }}
+                        disabled={selectedCategory.length === 0 && selectedPriority.length === 0 && selectedStatus.length === 0}
                     >
                         <FaRegCircleCheck />
                         <p>Apply</p>
@@ -49,6 +61,7 @@ const FilterPanel = ({
                 <div>
                     <button className={`bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition-all duration-300 flex items-center gap-2 ${selectedCategory.length > 0 || selectedPriority.length > 0 || selectedStatus.length > 0 ? "" : "hidden"}`}
                         onClick={()=>clearFilter()}
+                        disabled={selectedCategory.length === 0 && selectedPriority.length === 0 && selectedStatus.length === 0}
                     >
                         <IoCloseCircleOutline />
                         <p>Clear</p>
@@ -56,10 +69,12 @@ const FilterPanel = ({
                 </div>
             </div>
             <div className='xl:w-1/3'>
-                <IconField iconPosition="left">
-                    <InputIcon className="pi pi-search"> </InputIcon>
-                    <InputText placeholder="Search" />
-                </IconField>
+                <form onSubmit={handleSearch}>
+                    <IconField iconPosition="left">
+                        <InputIcon className="pi pi-search"> </InputIcon>
+                        <InputText placeholder="Search" value={search} onChange={(e)=>setSearch(e.target.value)} />
+                    </IconField>
+                </form>
             </div>
         </div>
     </div>

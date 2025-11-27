@@ -13,6 +13,7 @@ import Profile from "./Pages/Profile";
 import VolunteerWorks from "./Pages/VolunteerWorks";
 import UserReports from "./Pages/UserReports";
 import UserRequests from "./Pages/UserRequests";
+import SearchResults from "./Pages/SearchResults";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="/volunteer-works/:id" element={<UserProtectedRoute><VolunteerWorks /></UserProtectedRoute>}/>
           <Route path="/user-reports/:id" element={<UserProtectedRoute><UserReports /></UserProtectedRoute>}/>
           <Route path="/user-requests" element={<UserProtectedRoute><UserRequests /></UserProtectedRoute>}/>
+          <Route path="/search" element={<SearchResults />}/>
         </Routes>
     </>
   )

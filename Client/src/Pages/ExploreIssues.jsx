@@ -19,6 +19,7 @@ const ExploreIssues = () => {
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedPriority, setSelectedPriority] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState([]);
+    const [search,setSearch] = useState("");
 
     const {user} = useAuthStore();
 
@@ -27,7 +28,7 @@ const ExploreIssues = () => {
     const fetchReports = async (pageNumber) => {
         setLoading(true);
         const res = await axios.get(
-            `/reports/fetchreports?page=${pageNumber}&limit=2`
+            `/reports/fetchreports?page=${pageNumber}&limit=5`
         );
         const newReports = res.data.reports;
 
@@ -50,7 +51,7 @@ const ExploreIssues = () => {
             const response = await axios.get(`/reports/filter`,{
                 params:{
                     page:pageNumber,
-                    limit:2,
+                    limit:5,
                     category:selectedCategory.length > 0 ? selectedCategory.join(',') : "",
                     status:selectedStatus.length > 0 ? selectedStatus.join(',') : "",
                     priority : selectedPriority.length > 0 ? selectedPriority.join(',') : ""
@@ -62,11 +63,13 @@ const ExploreIssues = () => {
             if(pageNumber === 1 ){
                 setReports(newReports)
             } else{
-                const prevIds = new Set(reports.map(r=>r._id));
-                setReports((prev)=>[
-                    ...prev,
-                    ...newReports.filter((r)=>!prevIds.has(r._id))
-                ])
+                setReports((prev) => {
+                    const prevIds = new Set(prev.map((r) => r._id));
+                    return [
+                        ...prev,
+                        ...newReports.filter((r) => !prevIds.has(r._id)),
+                    ];
+                });
             }
             setHasMore(pageNumber < response.data.totalPages);
 
@@ -143,6 +146,8 @@ const ExploreIssues = () => {
                 setReports={setReports}
                 setPage={setPage}
                 clearFilter={clearFilter}
+                setSearch={setSearch}
+                search={search}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
                 {reports.length > 0 ? (
