@@ -176,10 +176,62 @@ const upVote = async(req,res)=>{
     }
 }
 
+const fetchReportsByFilter = async(req,res)=>{
+    
+    try {
+        const {category,priority,status} = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const query = {};
+
+        if(category){
+            const categoryArr = category.split(',');
+            query.category = {$in:categoryArr}
+        }
+
+        if(priority){
+            const priorityArr = priority.split(',');
+            query.priority = {$in:priorityArr}
+        }
+
+        if(status){
+            const statusArr = status.split(',');
+            query.status = {$in:statusArr}
+        }
+
+        const reports = await Reports.find(query)
+                                    .sort({createdAt:-1})
+                                    .skip(skip)
+                                    .limit(limit)
+                                    .populate("reportedBy","username profile_image")
+
+        const totalReports = await Reports.countDocuments();
+
+        return res.status(200).json({
+            message:"Successfully Fetched Reports",
+            reports,
+            currentPage:page,
+            totalPages:Math.ceil(totalReports/limit),
+            totalReports
+
+        })
+    } catch (error) {
+        console.error("Error fetching reports:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+
+
+
+}
+
 module.exports = {
     createReport,
     fetchReports,
     fetchSingleReport,
     addComment,
-    upVote
+    upVote,
+    fetchReportsByFilter
 };
