@@ -224,11 +224,48 @@ const fetchReportsByFilter = async(req,res)=>{
 
 }
 
+const searchReports = async(req,res)=>{
+    const {search} = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const query = {};
+
+    if(search){
+        query.$or = [
+            {title:{$regex:search,$options:'i'}},
+            {description:{$regex:search,$options:'i'}},
+            {category:{$regex:search,$options:'i'}},
+            {priority:{$regex:search,$options:'i'}},
+            {status:{$regex:search,$options:'i'}},
+        ]
+    }
+
+    const reports = await Reports.find(query)
+                                .sort({createdAt:-1})
+                                .skip(skip)
+                                .limit(limit)
+                                .populate("reportedBy","username profile_image")
+
+    const totalReports = await Reports.countDocuments(query);
+
+    return res.status(200).json({
+        message:"Successfully Fetched Reports",
+        reports,
+        currentPage:page,
+        totalPages:Math.ceil(totalReports/limit),
+        totalReports
+
+    })
+}
+
 module.exports = {
     createReport,
     fetchReports,
     fetchSingleReport,
     addComment,
     upVote,
-    fetchReportsByFilter
+    fetchReportsByFilter,
+    searchReports
 };
