@@ -8,7 +8,7 @@ const CategoryEnum = [
     "water",
     "drainage",
     "traffic",
-    "Infrastructure",
+    "infrastructure",
     "other",
 ];
 

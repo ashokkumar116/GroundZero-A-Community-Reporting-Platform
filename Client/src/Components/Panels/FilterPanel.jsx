@@ -15,6 +15,8 @@ const FilterPanel = ({
     setSelectedCategory,
     setSelectedPriority,
     setSelectedStatus,
+    setPage,
+    setReports,
     fetchReportsByFilter,
     clearFilter,
 }) => {
@@ -34,7 +36,11 @@ const FilterPanel = ({
                 </div>
                 <div>
                     <button className='bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600 transition-all duration-300 flex items-center gap-2'
-                        onClick={()=>fetchReportsByFilter()}
+                        onClick={()=>{
+                            setPage(1)
+                            setReports([])
+                            fetchReportsByFilter(1)
+                        }}
                     >
                         <FaRegCircleCheck />
                         <p>Apply</p>

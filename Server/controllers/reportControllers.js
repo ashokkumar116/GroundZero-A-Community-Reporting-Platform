@@ -207,7 +207,7 @@ const fetchReportsByFilter = async(req,res)=>{
                                     .limit(limit)
                                     .populate("reportedBy","username profile_image")
 
-        const totalReports = await Reports.countDocuments();
+        const totalReports = await Reports.countDocuments(query);
 
         return res.status(200).json({
             message:"Successfully Fetched Reports",
@@ -221,9 +221,6 @@ const fetchReportsByFilter = async(req,res)=>{
         console.error("Error fetching reports:", error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
-
-
-
 
 }
 

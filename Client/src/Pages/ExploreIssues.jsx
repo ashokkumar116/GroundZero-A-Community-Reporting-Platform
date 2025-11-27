@@ -27,7 +27,7 @@ const ExploreIssues = () => {
     const fetchReports = async (pageNumber) => {
         setLoading(true);
         const res = await axios.get(
-            `/reports/fetchreports?page=${pageNumber}&limit=5`
+            `/reports/fetchreports?page=${pageNumber}&limit=2`
         );
         const newReports = res.data.reports;
 
@@ -50,7 +50,7 @@ const ExploreIssues = () => {
             const response = await axios.get(`/reports/filter`,{
                 params:{
                     page:pageNumber,
-                    limit:5,
+                    limit:2,
                     category:selectedCategory.length > 0 ? selectedCategory.join(',') : "",
                     status:selectedStatus.length > 0 ? selectedStatus.join(',') : "",
                     priority : selectedPriority.length > 0 ? selectedPriority.join(',') : ""
@@ -68,7 +68,7 @@ const ExploreIssues = () => {
                     ...newReports.filter((r)=>!prevIds.has(r._id))
                 ])
             }
-            setHasMore(pageNumber < response.data.totalPages)
+            setHasMore(pageNumber < response.data.totalPages);
 
         } catch (error) {
             console.log(error)
@@ -131,7 +131,7 @@ const ExploreIssues = () => {
     
 
     return (
-        <div className="pt-30 px-20     ">
+        <div className="pt-30 px-20">
             <FilterPanel 
                 selectedCategory={selectedCategory}
                 selectedPriority={selectedPriority}
@@ -159,7 +159,7 @@ const ExploreIssues = () => {
                         );
                     })
                 ) : (
-                    <p>No Post</p>
+                    <p className="text-gray-600">No Posts Found</p>
                 )}
             </div>
         </div>
