@@ -14,6 +14,15 @@ import VolunteerWorks from "./Pages/VolunteerWorks";
 import UserReports from "./Pages/UserReports";
 import UserRequests from "./Pages/UserRequests";
 import SearchResults from "./Pages/SearchResults";
+import AdminProtectedRoute from "./ProtectedRoutes/AdminProtectedRoute";
+import AdminLayout from "./Layouts/AdminLayout";
+import Dashboard from "./Pages/AdminPages/Dashboard";
+import ManageUsers from "./Pages/AdminPages/ManageUsers";
+import ManageReports from "./Pages/AdminPages/ManageReports";
+import ReviewRequests from "./Pages/AdminPages/ReviewRequests";
+import ManageCategories from "./Pages/AdminPages/ManageCategories";
+import ManageSupport from "./Pages/AdminPages/ManageSupport";
+import ManageAnnouncements from "./Pages/AdminPages/ManageAnnouncements";
 
 function App() {
 
@@ -41,6 +50,18 @@ function App() {
           <Route path="/user-reports/:id" element={<UserProtectedRoute><UserReports /></UserProtectedRoute>}/>
           <Route path="/user-requests" element={<UserProtectedRoute><UserRequests /></UserProtectedRoute>}/>
           <Route path="/search" element={<SearchResults />}/>
+          <Route path="/admin" element={<AdminProtectedRoute />}>
+              <Route element={<AdminLayout />}>
+                  <Route index element={<Navigate to="dashboard" />} replace />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="users" element={<ManageUsers />} />
+                  <Route path="reports" element={<ManageReports />} />
+                  <Route path="requests" element={<ReviewRequests />} />
+                  <Route path="categories" element={<ManageCategories />} />
+                  <Route path="support" element={<ManageSupport />} />
+                  <Route path="announcements" element={<ManageAnnouncements />} />
+              </Route>
+          </Route>
         </Routes>
     </>
   )

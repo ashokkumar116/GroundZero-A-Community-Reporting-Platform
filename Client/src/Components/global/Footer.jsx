@@ -1,4 +1,13 @@
+import { useLocation } from "react-router-dom";
+
 const Footer = () => {
+
+    const {pathname} = useLocation();
+    const isAdminPanel = pathname.startsWith('/admin');
+
+    if(isAdminPanel){
+        return null;
+    }
 
         const linkSections = [
         {

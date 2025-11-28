@@ -1,6 +1,7 @@
 import { OverlayPanel } from "primereact/overlaypanel";
 import { ProfileMenuItems } from "../../../Contents/constants";
 import { useAuthStore } from "../../lib/authStore";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -8,6 +9,7 @@ const ProfileOverlayPanel = ({panelRef}) => {
 
     const {user} = useAuthStore();
     const userId = user?._id;
+
 
 
     return (
@@ -19,9 +21,12 @@ const ProfileOverlayPanel = ({panelRef}) => {
                     }
                     const link = item.name === "Profile" ? `/profile/${userId}` : item.name === "Volunteer Works" ? `/volunteer-works/${userId}` : item.name === "My Reports" ? `/user-reports/${userId}` : item.link;
                 return (
+                    
                     <a 
                         href={link}
-                        className="hover:bg-gray-100 p-2 rounded-lg cursor-pointer flex items-center gap-2 text-sm transition"
+                        className={`hover:bg-gray-100 p-2 rounded-lg cursor-pointer flex items-center gap-2 text-sm transition ${
+                            item.name === "Admin Panel" ? user?.isAdmin ? "" : "hidden" : ""
+                        }`}
                         key={index}
                     >
                         <item.icon />

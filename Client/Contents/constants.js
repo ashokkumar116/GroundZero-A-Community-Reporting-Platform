@@ -2,12 +2,25 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineVolunteerActivism } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 import { LuHandshake } from "react-icons/lu";
+import { RiAdminLine } from "react-icons/ri";
+import { MdOutlineDashboard } from "react-icons/md";
+import { FiUsers } from "react-icons/fi";
+import { FiCheckCircle } from "react-icons/fi";
+import { FaRegFolderOpen } from "react-icons/fa";
+import { MdOutlineChatBubbleOutline } from "react-icons/md";
+import { GrAnnounce } from "react-icons/gr";
+
 
 export const ProfileMenuItems = [
     {
         name: "Profile",
         icon:FaRegUser,
         link:"/profile"
+    },
+    {
+        name:"Admin Panel",
+        icon:RiAdminLine,
+        link:"/admin"
     },
     {
         name: "My Requests",
@@ -94,6 +107,44 @@ export const Status = [
     {
         name:"Resolved",
         value:"resolved"
+    }
+]
+
+export const AdminMenuItems = [
+    {
+        name:"Dashboard",
+        icon:MdOutlineDashboard,
+        link:"/admin/dashboard"
+    },
+    {
+        name:"Manage Users",
+        icon:FiUsers,
+        link:"/admin/users"
+    },
+    {
+        name:"Manage Reports",
+        icon:TbReportAnalytics,
+        link:"/admin/reports"
+    },
+    {
+        name:"Review Requests",
+        icon:FiCheckCircle,
+        link:"/admin/requests"
+    },
+    {
+        name:"Issue Categories",
+        icon:FaRegFolderOpen,
+        link:"/admin/categories"
+    },
+    {
+        name:"Support / Contact",
+        icon:MdOutlineChatBubbleOutline,
+        link:"/admin/support"
+    },
+    {
+        name:"Announcements",
+        icon:GrAnnounce,
+        link:"/admin/announcements"
     }
 ]
 

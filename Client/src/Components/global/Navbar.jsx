@@ -12,6 +12,9 @@ import NavStarted from "./NavStarted";
 const Navbar = () => {
 
     const location = useLocation();
+    const isAdminPanel = location.pathname.startsWith('/admin');
+    
+
 
     const isHome = location.pathname === '/';
 
@@ -44,10 +47,14 @@ const Navbar = () => {
 
         const userId = user?._id;
 
+        if(isAdminPanel){
+            return null;
+        }
+
     if(isHome){
         return (
             <div>
-                <ProfileOverlayPanel panelRef={op} />
+                <ProfileOverlayPanel panelRef={op} userId={userId} key={userId ?? "nouser"}/>
                 <nav
                     className={` z-50 flex items-center justify-around lg:justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm transition-all duration-500 ease-in-out 
                         ${scrolled
