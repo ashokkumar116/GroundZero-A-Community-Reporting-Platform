@@ -141,7 +141,66 @@ const reviewStatusUpdateRequest = async (req, res) => {
     }
 };
 
+const getUsers = async(req,res)=>{
+    try {
+        const users = await User.aggregate([
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"reportedBy",
+                    as:"reports"
+                }
+            },{
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"volunteers.volunteer",
+                    as:"volunteeredReports"
+                }
+            },
+            {
+                $project:{
+                    username:1,
+                    email:1,
+                    profile_image:1,
+                    isAdmin:1,
+                    createdAt:1,
+                    postCount:{$size:"$reports"},
+                    volunteeredCount:{$size:"$volunteeredReports"}
+                }
+            },{
+                $sort:{
+                    createdAt:-1
+                }
+            }
+        ])
+
+        const formattedUsers = users.map(u => ({
+            user: {
+                username: u.username,
+                email: u.email,
+                profile_image: u.profile_image,
+            },
+            isAdmin: u.isAdmin,
+            joined: u.createdAt,
+            postCount: u.postCount,
+            volunteeredCount: u.volunteeredCount
+        }));
+        
+        return res.status(200).json({
+            message:"Users Fetched Successfully",
+            users:formattedUsers
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
+    getUsers,
 };
