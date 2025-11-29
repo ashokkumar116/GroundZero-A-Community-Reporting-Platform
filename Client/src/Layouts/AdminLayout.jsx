@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet ,Navigate, useNavigate} from 'react-router-dom'
 import { AdminMenuItems } from '../../Contents/constants'
 import { NavLink } from 'react-router-dom'
 import { useAuthStore } from '../lib/authStore'
@@ -8,9 +8,11 @@ import ProfileOverlayPanel from '../Components/Overlays/ProfileOverlayPanel'
 
 
 const SideBar = ()=>{
+
+    const navigate = useNavigate();
     return(
         <div className='flex flex-col h-screen gap-6'>
-            <div className='flex items-center gap-2 justify-center p-4 border-b border-gray-500/30'>
+            <div className='flex items-center gap-2 justify-center p-4 border-b border-gray-500/30 cursor-pointer' onClick={()=>navigate('/')}>
                 <div>
                     <img src="/icon.png" alt="icon" className='w-10 h-10 bg-green-100 p-1 rounded-md border border-green-500/50' />
                 </div>
