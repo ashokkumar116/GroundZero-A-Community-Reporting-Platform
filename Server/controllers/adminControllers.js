@@ -231,9 +231,45 @@ const editUser = async(req,res)=>{
     }
 }
 
+const makeAdmin = async(req,res)=>{
+    try {
+        
+        const userId = req.params.id;
+
+        const user = await User.findById(userId).select("-password");
+
+        if(!user){
+            return res.status(400).json({
+                message:"User Not Found"
+            })
+        }
+
+        if(user.isAdmin){
+            return res.status(400).json({
+                message:"User is already an Admin"
+            })
+        }
+
+        user.isAdmin = true;
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"User Promoted to Admin Successfully",
+            user
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
     getUsers,
-    editUser
+    editUser,
+    makeAdmin
 };
