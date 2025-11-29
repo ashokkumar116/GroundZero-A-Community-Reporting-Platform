@@ -199,8 +199,41 @@ const getUsers = async(req,res)=>{
     }
 }
 
+const editUser = async(req,res)=>{
+    try {
+        const userId = req.params.id;
+
+        const {username,bio,phone,dob,village_name,district,state,pincode} = req.body;
+
+        const user = await User.findById(userId).select("-password");
+
+        user.username = username || user.username;
+        user.bio = bio || user.bio;
+        user.phone = phone || user.phone;
+        if(dob){
+            user.dob = dob;
+        }
+        user.village_name = village_name || user.village_name
+        user.district = district || user.district
+        user.state = state || user.state
+        user.pincode = pincode || user.pincode
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"Profile Updated Successfully",
+            user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
     getUsers,
+    editUser
 };
