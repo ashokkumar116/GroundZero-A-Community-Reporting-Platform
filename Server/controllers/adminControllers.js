@@ -279,10 +279,100 @@ const makeAdmin = async(req,res)=>{
     }
 }
 
+const searchUsers = async(req,res)=>{
+    try {
+        const search = req.query.search;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const users = await User.aggregate([
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"reportedBy",
+                    as:"reports"
+                }
+            },
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"volunteers.volunteer",
+                    as:"volunteeredReports"
+                }
+            },
+            {
+                $project:{
+                    username:1,
+                    email:1,
+                    profile_image:1,
+                    isAdmin:1,
+                    createdAt:1,
+                    postCount:{$size:"$reports"},
+                    volunteeredCount:{$size:"$volunteeredReports"}
+                }
+            },
+            {
+                $sort:{
+                    createdAt:-1
+                }
+            },
+            {
+                $match:{
+                    $or:[
+                        {username:{$regex:search,$options:"i"}},
+                        {email:{$regex:search,$options:"i"}}
+                    ]
+                }
+            },
+            {
+                $skip:skip
+            },
+            {
+                $limit:limit
+            }
+        ])
+
+        const formattedUsers = users.map(u => ({
+            user: {
+                username: u.username,
+                email: u.email,
+                profile_image: u.profile_image,
+            },
+            isAdmin: u.isAdmin,
+            joined: u.createdAt,
+            postCount: u.postCount,
+            volunteeredCount: u.volunteeredCount
+        }));
+
+        const total = await User.countDocuments({
+            $or:[
+                {username:{$regex:search,$options:"i"}},
+                {email:{$regex:search,$options:"i"}}
+            ]
+        });
+
+        return res.status(200).json({
+            message:"Users Searched Successfully",
+            users:formattedUsers,
+            currentPage:page,
+            totalUsers:total,
+            totalPages:Math.ceil(total/limit)
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
     getUsers,
     editUser,
-    makeAdmin
+    makeAdmin,
+    searchUsers
 };
