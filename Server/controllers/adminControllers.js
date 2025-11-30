@@ -444,7 +444,7 @@ const getReports = async(req,res)=>{
         const skip = (page - 1) * limit;
 
         const reports = await Reports.find({})
-                                     .select("_id title status priority village district state pincode createdAt reportedBy")
+                                     .select("_id title status priority category village district state pincode createdAt reportedBy")
                                      .populate("reportedBy","username profile_image")
                                      .sort({createdAt:-1})
                                      .skip(skip)

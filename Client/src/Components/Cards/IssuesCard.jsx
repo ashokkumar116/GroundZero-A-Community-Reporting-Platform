@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Badge from "../UI/Badge";
+import Badge from "../Badge/Badge";
 import { CiLocationOn } from "react-icons/ci";
 import ProfileOverlay from "../Overlays/ProfileOverlay";
 import { BiUpvote } from "react-icons/bi";
