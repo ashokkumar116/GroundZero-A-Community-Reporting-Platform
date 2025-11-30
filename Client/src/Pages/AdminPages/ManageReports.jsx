@@ -24,11 +24,16 @@ const ManageReports = () => {
   const [page,setPage] = useState(1);
   const [totalPages,setTotalPages] = useState(1);
   const [limit,setLimit] = useState(2);
+  const [searchMode,setSearchMode] = useState(false);
+  const [searching,setSearching] = useState(false);
 
   const navigate = useNavigate();
 
   const getReports = async()=>{
     try {
+      if(searching){
+        return;
+      }
       const response = await axios.get('/admin/reports',{
         params:{
           page,
@@ -43,9 +48,44 @@ const ManageReports = () => {
     }
   }
 
+  const searchReports = async(pageNumber=page)=>{
+    try {
+      const response = await axios.get('/admin/searchreports',{
+      params:{
+        search,
+        page:pageNumber,
+        limit
+      }
+    });
+    setReports(response.data.reports);
+    setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch reports");
+    }
+  }
+
+  const handleSearch = () => {
+    setPage(1);
+    setSearching(true);
+    setSearchMode(true);
+    if(search.trim() === ''){
+      setSearching(false);
+      setSearchMode(false);
+      getReports();
+      return;
+    }
+    searchReports();
+    setSearching(false);
+  };
+
   useEffect(()=>{
-    getReports();
-  },[page,limit])
+    if(searchMode){
+      searchReports();
+    }else{
+      getReports();
+    }
+  },[page,limit,searchMode])
 
   const titleBodyTemplate = (report) => {
     return (
@@ -124,7 +164,7 @@ const ManageReports = () => {
         </div>
         <div className='flex justify-between items-center p-5 bg-white shadow-md mt-5 rounded-lg'>
           <div>
-            <form onSubmit={()=>{}}>
+            <form onSubmit={(e)=>{e.preventDefault();handleSearch();}}>
               <IconField iconPosition="left">
                   <InputIcon className="pi pi-search"> </InputIcon>
                   <InputText placeholder="Search Reports" value={search} onChange={(e)=>setSearch(e.target.value)} />

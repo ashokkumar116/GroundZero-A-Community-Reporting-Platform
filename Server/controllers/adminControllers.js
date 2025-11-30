@@ -500,6 +500,7 @@ const searchReports = async(req,res)=>{
                 {title:{$regex:search,$options:"i"}},
                 {description:{$regex:search,$options:"i"}},
                 {category:{$regex:search,$options:"i"}},
+                {priority:{$regex:search,$options:"i"}},
                 {village:{$regex:search,$options:"i"}},
                 {district:{$regex:search,$options:"i"}},
                 {state:{$regex:search,$options:"i"}}
@@ -516,6 +517,7 @@ const searchReports = async(req,res)=>{
                 {title:{$regex:search,$options:"i"}},
                 {description:{$regex:search,$options:"i"}},
                 {category:{$regex:search,$options:"i"}},
+                {priority:{$regex:search,$options:"i"}},
                 {village:{$regex:search,$options:"i"}},
                 {district:{$regex:search,$options:"i"}},
                 {state:{$regex:search,$options:"i"}}
