@@ -165,10 +165,18 @@ const getUsers = async(req,res)=>{
             },
             {
                 $project:{
+                    _id:1,
                     username:1,
+                    bio:1,
                     email:1,
                     profile_image:1,
                     isAdmin:1,
+                    phone:1,
+                    dob:1,
+                    village_name:1,
+                    district:1,
+                    state:1,
+                    pincode:1,
                     createdAt:1,
                     postCount:{$size:"$reports"},
                     volunteeredCount:{$size:"$volunteeredReports"}
@@ -188,14 +196,24 @@ const getUsers = async(req,res)=>{
 
         const formattedUsers = users.map(u => ({
             user: {
+                _id: u._id,
                 username: u.username,
                 email: u.email,
                 profile_image: u.profile_image,
             },
+            username:u.username,
+            bio:u.bio,
+            phone:u.phone,
+            dob:u.dob,
+            village_name:u.village_name,
+            district:u.district,
+            state:u.state,
+            pincode:u.pincode,
             isAdmin: u.isAdmin,
             joined: u.createdAt,
             postCount: u.postCount,
-            volunteeredCount: u.volunteeredCount
+            volunteeredCount: u.volunteeredCount,
+
         }));
         
         return res.status(200).json({
@@ -305,13 +323,21 @@ const searchUsers = async(req,res)=>{
             },
             {
                 $project:{
+                    _id:1,
                     username:1,
                     email:1,
                     profile_image:1,
                     isAdmin:1,
                     createdAt:1,
                     postCount:{$size:"$reports"},
-                    volunteeredCount:{$size:"$volunteeredReports"}
+                    volunteeredCount:{$size:"$volunteeredReports"},
+                    bio:1,
+                    phone:1,
+                    dob:1,
+                    village_name:1,
+                    district:1,
+                    state:1,
+                    pincode:1
                 }
             },
             {
@@ -337,10 +363,19 @@ const searchUsers = async(req,res)=>{
 
         const formattedUsers = users.map(u => ({
             user: {
+                _id: u._id,
                 username: u.username,
                 email: u.email,
                 profile_image: u.profile_image,
             },
+            username:u.username,
+            bio:u.bio,
+            phone:u.phone,
+            dob:u.dob,
+            village_name:u.village_name,
+            district:u.district,
+            state:u.state,
+            pincode:u.pincode,
             isAdmin: u.isAdmin,
             joined: u.createdAt,
             postCount: u.postCount,
