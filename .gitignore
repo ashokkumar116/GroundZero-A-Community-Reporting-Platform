@@ -1,2 +1,16 @@
 node_modules
 .vscode
+
+# Test coverage reports
+coverage/
+.nyc_output/
+*.lcov
+
+# Test artifacts
+__tests__/coverage/
+Client/coverage/
+Server/coverage/
+
+# Vitest
+Client/.vitest/
+
