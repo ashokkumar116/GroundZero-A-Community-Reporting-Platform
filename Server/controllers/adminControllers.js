@@ -437,6 +437,56 @@ const searchUsers = async(req,res)=>{
     }
 }
 
+const getReports = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const reports = await Reports.find({})
+                                     .select("_id title status priority village district state pincode createdAt reportedBy")
+                                     .populate("reportedBy","username profile_image")
+                                     .sort({createdAt:-1})
+                                     .skip(skip)
+                                     .limit(limit);
+
+        const total = await Reports.countDocuments();
+
+        const formattedReports = reports.map(report => ({
+            _id: report._id,
+            title: {
+                title: report.title,
+                location: {
+                    village: report.village,
+                    district: report.district,
+                    state: report.state,
+                    pincode: report.pincode
+                }
+            },
+            category: report.category,
+            priority: report.priority,
+            status: report.status,
+            reportedAt: report.createdAt,
+            reportedBy: {
+                username: report.reportedBy.username,
+                profile_image: report.reportedBy.profile_image
+            }
+        }));
+
+        return res.status(200).json({
+            message:"Reports Fetched Successfully",
+            reports:formattedReports,
+            currentPage:page,
+            totalReports:total,
+            totalPages:Math.ceil(total/limit)
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -444,5 +494,6 @@ module.exports = {
     editUser,
     makeAdmin,
     removeAdmin,
-    searchUsers
+    searchUsers,
+    getReports
 };
