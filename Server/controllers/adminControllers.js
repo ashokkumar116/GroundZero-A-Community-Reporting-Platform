@@ -297,6 +297,40 @@ const makeAdmin = async(req,res)=>{
     }
 }
 
+const removeAdmin = async(req,res)=>{
+    try {
+        
+        const userId = req.params.id;
+
+        const user = await User.findById(userId).select("-password");
+
+        if(!user){
+            return res.status(400).json({
+                message:"User Not Found"
+            })
+        }
+
+        if(!user.isAdmin){
+            return res.status(400).json({
+                message:"User is not an Admin"
+            })
+        }
+
+        user.isAdmin = false;
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"User Demoted to User Successfully",
+            user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 const searchUsers = async(req,res)=>{
     try {
         const search = req.query.search;
@@ -409,5 +443,6 @@ module.exports = {
     getUsers,
     editUser,
     makeAdmin,
+    removeAdmin,
     searchUsers
 };
