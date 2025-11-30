@@ -562,6 +562,52 @@ const searchReports = async(req,res)=>{
     }
 }
 
+const editReport = async(req,res)=>{
+    try {
+        const reportId = req.params.id;
+        const {title,description,category,priority,village,district,state,pincode} = req.body;
+        const images = req.files;
+        const report = await Reports.findById(reportId);
+
+        if(!report){
+            return res.status(404).json({
+                message:"Report Not Found"
+            })
+        }
+
+        report.title = title;
+        report.description = description;
+        report.category = category;
+        report.priority = priority;
+        report.village = village;
+        report.district = district;
+        report.state = state;
+        report.pincode = pincode;
+        report.updatedAt = Date.now();
+        if(images){
+            const links = images.map(image=>{
+                return(
+                    {
+                        url:image.path,
+                        publicId:image.filename
+                    }
+                )
+            })
+            report.images = [...report.images,...links];
+        }
+        await report.save();
+        return res.status(200).json({
+            message:"Report Updated Successfully",
+            report
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -571,5 +617,6 @@ module.exports = {
     removeAdmin,
     searchUsers,
     getReports,
-    searchReports
+    searchReports,
+    editReport
 };
