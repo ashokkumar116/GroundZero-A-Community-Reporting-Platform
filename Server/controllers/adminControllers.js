@@ -2,6 +2,7 @@ const Reports = require("../models/Reports");
 const StatusUpdateRequest = require("../models/StatusUpdateRequest");
 const User = require("../models/User");
 const VolunteerRequest = require("../models/VolunteerRequest");
+const { cloudinary } = require("../Services/cloudinary");
 
 const reviewVolunteerRequest = async (req, res) => {
     const { status } = req.body;
@@ -437,6 +438,216 @@ const searchUsers = async(req,res)=>{
     }
 }
 
+const getReports = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const reports = await Reports.find({})
+                                     .select("_id title status priority category village district state pincode description images createdAt reportedBy")
+                                     .populate("reportedBy","username profile_image")
+                                     .sort({createdAt:-1})
+                                     .skip(skip)
+                                     .limit(limit);
+
+        const total = await Reports.countDocuments();
+
+        const formattedReports = reports.map(report => ({
+            _id: report._id,
+            title: {
+                title: report.title,
+                location: {
+                    village: report.village,
+                    district: report.district,
+                    state: report.state,
+                    pincode: report.pincode
+                }
+            },
+            description:report.description,
+            pincode:report.pincode,
+            village:report.village,
+            district:report.district,
+            state:report.state,
+            category: report.category,
+            priority: report.priority,
+            status: report.status,
+            images:report.images,
+            reportedAt: report.createdAt,
+            reportedBy: {
+                _id: report.reportedBy._id,
+                username: report.reportedBy.username,
+                profile_image: report.reportedBy.profile_image
+            }
+        }));
+
+        return res.status(200).json({
+            message:"Reports Fetched Successfully",
+            reports:formattedReports,
+            currentPage:page,
+            totalReports:total,
+            totalPages:Math.ceil(total/limit)
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const searchReports = async(req,res)=>{
+    try {
+        const search = req.query.search;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1) * limit;
+
+        const reports = await Reports.find({
+            $or:[
+                {title:{$regex:search,$options:"i"}},
+                {description:{$regex:search,$options:"i"}},
+                {category:{$regex:search,$options:"i"}},
+                {priority:{$regex:search,$options:"i"}},
+                {village:{$regex:search,$options:"i"}},
+                {district:{$regex:search,$options:"i"}},
+                {state:{$regex:search,$options:"i"}}
+            ]
+        })
+        .select("_id title status priority category village district state pincode description images createdAt reportedBy")
+        .populate("reportedBy","username profile_image")
+        .sort({createdAt:-1})
+        .skip(skip)
+        .limit(limit);
+
+        const totalReports = await Reports.countDocuments({
+            $or:[
+                {title:{$regex:search,$options:"i"}},
+                {description:{$regex:search,$options:"i"}},
+                {category:{$regex:search,$options:"i"}},
+                {priority:{$regex:search,$options:"i"}},
+                {village:{$regex:search,$options:"i"}},
+                {district:{$regex:search,$options:"i"}},
+                {state:{$regex:search,$options:"i"}}
+            ]
+        })
+
+        const formattedReports = reports.map(report => ({
+            _id: report._id,
+            title: {
+                title: report.title,
+                location: {
+                    village: report.village,
+                    district: report.district,
+                    state: report.state,
+                    pincode: report.pincode
+                }
+            },
+            description:report.description,
+            pincode:report.pincode,
+            village:report.village,
+            district:report.district,
+            state:report.state,
+            category: report.category,
+            priority: report.priority,
+            status: report.status,
+            images:report.images,
+            reportedAt: report.createdAt,
+            reportedBy: {
+                _id: report.reportedBy._id,
+                username: report.reportedBy.username,
+                profile_image: report.reportedBy.profile_image
+            }
+        }))
+
+        return res.status(200).json({
+            message:"Reports Searched Successfully",
+            reports:formattedReports,
+            currentPage:page,
+            totalReports:totalReports,
+            totalPages:Math.ceil(totalReports/limit)
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const editReport = async(req,res)=>{
+    try {
+        const reportId = req.params.id;
+        const {title,description,category,priority,village,district,state,pincode} = req.body;
+        const images = req.files;
+        const report = await Reports.findById(reportId);
+
+        if(!report){
+            return res.status(404).json({
+                message:"Report Not Found"
+            })
+        }
+
+        report.title = title;
+        report.description = description;
+        report.category = category;
+        report.priority = priority;
+        report.village = village;
+        report.district = district;
+        report.state = state;
+        report.pincode = pincode;
+        report.updatedAt = Date.now();
+        if(images){
+            const links = images.map(image=>{
+                return(
+                    {
+                        url:image.path,
+                        publicId:image.filename
+                    }
+                )
+            })
+            report.images = [...report.images,...links];
+        }
+        await report.save();
+        return res.status(200).json({
+            message:"Report Updated Successfully",
+            report
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const deleteReport = async(req,res)=>{
+    try {
+        const reportId = req.params.id;
+        const report = await Reports.findById(reportId);
+        if(!report){
+            return res.status(404).json({
+                message:"Report Not Found"
+            })
+        }
+
+        report.images.forEach(image=>{
+            cloudinary.uploader.destroy(image.publicId);
+        })
+
+        await report.deleteOne();
+
+        return res.status(200).json({
+            message:"Report Deleted Successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -444,5 +655,9 @@ module.exports = {
     editUser,
     makeAdmin,
     removeAdmin,
-    searchUsers
+    searchUsers,
+    getReports,
+    searchReports,
+    editReport,
+    deleteReport
 };

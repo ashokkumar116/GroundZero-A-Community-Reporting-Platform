@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { NextArrow, PrevArrow } from "../Components/UI/Arrows";
 import { formatDate } from "../utils/formatDate";
 import { CiLocationOn } from "react-icons/ci";
-import Badge from "../Components/UI/Badge";
+import Badge from "../Components/Badge/Badge";
 import { formatStatus } from "../utils/formatStatus";
 import { FaRegEye } from "react-icons/fa";
 import { BiSolidUpvote, BiUpvote } from "react-icons/bi";
