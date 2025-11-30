@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
-import React from 'react'
+import React, { useRef } from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -17,15 +17,22 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { Dropdown } from 'primereact/dropdown';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { OverlayPanel } from 'primereact/overlaypanel';
+import ReportActionOverlay from '../../Components/Overlays/ReportActionOverlay';
+import ReportEditModal from '../../Components/Modals/ReportEditModal';
 
 const ManageReports = () => {
   const [search,setSearch] = useState('');
   const [reports,setReports] = useState([]);
   const [page,setPage] = useState(1);
   const [totalPages,setTotalPages] = useState(1);
-  const [limit,setLimit] = useState(2);
+  const [limit,setLimit] = useState(5);
   const [searchMode,setSearchMode] = useState(false);
   const [searching,setSearching] = useState(false);
+  const [selectedReport,setSelectedReport] = useState(null);
+  const [modalVisible,setModalVisible] = useState(false);
+
+  const op =useRef(null)
 
   const navigate = useNavigate();
 
@@ -90,10 +97,10 @@ const ManageReports = () => {
   const titleBodyTemplate = (report) => {
     return (
       <div className='flex flex-col gap-2'>
-        <p className='capitalize text-black font-semibold text-sm hover:underline transition cursor-pointer' onClick={()=>navigate(`/issues/${report._id}`)}>{report.title.title}</p>
+        <p className='capitalize text-black font-semibold text-sm hover:underline transition cursor-pointer' onClick={()=>navigate(`/issues/${report._id}`)}>{report?.title?.title}</p>
         <div className='flex items-center gap-2'>
           <IoLocationOutline/>
-          <p className='capitalize text-gray-600 text-xs'>{report.title.location.village}, {report.title.location.district}, {report.title.location.state}</p>
+          <p className='capitalize text-gray-600 text-xs'>{report?.title?.location?.village}, {report?.title?.location?.district}, {report?.title?.location?.state}</p>
         </div>
       </div>
     );
@@ -142,7 +149,10 @@ const ManageReports = () => {
 
   const actionBodyTemplate = (report) => {
     return (
-      <div onClick={()=>{}}>
+      <div onClick={(e)=>{
+        op.current.toggle(e)
+        setSelectedReport(report)
+      }}>
         <BsThreeDotsVertical className='p-2 hover:bg-gray-200 transition rounded-full text-3xl cursor-pointer' />
       </div>
     );
@@ -150,6 +160,7 @@ const ManageReports = () => {
 
   return (
     <div>
+        <ReportEditModal report={selectedReport} setModalVisible={setModalVisible} modalVisible={modalVisible} getReports={getReports} />
         <div className='flex justify-between items-center'>
           <div className='flex flex-col gap-2'>
             <h1 className='text-2xl font-bold'>Manage Reports</h1>
@@ -181,6 +192,7 @@ const ManageReports = () => {
           </div>
         </div>
         <div className='mt-5'>
+          <ReportActionOverlay selectedReport={selectedReport} setModalVisible={setModalVisible} getReports={getReports} panelRef={op} />
           <DataTable value={reports} size="small" sortMode='multiple' removableSort>
             <Column field='title' header='Title' body={titleBodyTemplate} sortable />
             <Column field='category' header='Category' sortable body={categoryBodyTemplate} />

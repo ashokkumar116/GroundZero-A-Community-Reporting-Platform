@@ -55,13 +55,13 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
-.p-datepicker .p-highlight {
+/* .p-datepicker .p-highlight {
   color: white !important;
 }
 
 .p-autocomplete-panel .p-highlight {
   color: white !important;
-}
+} */
 
 /* Text color for sorted column header */
 /* .p-datatable .p-sortable-column.p-highlight {

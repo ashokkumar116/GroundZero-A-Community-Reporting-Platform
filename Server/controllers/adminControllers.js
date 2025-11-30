@@ -444,7 +444,7 @@ const getReports = async(req,res)=>{
         const skip = (page - 1) * limit;
 
         const reports = await Reports.find({})
-                                     .select("_id title status priority category village district state pincode createdAt reportedBy")
+                                     .select("_id title status priority category village district state pincode description images createdAt reportedBy")
                                      .populate("reportedBy","username profile_image")
                                      .sort({createdAt:-1})
                                      .skip(skip)
@@ -463,9 +463,15 @@ const getReports = async(req,res)=>{
                     pincode: report.pincode
                 }
             },
+            description:report.description,
+            pincode:report.pincode,
+            village:report.village,
+            district:report.district,
+            state:report.state,
             category: report.category,
             priority: report.priority,
             status: report.status,
+            images:report.images,
             reportedAt: report.createdAt,
             reportedBy: {
                 _id: report.reportedBy._id,
@@ -506,7 +512,7 @@ const searchReports = async(req,res)=>{
                 {state:{$regex:search,$options:"i"}}
             ]
         })
-        .select("_id title status priority category village district state pincode createdAt reportedBy")
+        .select("_id title status priority category village district state pincode description images createdAt reportedBy")
         .populate("reportedBy","username profile_image")
         .sort({createdAt:-1})
         .skip(skip)
@@ -535,9 +541,15 @@ const searchReports = async(req,res)=>{
                     pincode: report.pincode
                 }
             },
+            description:report.description,
+            pincode:report.pincode,
+            village:report.village,
+            district:report.district,
+            state:report.state,
             category: report.category,
             priority: report.priority,
             status: report.status,
+            images:report.images,
             reportedAt: report.createdAt,
             reportedBy: {
                 _id: report.reportedBy._id,
