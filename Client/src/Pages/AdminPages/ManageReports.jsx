@@ -16,6 +16,7 @@ import StatusBadge from '../../Components/Badge/StatusBadge';
 import { IoLocationOutline } from 'react-icons/io5';
 import { Dropdown } from 'primereact/dropdown';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 const ManageReports = () => {
   const [search,setSearch] = useState('');
@@ -23,6 +24,8 @@ const ManageReports = () => {
   const [page,setPage] = useState(1);
   const [totalPages,setTotalPages] = useState(1);
   const [limit,setLimit] = useState(2);
+
+  const navigate = useNavigate();
 
   const getReports = async()=>{
     try {
@@ -47,7 +50,7 @@ const ManageReports = () => {
   const titleBodyTemplate = (report) => {
     return (
       <div className='flex flex-col gap-2'>
-        <p className='capitalize text-black font-semibold text-sm'>{report.title.title}</p>
+        <p className='capitalize text-black font-semibold text-sm hover:underline transition cursor-pointer' onClick={()=>navigate(`/issues/${report._id}`)}>{report.title.title}</p>
         <div className='flex items-center gap-2'>
           <IoLocationOutline/>
           <p className='capitalize text-gray-600 text-xs'>{report.title.location.village}, {report.title.location.district}, {report.title.location.state}</p>
@@ -90,7 +93,8 @@ const ManageReports = () => {
 
   const reportedByBodyTemplate = (report) => {
     return (
-      <div>
+      <div className='flex items-center gap-2 justify-center cursor-pointer hover:bg-gray-100/60 transition rounded-full p-2 ' onClick={()=>navigate(`/profile/${report.reportedBy._id}`)}>
+        <img src={report.reportedBy.profile_image} alt="" className='w-8 h-8 rounded-full' />
         <p>{report.reportedBy.username}</p>
       </div>
     );

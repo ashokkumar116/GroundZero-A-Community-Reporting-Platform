@@ -468,6 +468,7 @@ const getReports = async(req,res)=>{
             status: report.status,
             reportedAt: report.createdAt,
             reportedBy: {
+                _id: report.reportedBy._id,
                 username: report.reportedBy.username,
                 profile_image: report.reportedBy.profile_image
             }
