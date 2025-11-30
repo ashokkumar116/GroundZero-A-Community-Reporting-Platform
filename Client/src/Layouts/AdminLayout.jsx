@@ -69,7 +69,7 @@ const AdminLayout = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='pl-70 pt-30 h-screen overflow-y-auto border-b border-gray-500/30'>
+                    <div className='pl-70 pr-10 pb-10 pt-30 h-screen overflow-y-auto border-b border-gray-500/30'>
                         <Outlet />
                     </div>
                 </div>

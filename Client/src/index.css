@@ -63,5 +63,15 @@ body {
   color: white !important;
 }
 
+/* Text color for sorted column header */
+/* .p-datatable .p-sortable-column.p-highlight {
+  color: #ffffff !important;     /* Make text white */
+/* } */ 
+
+/* If you want the sort icon to turn white also */
+/* .p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+  color: #ffffff !important;
+} */
+
 
 
