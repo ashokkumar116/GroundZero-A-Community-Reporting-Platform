@@ -13,7 +13,7 @@ import { AiOutlineSave } from "react-icons/ai";
 import axios from "../../Services/axios";
 import toast from "react-hot-toast";
 
-const ProfileEditModal = ({ visible, setVisible, user , fetchUser}) => {
+const ProfileEditModal = ({ visible, setVisible, user , fetchUser,isAdmin}) => {
 
     useEffect(() => {
     if (user) {
@@ -70,9 +70,11 @@ const ProfileEditModal = ({ visible, setVisible, user , fetchUser}) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+        let res;
         try {
             setLoading(true);
-            const res = await axios.put('/users/updateprofile',{
+            if(isAdmin){
+                res = await axios.put(`/admin/edituser/${user?.user._id}`,{
                 username,
                 bio,
                 phone,
@@ -82,6 +84,18 @@ const ProfileEditModal = ({ visible, setVisible, user , fetchUser}) => {
                 state:selectedState,
                 district:selectedDistrict,
             })
+            }else{
+                res = await axios.put('/users/updateprofile',{
+                username,
+                bio,
+                phone,
+                dob,
+                village_name,
+                pincode,
+                state:selectedState,
+                district:selectedDistrict,
+            })
+            }
             if(res.status === 200){
                 fetchUser();
                 toast.success("Profile Updated Successfully");
@@ -96,6 +110,8 @@ const ProfileEditModal = ({ visible, setVisible, user , fetchUser}) => {
         }
         
     }
+
+    
 
     return (
         <Dialog visible={visible} onHide={() => setVisible(false)} header="Edit Profile Details">

@@ -141,7 +141,308 @@ const reviewStatusUpdateRequest = async (req, res) => {
     }
 };
 
+const getUsers = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const users = await User.aggregate([
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"reportedBy",
+                    as:"reports"
+                }
+            },{
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"volunteers.volunteer",
+                    as:"volunteeredReports"
+                }
+            },
+            {
+                $project:{
+                    _id:1,
+                    username:1,
+                    bio:1,
+                    email:1,
+                    profile_image:1,
+                    isAdmin:1,
+                    phone:1,
+                    dob:1,
+                    village_name:1,
+                    district:1,
+                    state:1,
+                    pincode:1,
+                    createdAt:1,
+                    postCount:{$size:"$reports"},
+                    volunteeredCount:{$size:"$volunteeredReports"}
+                }
+            },{
+                $sort:{
+                    createdAt:-1
+                }
+            },{
+                $skip:skip
+            },{
+                $limit:limit
+            }
+        ])
+
+        const total = await User.countDocuments();
+
+        const formattedUsers = users.map(u => ({
+            user: {
+                _id: u._id,
+                username: u.username,
+                email: u.email,
+                profile_image: u.profile_image,
+            },
+            username:u.username,
+            bio:u.bio,
+            phone:u.phone,
+            dob:u.dob,
+            village_name:u.village_name,
+            district:u.district,
+            state:u.state,
+            pincode:u.pincode,
+            isAdmin: u.isAdmin,
+            joined: u.createdAt,
+            postCount: u.postCount,
+            volunteeredCount: u.volunteeredCount,
+
+        }));
+        
+        return res.status(200).json({
+            message:"Users Fetched Successfully",
+            users:formattedUsers,
+            currentPage:page,
+            totalUsers:total,
+            totalPages:Math.ceil(total/limit)
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const editUser = async(req,res)=>{
+    try {
+        const userId = req.params.id;
+
+        const {username,bio,phone,dob,village_name,district,state,pincode} = req.body;
+
+        const user = await User.findById(userId).select("-password");
+
+        user.username = username || user.username;
+        user.bio = bio || user.bio;
+        user.phone = phone || user.phone;
+        if(dob){
+            user.dob = dob;
+        }
+        user.village_name = village_name || user.village_name
+        user.district = district || user.district
+        user.state = state || user.state
+        user.pincode = pincode || user.pincode
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"Profile Updated Successfully",
+            user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const makeAdmin = async(req,res)=>{
+    try {
+        
+        const userId = req.params.id;
+
+        const user = await User.findById(userId).select("-password");
+
+        if(!user){
+            return res.status(400).json({
+                message:"User Not Found"
+            })
+        }
+
+        if(user.isAdmin){
+            return res.status(400).json({
+                message:"User is already an Admin"
+            })
+        }
+
+        user.isAdmin = true;
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"User Promoted to Admin Successfully",
+            user
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const removeAdmin = async(req,res)=>{
+    try {
+        
+        const userId = req.params.id;
+
+        const user = await User.findById(userId).select("-password");
+
+        if(!user){
+            return res.status(400).json({
+                message:"User Not Found"
+            })
+        }
+
+        if(!user.isAdmin){
+            return res.status(400).json({
+                message:"User is not an Admin"
+            })
+        }
+
+        user.isAdmin = false;
+
+        await user.save();
+
+        return res.status(200).json({
+            message:"User Demoted to User Successfully",
+            user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const searchUsers = async(req,res)=>{
+    try {
+        const search = req.query.search;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const users = await User.aggregate([
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"reportedBy",
+                    as:"reports"
+                }
+            },
+            {
+                $lookup:{
+                    from:"reports",
+                    localField:"_id",
+                    foreignField:"volunteers.volunteer",
+                    as:"volunteeredReports"
+                }
+            },
+            {
+                $project:{
+                    _id:1,
+                    username:1,
+                    email:1,
+                    profile_image:1,
+                    isAdmin:1,
+                    createdAt:1,
+                    postCount:{$size:"$reports"},
+                    volunteeredCount:{$size:"$volunteeredReports"},
+                    bio:1,
+                    phone:1,
+                    dob:1,
+                    village_name:1,
+                    district:1,
+                    state:1,
+                    pincode:1
+                }
+            },
+            {
+                $sort:{
+                    createdAt:-1
+                }
+            },
+            {
+                $match:{
+                    $or:[
+                        {username:{$regex:search,$options:"i"}},
+                        {email:{$regex:search,$options:"i"}}
+                    ]
+                }
+            },
+            {
+                $skip:skip
+            },
+            {
+                $limit:limit
+            }
+        ])
+
+        const formattedUsers = users.map(u => ({
+            user: {
+                _id: u._id,
+                username: u.username,
+                email: u.email,
+                profile_image: u.profile_image,
+            },
+            username:u.username,
+            bio:u.bio,
+            phone:u.phone,
+            dob:u.dob,
+            village_name:u.village_name,
+            district:u.district,
+            state:u.state,
+            pincode:u.pincode,
+            isAdmin: u.isAdmin,
+            joined: u.createdAt,
+            postCount: u.postCount,
+            volunteeredCount: u.volunteeredCount
+        }));
+
+        const total = await User.countDocuments({
+            $or:[
+                {username:{$regex:search,$options:"i"}},
+                {email:{$regex:search,$options:"i"}}
+            ]
+        });
+
+        return res.status(200).json({
+            message:"Users Searched Successfully",
+            users:formattedUsers,
+            currentPage:page,
+            totalUsers:total,
+            totalPages:Math.ceil(total/limit)
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
+    getUsers,
+    editUser,
+    makeAdmin,
+    removeAdmin,
+    searchUsers
 };
