@@ -143,6 +143,10 @@ const reviewStatusUpdateRequest = async (req, res) => {
 
 const getUsers = async(req,res)=>{
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
         const users = await User.aggregate([
             {
                 $lookup:{
@@ -173,8 +177,14 @@ const getUsers = async(req,res)=>{
                 $sort:{
                     createdAt:-1
                 }
+            },{
+                $skip:skip
+            },{
+                $limit:limit
             }
         ])
+
+        const total = await User.countDocuments();
 
         const formattedUsers = users.map(u => ({
             user: {
@@ -190,7 +200,10 @@ const getUsers = async(req,res)=>{
         
         return res.status(200).json({
             message:"Users Fetched Successfully",
-            users:formattedUsers
+            users:formattedUsers,
+            currentPage:page,
+            totalUsers:total,
+            totalPages:Math.ceil(total/limit)
         })
     } catch (error) {
         return res.status(500).json({
