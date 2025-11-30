@@ -488,6 +488,78 @@ const getReports = async(req,res)=>{
     }
 }
 
+const searchReports = async(req,res)=>{
+    try {
+        const search = req.query.search;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1) * limit;
+
+        const reports = await Reports.find({
+            $or:[
+                {title:{$regex:search,$options:"i"}},
+                {description:{$regex:search,$options:"i"}},
+                {category:{$regex:search,$options:"i"}},
+                {village:{$regex:search,$options:"i"}},
+                {district:{$regex:search,$options:"i"}},
+                {state:{$regex:search,$options:"i"}}
+            ]
+        })
+        .select("_id title status priority category village district state pincode createdAt reportedBy")
+        .populate("reportedBy","username profile_image")
+        .sort({createdAt:-1})
+        .skip(skip)
+        .limit(limit);
+
+        const totalReports = await Reports.countDocuments({
+            $or:[
+                {title:{$regex:search,$options:"i"}},
+                {description:{$regex:search,$options:"i"}},
+                {category:{$regex:search,$options:"i"}},
+                {village:{$regex:search,$options:"i"}},
+                {district:{$regex:search,$options:"i"}},
+                {state:{$regex:search,$options:"i"}}
+            ]
+        })
+
+        const formattedReports = reports.map(report => ({
+            _id: report._id,
+            title: {
+                title: report.title,
+                location: {
+                    village: report.village,
+                    district: report.district,
+                    state: report.state,
+                    pincode: report.pincode
+                }
+            },
+            category: report.category,
+            priority: report.priority,
+            status: report.status,
+            reportedAt: report.createdAt,
+            reportedBy: {
+                _id: report.reportedBy._id,
+                username: report.reportedBy.username,
+                profile_image: report.reportedBy.profile_image
+            }
+        }))
+
+        return res.status(200).json({
+            message:"Reports Searched Successfully",
+            reports:formattedReports,
+            currentPage:page,
+            totalReports:totalReports,
+            totalPages:Math.ceil(totalReports/limit)
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -496,5 +568,6 @@ module.exports = {
     makeAdmin,
     removeAdmin,
     searchUsers,
-    getReports
+    getReports,
+    searchReports
 };

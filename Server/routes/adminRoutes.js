@@ -1,6 +1,6 @@
 const express = require("express");
 const isAdmin = require("../middlewares/isAdmin");
-const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports } = require("../controllers/adminControllers");
+const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports, searchReports } = require("../controllers/adminControllers");
 
 const router = express.Router();
 
@@ -12,5 +12,6 @@ router.put('/makeadmin/:id',isAdmin,makeAdmin);
 router.put('/removeadmin/:id',isAdmin,removeAdmin);
 router.get('/searchusers',isAdmin,searchUsers);
 router.get('/reports',isAdmin,getReports);
+router.get('/searchreports',isAdmin,searchReports);
 
 module.exports = router;
