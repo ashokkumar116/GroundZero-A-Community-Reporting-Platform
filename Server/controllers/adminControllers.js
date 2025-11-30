@@ -2,6 +2,7 @@ const Reports = require("../models/Reports");
 const StatusUpdateRequest = require("../models/StatusUpdateRequest");
 const User = require("../models/User");
 const VolunteerRequest = require("../models/VolunteerRequest");
+const { cloudinary } = require("../Services/cloudinary");
 
 const reviewVolunteerRequest = async (req, res) => {
     const { status } = req.body;
@@ -620,6 +621,33 @@ const editReport = async(req,res)=>{
     }
 }
 
+const deleteReport = async(req,res)=>{
+    try {
+        const reportId = req.params.id;
+        const report = await Reports.findById(reportId);
+        if(!report){
+            return res.status(404).json({
+                message:"Report Not Found"
+            })
+        }
+
+        report.images.forEach(image=>{
+            cloudinary.uploader.destroy(image.publicId);
+        })
+
+        await report.deleteOne();
+
+        return res.status(200).json({
+            message:"Report Deleted Successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -630,5 +658,6 @@ module.exports = {
     searchUsers,
     getReports,
     searchReports,
-    editReport
+    editReport,
+    deleteReport
 };
