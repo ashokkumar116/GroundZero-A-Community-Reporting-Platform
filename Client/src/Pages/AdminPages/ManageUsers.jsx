@@ -15,6 +15,7 @@
   import { MdKeyboardArrowRight } from "react-icons/md";
 import ActionsOverlay from '../../Components/Overlays/ActionsOverlay';
 import ProfileEditModal from '../../Components/Modals/ProfileEditModal';
+import Loader from '../../Loaders/Loader';
 
 
   const ManageUsers = () => {
@@ -27,10 +28,12 @@ import ProfileEditModal from '../../Components/Modals/ProfileEditModal';
       const [searchMode,setSearchMode] = useState(false);
       const [selectedUser,setSelectedUser] = useState(null);
       const [modalVisible,setModalVisible] = useState(false);
+      const [loading,setLoading] = useState(false);
 
       const op = useRef(null)
 
       const fetchUsers = async()=>{
+        setLoading(true);
         if(searching){
           return;
         }
@@ -42,9 +45,11 @@ import ProfileEditModal from '../../Components/Modals/ProfileEditModal';
         });
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);
+        setLoading(false);
       }
 
       const fetchSearchUsers = async (pageValue = page) => {
+        setLoading(true);
         const response = await axios.get("/admin/searchusers", {
           params: {
             search,
@@ -54,6 +59,7 @@ import ProfileEditModal from '../../Components/Modals/ProfileEditModal';
         });
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);
+        setLoading(false);
       };
 
 
@@ -119,6 +125,10 @@ import ProfileEditModal from '../../Components/Modals/ProfileEditModal';
           </div>
         )
       }
+
+      if(loading){
+          return <div className='flex justify-center items-center h-[calc(100vh-10rem)]'><Loader/></div>
+        }
 
     return (
       <div>

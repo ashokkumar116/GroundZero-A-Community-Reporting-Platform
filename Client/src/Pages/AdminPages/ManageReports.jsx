@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import ReportActionOverlay from '../../Components/Overlays/ReportActionOverlay';
 import ReportEditModal from '../../Components/Modals/ReportEditModal';
+import Loader from '../../Loaders/Loader';
 
 const ManageReports = () => {
   const [search,setSearch] = useState('');
@@ -31,12 +32,14 @@ const ManageReports = () => {
   const [searching,setSearching] = useState(false);
   const [selectedReport,setSelectedReport] = useState(null);
   const [modalVisible,setModalVisible] = useState(false);
+  const [loading,setLoading] = useState(false);
 
   const op =useRef(null)
 
   const navigate = useNavigate();
 
   const getReports = async()=>{
+    setLoading(true);
     try {
       if(searching){
         return;
@@ -52,10 +55,13 @@ const ManageReports = () => {
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch reports");
+    }finally{
+      setLoading(false);
     }
   }
 
   const searchReports = async(pageNumber=page)=>{
+    setLoading(true);
     try {
       const response = await axios.get('/admin/searchreports',{
       params:{
@@ -69,6 +75,8 @@ const ManageReports = () => {
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch reports");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -157,6 +165,10 @@ const ManageReports = () => {
       </div>
     );
   };
+
+  if(loading){
+      return <div className='flex justify-center items-center h-[calc(100vh-10rem)]'><Loader/></div>
+    }
 
   return (
     <div>
