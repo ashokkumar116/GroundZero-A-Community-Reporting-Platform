@@ -80,14 +80,15 @@ const VolunteerWorks = () => {
                                 <p className='text-gray-600'>No volunteer works found</p>
                             </div>
                         ) : (
-                            volunteerWorks.map((volunteerWork,index) => (
-                                <div
-                                    key={volunteerWork._id}
-                                    className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'
-                                >
-                                    <VolunteerWorksCard report={volunteerWork} userId={userId} lastItemRef={lastItemRef} isLast={index === volunteerWorks.length - 1} />
-                                </div>
-                            ))
+                            <div
+                                className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'
+                            >
+                            {
+                                volunteerWorks.map((volunteerWork,index) => (
+                                    <VolunteerWorksCard report={volunteerWork} userId={userId} lastItemRef={lastItemRef} isLast={index === volunteerWorks.length - 1} key={volunteerWork._id} />
+                                ))
+                            }
+                        </div>
                         )
                     }
                 </div>

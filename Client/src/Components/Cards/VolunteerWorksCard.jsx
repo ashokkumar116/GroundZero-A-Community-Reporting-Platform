@@ -170,12 +170,21 @@ const IssuesCard = ({ isLast, report, lastItemRef, userId }) => {
                 <div className=" text-xs items-center">
                     {userId === report.volunteers[0].volunteer ? (
                         <div className="flex flex-col items-center xl:flex-row gap-2 justify-end text-xs">
-                        <button className="flex gap-1 items-center justify-center cursor-pointer text-sm text-gray-700 px-5 py-2 bg-gradient-to-br from-green-500 to-emerald-800 text-white rounded-md hover:scale-102 transition duration-300"
+                        {
+                            report.status !== "resolved" ? (
+                                <button className="flex gap-1 items-center justify-center cursor-pointer text-sm text-gray-700 px-5 py-2 bg-gradient-to-br from-green-500 to-emerald-800 text-white rounded-md hover:scale-102 transition duration-300"
                             onClick={() => setUpdateStatusVisible(true)}
                         >
                             <FaRegEdit />
-                            <p>Update Status</p>
+                            <p className="text-xs">Update Status</p>
                         </button>
+                            ) : (
+                                <button className="flex gap-1 items-center justify-center cursor-not-allowed text-sm text-gray-700 px-5 py-2 bg-green-600/50 border border-green-600/50 text-emerald-900 rounded-md hover:scale-102 transition duration-300 cursor-not-allowed" disabled
+                        >
+                            <p className="text-xs">Issue Resolved</p>
+                        </button>
+                            )
+                        }
                         </div>
                     ) : (
                         <div className="flex flex-col items-center xl:flex-row gap-2 justify-around text-xs">
