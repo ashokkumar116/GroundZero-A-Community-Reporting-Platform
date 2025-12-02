@@ -648,6 +648,69 @@ const deleteReport = async(req,res)=>{
     }
 }
 
+const getVolunteerRequests = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1) * limit;
+        const requests = await VolunteerRequest.find()
+                                               .select("_id report volunteer note requestedAt reviewedBy reviewedAt status")
+                                               .populate("report","title")
+                                               .populate("volunteer","username profile_image")
+                                               .populate("reviewedBy","username profile_image")
+                                               .sort({requestedAt:-1})
+                                               .skip(skip)
+                                               .limit(limit);
+        const totalRequests = await VolunteerRequest.countDocuments();
+
+        return res.status(200).json({
+            message:"Volunteer Requests Fetched Successfully",
+            requests,
+            currentPage:page,
+            totalRequests,
+            totalPages:Math.ceil(totalRequests/limit)
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const getStatusUpdateRequests = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1) * limit;
+        const requests = await StatusUpdateRequest.find()
+                                               .select("_id report requestedBy requestedStatus note images requestedAt reviewedBy reviewedAt status")
+                                               .populate("report","title")
+                                               .populate("requestedBy","username profile_image")
+                                               .populate("reviewedBy","username profile_image")
+                                               .sort({requestedAt:-1})
+                                               .skip(skip)
+                                               .limit(limit);
+        const totalRequests = await StatusUpdateRequest.countDocuments();
+
+        return res.status(200).json({
+            message:"Status Update Requests Fetched Successfully",
+            requests,
+            currentPage:page,
+            totalRequests,
+            totalPages:Math.ceil(totalRequests/limit)
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -659,5 +722,7 @@ module.exports = {
     getReports,
     searchReports,
     editReport,
-    deleteReport
+    deleteReport,
+    getVolunteerRequests,
+    getStatusUpdateRequests
 };
