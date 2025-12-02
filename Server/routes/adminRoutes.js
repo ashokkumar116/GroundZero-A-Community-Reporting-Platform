@@ -5,8 +5,8 @@ const { uploadImage } = require("../Services/cloudinary");
 
 const router = express.Router();
 
-router.post("/review/volunteerrequest/:id",isAdmin,reviewVolunteerRequest);
-router.post('/review/statusupdaterequest/:id',isAdmin,reviewStatusUpdateRequest);
+router.put("/review/volunteerrequest/:id",isAdmin,reviewVolunteerRequest);
+router.put('/review/statusupdaterequest/:id',isAdmin,reviewStatusUpdateRequest);
 router.get('/users',isAdmin,getUsers);
 router.put('/edituser/:id',isAdmin,editUser);
 router.put('/makeadmin/:id',isAdmin,makeAdmin);

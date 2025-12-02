@@ -15,7 +15,7 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
 import Loader from '../../Loaders/Loader'
 import { formatStatus } from '../../utils/formatStatus'
-
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 
 
 const ReviewRequests = () => {
@@ -28,6 +28,9 @@ const ReviewRequests = () => {
   const [volunteerTotalPages,setVolunteerTotalPages] = useState(1);
   const [statusUpdateTotalPages,setStatusUpdateTotalPages] = useState(1);
   const [loading,setLoading] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedRequestType, setSelectedRequestType] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -53,6 +56,58 @@ const ReviewRequests = () => {
   useEffect(() => {
     fetchRequests();
   }, [volunteerPage,statusUpdatePage,volunteerLimit,statusUpdateLimit]);
+
+  const reviewVolunteerRequest = async(requestId,review)=>{
+    try {
+      const response = await axios.put(`/admin/review/volunteerrequest/${requestId}`,{status:review});
+      if(response.status === 200){
+        toast.success("Request reviewed successfully");
+        fetchRequests();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to review request");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  const reviewStatusUpdateRequest = async(requestId,review)=>{
+    try {
+      const response = await axios.put(`/admin/review/statusupdaterequest/${requestId}`,{status:review});
+      if(response.status === 200){
+        toast.success("Request reviewed successfully");
+        fetchRequests();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to review request");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  const confirmVolunteerRequest = (event,requestId,review) => {
+        confirmPopup({
+            target: event.currentTarget,
+            message: 'Are you sure you want to proceed?',
+            icon: 'pi pi-exclamation-triangle',
+            defaultFocus: 'accept',
+            accept: () => reviewVolunteerRequest(requestId,review),
+            reject: () => ()=>{}
+        });
+    };
+
+  const confirmStatusUpdateRequest = (event,requestId,review) => {
+        confirmPopup({
+            target: event.currentTarget,
+            message: 'Are you sure you want to proceed?',
+            icon: 'pi pi-exclamation-triangle',
+            defaultFocus: 'accept',
+            accept: () => reviewStatusUpdateRequest(requestId,review),
+            reject: () => ()=>{}
+        });
+    };
 
   if(loading){
     return <div className='flex justify-center items-center h-[calc(100vh-10rem)]'><Loader/></div>
@@ -124,11 +179,16 @@ const ReviewRequests = () => {
                       {
                         request.status === "pending" ? (
                           <>
-                            <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-emerald-700 transition-all duration-300 cursor-pointer">
+                            <ConfirmPopup />
+                            <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-emerald-700 transition-all duration-300 cursor-pointer"
+                            onClick={(e)=>confirmVolunteerRequest(e,request._id,"approved")}
+                            >
                               <SiTicktick/>
                               <p>Approve</p>
                             </button>
-                            <button className="border border-red-700 text-red-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-red-600 hover:text-white transition-all duration-300 cursor-pointer">
+                            <button className="border border-red-700 text-red-700 px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-red-600 hover:text-white transition-all duration-300 cursor-pointer"
+                            onClick={(e)=>confirmVolunteerRequest(e,request._id,"rejected")}
+                            >
                               <FaRegCircleXmark/>
                               <p>Reject</p>
                             </button>
@@ -242,11 +302,16 @@ const ReviewRequests = () => {
                       {
                         request.status === "pending" ? (
                           <>
-                            <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-emerald-700 transition-all duration-300 cursor-pointer">
+                            <ConfirmPopup />
+                            <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-emerald-700 transition-all duration-300 cursor-pointer"
+                            onClick={(e)=>confirmStatusUpdateRequest(e,request._id,"approved")}
+                            >
                               <SiTicktick/>
                               <span>Approve</span>
                             </button>
-                            <button className="border border-red-600 text-red-600 px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-red-700 hover:text-white transition-all duration-300 cursor-pointer">
+                            <button className="border border-red-600 text-red-600 px-4 py-2 rounded-lg flex items-center justify-center gap-2 w-32 hover:bg-red-700 hover:text-white transition-all duration-300 cursor-pointer"
+                            onClick={(e)=>confirmStatusUpdateRequest(e,request._id,"rejected")}
+                            >
                               <FaRegCircleXmark/>
                               <span>Reject</span>
                             </button>
