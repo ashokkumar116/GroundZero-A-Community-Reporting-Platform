@@ -1,6 +1,6 @@
 const express = require("express");
 const isAdmin = require("../middlewares/isAdmin");
-const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports, searchReports,editReport, deleteReport, getVolunteerRequests, getStatusUpdateRequests } = require("../controllers/adminControllers");
+const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports, searchReports,editReport, deleteReport, getVolunteerRequests, getStatusUpdateRequests, getDashboardSummary } = require("../controllers/adminControllers");
 const { uploadImage } = require("../Services/cloudinary");
 
 const router = express.Router();
@@ -18,5 +18,6 @@ router.put('/editreport/:id',isAdmin,uploadImage.array('images',10),editReport);
 router.delete('/deletereport/:id',isAdmin,deleteReport);
 router.get('/volunteerrequests',isAdmin,getVolunteerRequests);
 router.get('/statusupdaterequests',isAdmin,getStatusUpdateRequests);
+router.get('/dashboard/summary',isAdmin,getDashboardSummary);
 
 module.exports = router;

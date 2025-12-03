@@ -710,6 +710,54 @@ const getStatusUpdateRequests = async(req,res)=>{
     }
 }
 
+const getDashboardSummary = async(req,res)=>{
+    try {
+       const totalUsers = await User.countDocuments();
+       const totalReports = await Reports.countDocuments();
+       const resolvedReports = await Reports.countDocuments({status:"resolved"});
+       const inProgressReports = await Reports.countDocuments({status:"in_progress"});
+       const pendingReports = await Reports.countDocuments({status:"reported"});
+       const totalVolunteerRequests = await VolunteerRequest.countDocuments();
+       const totalStatusUpdateRequests = await StatusUpdateRequest.countDocuments();
+       const totalPendingVolunteerRequests = await VolunteerRequest.countDocuments({status:"pending"});
+       const totalPendingStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"pending"});
+       const totalApprovedVolunteerRequests = await VolunteerRequest.countDocuments({status:"approved"});
+       const totalApprovedStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"approved"});
+       const totalRejectedVolunteerRequests = await VolunteerRequest.countDocuments({status:"rejected"});
+       const totalRejectedStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"rejected"});
+       const totalWithdrawnVolunteerRequests = await VolunteerRequest.countDocuments({status:"withdrawn"});
+
+       return res.status(200).json({
+           message:"Dashboard Summary Fetched Successfully",
+           totalUsers,
+           reports:{
+               totalReports,
+               resolvedReports,
+               inProgressReports,
+               pendingReports,
+           },
+           volunteerRequests:{
+               totalVolunteerRequests,
+               totalPendingVolunteerRequests,
+               totalApprovedVolunteerRequests,
+               totalRejectedVolunteerRequests,
+               totalWithdrawnVolunteerRequests
+           },
+           statusUpdateRequests:{
+               totalStatusUpdateRequests,
+               totalPendingStatusUpdateRequests,
+               totalApprovedStatusUpdateRequests,
+               totalRejectedStatusUpdateRequests,
+           },
+       })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -724,5 +772,6 @@ module.exports = {
     editReport,
     deleteReport,
     getVolunteerRequests,
-    getStatusUpdateRequests
+    getStatusUpdateRequests,
+    getDashboardSummary
 };
