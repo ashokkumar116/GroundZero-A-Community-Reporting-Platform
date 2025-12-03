@@ -806,6 +806,25 @@ const getChartsData = async(req,res)=>{
     }
 }
 
+const getRecentReports = async(req,res)=>{
+    try {
+        const recentReports = await Reports.find()
+                                           .select("_id title status createdAt")
+                                           .populate("reportedBy","username profile_image")
+                                           .sort({createdAt:-1})
+                                           .limit(5);
+        return res.status(200).json({
+            message:"Recent Reports Fetched Successfully",
+            recentReports
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -822,5 +841,6 @@ module.exports = {
     getVolunteerRequests,
     getStatusUpdateRequests,
     getDashboardSummary,
-    getChartsData
+    getChartsData,
+    getRecentReports
 };
