@@ -758,6 +758,54 @@ const getDashboardSummary = async(req,res)=>{
     }
 }
 
+const getChartsData = async(req,res)=>{
+    try {
+        const reportsByMonth = await Reports.aggregate([
+            {
+                $group:{
+                    _id:{
+                        month:{
+                            $month:"$createdAt"
+                        },
+                        year:{
+                            $year:"$createdAt"
+                        }
+                    },
+                    count:{
+                        $sum:1
+                    }
+                }
+            },{
+                $sort:{
+                    "_id.year":1,
+                    "_id.month":1
+                }
+            }
+        ])
+        const reportsBySeverity = await Reports.aggregate([
+            {
+                $group:{
+                    _id:"$status",
+                    count:{
+                        $sum:1
+                    }
+                }
+            }
+        ])
+
+        return res.status(200).json({
+            message:"Charts Data Fetched Successfully",
+            reportsByMonth,
+            reportsBySeverity
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -773,5 +821,6 @@ module.exports = {
     deleteReport,
     getVolunteerRequests,
     getStatusUpdateRequests,
-    getDashboardSummary
+    getDashboardSummary,
+    getChartsData
 };
