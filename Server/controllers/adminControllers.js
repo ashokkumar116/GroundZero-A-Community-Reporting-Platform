@@ -793,10 +793,33 @@ const getChartsData = async(req,res)=>{
             }
         ])
 
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const formattedReportsByMonth = reportsByMonth.map((item)=>{
+            return {
+                month:months[item._id.month-1],
+                year:item._id.year,
+                count:item.count
+            }
+        })
+
+        const formatSeverity = {
+            "reported":"Pending",
+            "in_progress":"In Progress",
+            "resolved":"Resolved"
+        }
+
+        const formattedReportsBySeverity = reportsBySeverity.map((item)=>{
+            return {
+                status:formatSeverity[item._id],
+                count:item.count
+            }
+        })
+
         return res.status(200).json({
             message:"Charts Data Fetched Successfully",
-            reportsByMonth,
-            reportsBySeverity
+            reportsByMonth:formattedReportsByMonth,
+            reportsBySeverity:formattedReportsBySeverity
         })
     } catch (error) {
         console.log(error);
@@ -809,7 +832,7 @@ const getChartsData = async(req,res)=>{
 const getRecentReports = async(req,res)=>{
     try {
         const recentReports = await Reports.find()
-                                           .select("_id title status createdAt")
+                                           .select("_id title status createdAt reportedBy category")
                                            .populate("reportedBy","username profile_image")
                                            .sort({createdAt:-1})
                                            .limit(5);
