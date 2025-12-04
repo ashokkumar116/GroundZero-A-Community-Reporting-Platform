@@ -710,6 +710,144 @@ const getStatusUpdateRequests = async(req,res)=>{
     }
 }
 
+const getDashboardSummary = async(req,res)=>{
+    try {
+       const totalUsers = await User.countDocuments();
+       const totalReports = await Reports.countDocuments();
+       const resolvedReports = await Reports.countDocuments({status:"resolved"});
+       const inProgressReports = await Reports.countDocuments({status:"in_progress"});
+       const pendingReports = await Reports.countDocuments({status:"reported"});
+       const totalVolunteerRequests = await VolunteerRequest.countDocuments();
+       const totalStatusUpdateRequests = await StatusUpdateRequest.countDocuments();
+       const totalPendingVolunteerRequests = await VolunteerRequest.countDocuments({status:"pending"});
+       const totalPendingStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"pending"});
+       const totalApprovedVolunteerRequests = await VolunteerRequest.countDocuments({status:"approved"});
+       const totalApprovedStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"approved"});
+       const totalRejectedVolunteerRequests = await VolunteerRequest.countDocuments({status:"rejected"});
+       const totalRejectedStatusUpdateRequests = await StatusUpdateRequest.countDocuments({status:"rejected"});
+       const totalWithdrawnVolunteerRequests = await VolunteerRequest.countDocuments({status:"withdrawn"});
+
+       return res.status(200).json({
+           message:"Dashboard Summary Fetched Successfully",
+           totalUsers,
+           reports:{
+               totalReports,
+               resolvedReports,
+               inProgressReports,
+               pendingReports,
+           },
+           volunteerRequests:{
+               totalVolunteerRequests,
+               totalPendingVolunteerRequests,
+               totalApprovedVolunteerRequests,
+               totalRejectedVolunteerRequests,
+               totalWithdrawnVolunteerRequests
+           },
+           statusUpdateRequests:{
+               totalStatusUpdateRequests,
+               totalPendingStatusUpdateRequests,
+               totalApprovedStatusUpdateRequests,
+               totalRejectedStatusUpdateRequests,
+           },
+       })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const getChartsData = async(req,res)=>{
+    try {
+        const reportsByMonth = await Reports.aggregate([
+            {
+                $group:{
+                    _id:{
+                        month:{
+                            $month:"$createdAt"
+                        },
+                        year:{
+                            $year:"$createdAt"
+                        }
+                    },
+                    count:{
+                        $sum:1
+                    }
+                }
+            },{
+                $sort:{
+                    "_id.year":1,
+                    "_id.month":1
+                }
+            }
+        ])
+        const reportsBySeverity = await Reports.aggregate([
+            {
+                $group:{
+                    _id:"$status",
+                    count:{
+                        $sum:1
+                    }
+                }
+            }
+        ])
+
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const formattedReportsByMonth = reportsByMonth.map((item)=>{
+            return {
+                month:months[item._id.month-1],
+                year:item._id.year,
+                count:item.count
+            }
+        })
+
+        const formatSeverity = {
+            "reported":"Pending",
+            "in_progress":"In Progress",
+            "resolved":"Resolved"
+        }
+
+        const formattedReportsBySeverity = reportsBySeverity.map((item)=>{
+            return {
+                status:formatSeverity[item._id],
+                count:item.count
+            }
+        })
+
+        return res.status(200).json({
+            message:"Charts Data Fetched Successfully",
+            reportsByMonth:formattedReportsByMonth,
+            reportsBySeverity:formattedReportsBySeverity
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const getRecentReports = async(req,res)=>{
+    try {
+        const recentReports = await Reports.find()
+                                           .select("_id title status createdAt reportedBy category")
+                                           .populate("reportedBy","username profile_image")
+                                           .sort({createdAt:-1})
+                                           .limit(5);
+        return res.status(200).json({
+            message:"Recent Reports Fetched Successfully",
+            recentReports
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -724,5 +862,8 @@ module.exports = {
     editReport,
     deleteReport,
     getVolunteerRequests,
-    getStatusUpdateRequests
+    getStatusUpdateRequests,
+    getDashboardSummary,
+    getChartsData,
+    getRecentReports
 };
