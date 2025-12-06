@@ -6,6 +6,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import axios from '../../Services/axios';
 import Loader from '../../Loaders/Loader';
+import CreateAnnouncementModal from '../../Components/Modals/CreateAnnouncementModal';
 
 const ManageAnnouncements = () => {
   const [page,setPage] = useState(1);
@@ -13,6 +14,12 @@ const ManageAnnouncements = () => {
   const [limit,setLimit] = useState(5);
   const [loading,setLoading] = useState(false);
   const [announcements,setAnnouncements] = useState([]);
+  const [createAnnouncementModalVisible,setCreateAnnouncementModalVisible] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [formLoading,setFormLoading] = useState(false);
 
   const fetchAnnouncements = async()=>{
     try {
@@ -33,6 +40,37 @@ const ManageAnnouncements = () => {
     }
   }
 
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    if(!title || !description){
+      toast.error("All fields are required");
+      return;
+    }
+    try {
+      setFormLoading(true);
+      const formData = new FormData();
+      formData.append('title',title);
+      formData.append('description',description);
+      if(selectedImages){
+        selectedImages.forEach((image)=>formData.append('images',image));
+      }
+      const response = await axios.post("/admin/announcement/create",formData);
+      if(response.status === 201){
+        toast.success("Announcement created successfully");
+        fetchAnnouncements();
+        setCreateAnnouncementModalVisible(false);
+        setSelectedImages([]);
+        setTitle("");
+        setDescription("");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create announcement");
+    }finally{
+      setFormLoading(false);
+    }
+  }
+
   useEffect(()=>{
     fetchAnnouncements();
   },[page,limit])
@@ -43,13 +81,16 @@ const ManageAnnouncements = () => {
 
   return (
     <div>
+      <CreateAnnouncementModal visible={createAnnouncementModalVisible} setVisible={setCreateAnnouncementModalVisible} selectedImages={selectedImages} setSelectedImages={setSelectedImages} title={title} setTitle={setTitle} description={description} setDescription={setDescription} handleSubmit={handleSubmit} loading={formLoading} />
       <div className='flex justify-between items-center'>
         <div className='flex flex-col gap-2'>
           <h1 className='text-2xl font-bold'>Manage Announcements</h1>
           <p className='text-gray-700'>Create and manage platform announcements</p>
         </div>
         <div>
-          <button className='bg-gradient-to-br from-green-500 to-emerald-600 text-white px-4 py-2 rounded-md hover:from-green-600 hover:to-emerald-700 transition duration-300 ease-in-out hover:cursor-pointer flex items-center gap-2'>
+          <button className='bg-gradient-to-br from-green-500 to-emerald-600 text-white px-4 py-2 rounded-md hover:from-green-600 hover:to-emerald-700 transition duration-300 ease-in-out hover:cursor-pointer flex items-center gap-2'
+            onClick={()=>setCreateAnnouncementModalVisible(true)}
+          >
             <FiPlusCircle />
             <p>New Announcement</p>
           </button>
