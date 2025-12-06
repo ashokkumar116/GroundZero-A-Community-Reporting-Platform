@@ -921,6 +921,40 @@ const fetchAnnouncements = async(req,res)=>{
     }
 }
 
+const fetchSingleAnnouncement = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const userId = req.user.userId;
+        const announcement = await Announcement.findById(id)
+                                            .populate("postedBy","username profile_image")
+                                            .populate("viewedBy","username profile_image");
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        const alreadyViewed = announcement.viewedBy.some(v => v._id.toString() === userId.toString());
+
+        if(!alreadyViewed){
+            announcement.views += 1;
+            announcement.viewedBy.push(userId);
+            await announcement.save();
+        }
+
+        return res.status(200).json({
+            message:"Announcement Fetched Successfully",
+            announcement
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -940,5 +974,6 @@ module.exports = {
     getChartsData,
     getRecentReports,
     createAnnouncement,
-    fetchAnnouncements
+    fetchAnnouncements,
+    fetchSingleAnnouncement
 };
