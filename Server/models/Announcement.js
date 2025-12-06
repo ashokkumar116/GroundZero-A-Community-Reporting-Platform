@@ -30,6 +30,18 @@ const announcementSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
+    },
+    views:{
+        type:Number,
+        default:0
+    },
+    viewedBy:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }],
+    viewedAt:{
+        type:Date,
+        default:Date.now()
     }
 },{
     timestamps:true

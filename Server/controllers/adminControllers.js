@@ -892,6 +892,35 @@ const createAnnouncement = async(req,res)=>{
     }
 }
 
+const fetchAnnouncements = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1)*limit;
+        const announcements = await Announcement.find()
+                                                .populate("postedBy","username profile_image")
+                                                .populate("viewedBy","username profile_image")
+                                                .sort({createdAt:-1})
+                                                .limit(limit)
+                                                .skip(skip);
+
+        const totalAnnouncements = await Announcement.countDocuments();
+
+        return res.status(200).json({
+            message:"Announcements Fetched Successfully",
+            announcements,
+            currentPage:page,
+            totalPages:Math.ceil(totalAnnouncements/limit),
+            totalAnnouncements
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -910,5 +939,6 @@ module.exports = {
     getDashboardSummary,
     getChartsData,
     getRecentReports,
-    createAnnouncement
+    createAnnouncement,
+    fetchAnnouncements
 };
