@@ -4,26 +4,27 @@ import { IoEyeOutline } from "react-icons/io5";
 import { BsDot } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { formatDate } from '../../utils/formatDate';
 
-const AnnouncementCard = () => {
+const AnnouncementCard = ({announcement}) => {
   return (
     <div className='bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out rounded-md p-4 flex justify-between items-center'>
         <div className='flex flex-col gap-3 pr-4'>
-            <h1 className='font-semibold text-lg'>System Maintenance Scheduled</h1>
-            <p className='text-sm text-gray-500 line-clamp-2'>GroundZero will be undergoing scheduled maintenance on 06-12-2025. During this time, the platform will be unavailable for a brief period. We apologize for any inconvenience this may cause.</p>
+            <h1 className='font-semibold text-lg'>{announcement.title}</h1>
+            <p className='text-sm text-gray-500 line-clamp-2'>{announcement.description}</p>
             <div className='flex items-center gap-2'>
               <div className='flex items-center gap-2 text-gray-700 text-xs'>
                 <CiCalendar/>
-                <p>Nov 28, 2024</p>
+                <p>{formatDate(announcement.createdAt)}</p>
               </div>
               <BsDot/>
               <div className='flex items-center gap-2 text-gray-700 text-xs'>
                 <IoEyeOutline/>
-                <p>1,243 views</p>
+                <p>{announcement.views} views</p>
               </div>
               <BsDot/>
               <div className='flex items-center gap-2 text-gray-700 text-xs'>
-                <p>By Admin Team</p>
+                <p>By {announcement.postedBy.username}</p>
               </div>
             </div>
         </div>

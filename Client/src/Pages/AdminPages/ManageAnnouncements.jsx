@@ -1,15 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiPlusCircle } from 'react-icons/fi'
 import AnnouncementCard from '../../Components/Cards/AnnouncementCard'
 import { Dropdown } from 'primereact/dropdown';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import toast from 'react-hot-toast';
+import axios from '../../Services/axios';
+import Loader from '../../Loaders/Loader';
 
 const ManageAnnouncements = () => {
   const [page,setPage] = useState(1);
   const [totalPages,setTotalPages] = useState(1);
   const [limit,setLimit] = useState(5);
+  const [loading,setLoading] = useState(false);
+  const [announcements,setAnnouncements] = useState([]);
 
-  
+  const fetchAnnouncements = async()=>{
+    try {
+      setLoading(true);
+      const response = await axios.get("/admin/announcement/fetch",{
+        params:{
+          page,
+          limit
+        }
+      });
+      setAnnouncements(response.data.announcements);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch announcements");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    fetchAnnouncements();
+  },[page,limit])
+
+  if(loading){
+    return <div className='flex justify-center items-center h-screen'><Loader /></div>
+  }
 
   return (
     <div>
@@ -26,7 +56,11 @@ const ManageAnnouncements = () => {
         </div>
       </div>
       <div className='flex flex-col gap-4 mt-10'>
-        <AnnouncementCard />
+        {
+          announcements.map((announcement)=>(
+            <AnnouncementCard key={announcement._id} announcement={announcement} />
+          ))
+        }
       </div>
       <div className='flex justify-between items-center mt-5'>
         <div >
