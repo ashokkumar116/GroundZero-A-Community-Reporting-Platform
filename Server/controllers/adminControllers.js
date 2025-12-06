@@ -1,3 +1,4 @@
+const Announcement = require("../models/Announcement");
 const Reports = require("../models/Reports");
 const StatusUpdateRequest = require("../models/StatusUpdateRequest");
 const User = require("../models/User");
@@ -848,6 +849,49 @@ const getRecentReports = async(req,res)=>{
     }
 }
 
+const createAnnouncement = async(req,res)=>{
+    try {
+        const {title,description} = req.body;
+        const images = req.files;
+        if(!title || !description){
+            return res.status(400).json({
+                message:"Title and Description are required"
+            })
+        }
+
+        let formattedImages = [];
+
+        if(images){
+            formattedImages = images.map((image)=>{
+                return {
+                    publicId:image.filename,
+                    url:image.path
+                }
+            })
+        }
+
+        const announcement = new Announcement({
+            title,
+            description,
+            images:formattedImages,
+            postedBy:req.user.userId
+        })
+
+        await announcement.save();
+
+        return res.status(201).json({
+            message:"Announcement created successfully",
+            announcement
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 
 module.exports = {
     reviewVolunteerRequest,
@@ -865,5 +909,6 @@ module.exports = {
     getStatusUpdateRequests,
     getDashboardSummary,
     getChartsData,
-    getRecentReports
+    getRecentReports,
+    createAnnouncement
 };

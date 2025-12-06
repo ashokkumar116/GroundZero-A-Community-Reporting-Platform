@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
-    public_id: {
+    publicId: {
         type: String,
         required: true
     },
@@ -22,7 +22,7 @@ const announcementSchema = new mongoose.Schema({
         required:true,
         trim:true
     },
-    image:{
+    images:{
         type:[imageSchema],
         default:[],        
     },
