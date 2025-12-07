@@ -45,8 +45,8 @@ const Register = () => {
 
 
     return (
-        <div className="p-10 h-screen justify-center items-center flex bg-gray-100">
-            <div className="flex justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
+        <div className="lg:p-10 pt-30 px-10 lg:pt-30 justify-center items-center flex bg-gray-100">
+            <div className="flex flex-col lg:flex-row justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
                 <div className="flex-1 relative"
                     style={{backgroundImage: 'url("/bg-login.jpg")', backgroundSize: 'cover', backgroundPosition: 'left'}}
                 >
@@ -62,10 +62,10 @@ const Register = () => {
                     </div>
                 </div>
                 <div className="flex-1 py-10">
-                    <h1 className="text-4xl font-bold mb-5 text-transparent bg-clip-text inline-flex py-2 bg-gradient-to-r from-emerald-400 to-teal-600">
+                    <h1 className="text-4xl font-bold mb-5 text-transparent bg-clip-text inline-flex py-2 ml-5 lg:ml-0 bg-gradient-to-r from-emerald-400 to-teal-600">
                         Register
                     </h1>
-                    <form className="flex flex-col gap-5 justify-center items-start" onSubmit={handleSubmit}>
+                    <form className="flex flex-col gap-5 justify-center items-center lg:items-start" onSubmit={handleSubmit}>
                         <div className="inputbox">
                             <FaRegUser className="text-gray-600" />
                             <input

@@ -125,7 +125,7 @@ const ManageAnnouncements = () => {
     <div>
       <CreateAnnouncementModal visible={createAnnouncementModalVisible} setVisible={setCreateAnnouncementModalVisible} selectedImages={selectedImages} setSelectedImages={setSelectedImages} title={title} setTitle={setTitle} description={description} setDescription={setDescription} handleSubmit={handleSubmit} loading={formLoading} />
       <EditAnnouncementModal visible={editAnnouncementModalVisible} setVisible={setEditAnnouncementModalVisible} selectedImages={selectedImages} setSelectedImages={setSelectedImages} title={title} setTitle={setTitle} description={description} setDescription={setDescription} handleSubmit={handleEditSubmit} loading={formLoading} editId={editId} />
-      <div className='flex justify-between items-center'>
+      <div className='flex flex-col lg:flex-row justify-between lg:items-center items-start gap-4'>
         <div className='flex flex-col gap-2'>
           <h1 className='text-2xl font-bold'>Manage Announcements</h1>
           <p className='text-gray-700'>Create and manage platform announcements</p>
@@ -146,7 +146,7 @@ const ManageAnnouncements = () => {
           ))
         }
       </div>
-      <div className='flex justify-between items-center mt-5'>
+      <div className='flex flex-col lg:flex-row justify-between items-center gap-4 mt-5'>
         <div >
           <p>Page {page} of {totalPages}</p>
         </div>

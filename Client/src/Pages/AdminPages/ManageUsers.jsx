@@ -133,7 +133,7 @@ import Loader from '../../Loaders/Loader';
     return (
       <div>
         <ProfileEditModal visible={modalVisible} setVisible={setModalVisible} user={selectedUser} fetchUser={fetchUsers}  isAdmin={true}  className=""  />
-        <div className='flex justify-between items-center'>
+        <div className='flex flex-col gap-6 lg:flex-row lg:justify-between lg:items-center'>
           <div className='flex flex-col gap-2'>
             <h1 className='text-2xl font-bold'>Manage Users</h1>
             <p className='text-gray-700'>View and manage all registered users</p>
@@ -145,12 +145,12 @@ import Loader from '../../Loaders/Loader';
             </button>
           </div>
         </div>
-        <div className='flex justify-between items-center p-5 bg-white shadow-md mt-5 rounded-lg'>
-          <div>
+        <div className='flex flex-col lg:flex-row lg:justify-between lg:items-center p-5 bg-white shadow-md mt-5 rounded-lg gap-4'>
+          <div className="w-full lg:w-auto">
             <form onSubmit={(e)=>{e.preventDefault();handleSearch()}}>
-              <IconField iconPosition="left">
+              <IconField iconPosition="left" className="w-full">
                   <InputIcon className="pi pi-search"> </InputIcon>
-                  <InputText placeholder="Search Users" value={search} onChange={(e)=>setSearch(e.target.value)} />
+                  <InputText placeholder="Search Users" value={search} onChange={(e)=>setSearch(e.target.value)} className="w-full lg:w-auto" />
               </IconField>
             </form>
           </div>
@@ -163,9 +163,10 @@ import Loader from '../../Loaders/Loader';
             </div>
           </div>
         </div>
-        <div className='mt-5'>
+        <div className='mt-5 max-w-[calc(100vw-6rem)] lg:max-w-full'>
           <ActionsOverlay panelRef={op} selectedUser={selectedUser} setModalVisible={setModalVisible} fetchUser={fetchUsers} />
-          <DataTable value={users} size="small" sortMode='multiple' removableSort>
+          <div className='overflow-x-auto'>
+            <DataTable value={users} size="small" sortMode='multiple' removableSort  className="min-w-[800px]" >
             <Column sortable  field='user' header='User' body={userBody} />
             <Column sortable field='isAdmin' header='Role' body={roleBody} />
             <Column sortable field='joined' header='Joined' body={joinedBody} />
@@ -173,11 +174,12 @@ import Loader from '../../Loaders/Loader';
             <Column sortable field='volunteeredCount' header='Volunteered Count' />
             <Column field='actions' header='Actions' body={actionBody} />
           </DataTable>
-          <div className='flex justify-between items-center mt-5'>
+          </div>
+          <div className='flex flex-col lg:flex-row justify-between items-center mt-5 gap-4'>
             <div >
               <p>Page {page} of {totalPages}</p>
             </div>
-            <div className='flex gap-3 items-center'>
+            <div className='flex gap-3 items-center overflow-x-auto max-w-full pb-2 lg:pb-0'>
               <button onClick={()=>setPage(page-1)} disabled={page===1} className='p-2 rounded-full hover:bg-gray-200 transition duration-300 ease-in-out disabled:opacity-50 hover:cursor-pointer'><MdKeyboardArrowLeft /></button>
               {
                 Array.from({length:totalPages},(_,i)=>(

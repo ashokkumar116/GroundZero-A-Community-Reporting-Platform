@@ -33,14 +33,14 @@ const Login = () => {
         }
     };
     return (
-        <div className="p-10 h-screen justify-center items-center flex bg-gray-100">
-            <div className="flex justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
-                <div className="flex-1 py-10">
+        <div className="lg:p-10 pt-30 px-10 lg:py-0 h-screen justify-center items-center flex bg-gray-100">
+            <div className="flex flex-col lg:flex-row justify-center overflow-hidden gap-5 shadow-xl rounded-xl bg-white max-w-[900px] items-stretch">
+                <div className="flex-1 py-10 max-lg:order-1">
                     <h1 className="text-4xl font-bold mb-5 ml-10 text-transparent bg-clip-text inline-flex py-2 bg-gradient-to-r from-emerald-400 to-teal-600">
                         Login
                     </h1>
                     <form
-                        className="flex flex-col gap-5 justify-center items-end text-gray-600"
+                        className="flex flex-col gap-5 justify-center items-center lg:items-end text-gray-600"
                         onSubmit={handleSubmit}
                     >
                         <div className="inputbox">

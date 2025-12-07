@@ -179,7 +179,7 @@ const CreateReport = () => {
     }
 
     return (
-        <div className="px-50 py-30 bg-gray-100">
+        <div className="lg:px-50 px-10 py-30 bg-gray-100">
             <div className="mb-10">
                 <h1 className="text-2xl font-bold text-green-700">
                     Bring Your Concern to Light — Together, We’ll Fix It.
@@ -257,7 +257,7 @@ const CreateReport = () => {
                                     <p className="label-text">Description</p>
                                 </div>
                                 <div>
-                                    <button className="flex items-center bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-3 py-2 gap-2 shadow-md hover:shadow-lg transition-all duration-200 text-white rounded-lg cursor-pointer" onClick={generateDescription} disabled={loading}>
+                                    <button className="flex items-center bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-3 py-2 gap-2 shadow-md hover:shadow-lg transition-all duration-200 text-white rounded-lg cursor-pointer text-xs lg:text-base" onClick={generateDescription} disabled={loading}>
                                         {
                                             loading ? (
                                                 <>
@@ -280,7 +280,7 @@ const CreateReport = () => {
                             />
                         </label>
                     </div>
-                    <div className="flex gap-10 w-full">
+                    <div className="flex flex-col lg:flex-row gap-10 w-full">
                         <label
                             htmlFor="priority"
                             className="space-y-3 flex-1"
@@ -322,8 +322,8 @@ const CreateReport = () => {
                             />
                         </label>
                     </div>
-                    <div className="grid grid-cols-2 gap-x-10 gap-y-5">
-                        <div className="flex items-center gap-2 text-emerald-800 col-span-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-5">
+                        <div className="flex items-center gap-2 text-emerald-800 lg:col-span-2">
                             <MdOutlineLocationOn />
                             <p className="label-text">Location Details</p>
                         </div>
