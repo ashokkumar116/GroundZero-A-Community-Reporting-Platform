@@ -76,7 +76,7 @@ const ManageAnnouncements = () => {
   },[page,limit])
 
   if(loading){
-    return <div className='flex justify-center items-center h-screen'><Loader /></div>
+    return <div className='flex justify-center items-center h-[calc(100vh-10rem)]'><Loader /></div>
   }
 
   return (

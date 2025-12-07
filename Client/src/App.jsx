@@ -23,6 +23,7 @@ import ReviewRequests from "./Pages/AdminPages/ReviewRequests";
 import ManageCategories from "./Pages/AdminPages/ManageCategories";
 import ManageSupport from "./Pages/AdminPages/ManageSupport";
 import ManageAnnouncements from "./Pages/AdminPages/ManageAnnouncements";
+import ViewAnnouncement from "./Pages/ViewAnnouncement";
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/user-reports/:id" element={<UserProtectedRoute><UserReports /></UserProtectedRoute>}/>
           <Route path="/user-requests" element={<UserProtectedRoute><UserRequests /></UserProtectedRoute>}/>
           <Route path="/search" element={<SearchResults />}/>
+          <Route path="/announcement/:id" element={<UserProtectedRoute><ViewAnnouncement /></UserProtectedRoute>}/>
           <Route path="/admin" element={<AdminProtectedRoute />}>
               <Route element={<AdminLayout />}>
                   <Route index element={<Navigate to="dashboard" />} replace />

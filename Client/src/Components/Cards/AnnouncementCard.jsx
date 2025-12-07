@@ -5,8 +5,10 @@ import { BsDot } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { formatDate } from '../../utils/formatDate';
+import { useNavigate } from 'react-router-dom';
 
 const AnnouncementCard = ({announcement}) => {
+  const navigate = useNavigate();
   return (
     <div className='bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out rounded-md p-4 flex justify-between items-center'>
         <div className='flex flex-col gap-3 pr-4'>
@@ -33,7 +35,8 @@ const AnnouncementCard = ({announcement}) => {
               <FiEdit/>
               <p>Edit</p>
             </button>
-            <button className='border border-gray-700/60 px-4 py-2 rounded-lg hover:border-gray-700/70 hover:bg-gray-300/20 transition-all duration-300 ease-in-out flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-900'>
+            <button className='border border-gray-700/60 px-4 py-2 rounded-lg hover:border-gray-700/70 hover:bg-gray-300/20 transition-all duration-300 ease-in-out flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-900'
+          onClick={()=>navigate(`/announcement/${announcement._id}`)}>
               <IoEyeOutline/>
               <p>View</p>
             </button>
