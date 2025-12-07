@@ -2,7 +2,7 @@ import { Dialog } from "primereact/dialog";
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../../lib/authStore";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/InputTextarea";
+import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import { Calendar } from "primereact/calendar";
 import { IndianStatesAndDistricts } from "../../../Contents/constants";
