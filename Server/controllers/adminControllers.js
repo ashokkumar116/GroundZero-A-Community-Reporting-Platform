@@ -1006,6 +1006,34 @@ const editAnnouncement = async(req,res)=>{
     }
 }
 
+const deleteAnnouncement = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const announcement = await Announcement.findById(id);
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        if(announcement.images.length > 0){
+            announcement.images.forEach((image)=>{
+                cloudinary.uploader.destroy(image.publicId);
+            })
+        }
+
+        await announcement.deleteOne();
+        return res.status(200).json({
+            message:"Announcement Deleted Successfully"
+        }) 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
     reviewVolunteerRequest,
     reviewStatusUpdateRequest,
@@ -1026,5 +1054,6 @@ module.exports = {
     createAnnouncement,
     fetchAnnouncements,
     fetchSingleAnnouncement,
-    editAnnouncement
+    editAnnouncement,
+    deleteAnnouncement
 };
