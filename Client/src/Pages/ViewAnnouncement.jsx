@@ -79,7 +79,7 @@ const ViewAnnouncement = () => {
             <div className='flex flex-col gap-5'>
                 <p className='text-2xl font-bold'>{announcement.title}</p>
             </div>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 cursor-pointer' onClick={()=>navigate(`/profile/${announcement?.postedBy?._id}`)}>
                 <div>
                     <img src={announcement?.postedBy?.profile_image} alt="" className='w-10 h-10 rounded-full' />
                 </div>
