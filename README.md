@@ -4,7 +4,7 @@
 
 GroundZero is a community-driven issue reporting and volunteering platform designed to empower citizens to identify local problems and take action. From potholes and broken streetlights to waste management and public safety concerns, GroundZero is your starting point for meaningful change in your community.
 
-## 🚀 Features (Coming Soon)
+## 🚀 Features
 
 - **Report Local Issues** – Submit problems with photos, location, and descriptions.
 
@@ -22,19 +22,19 @@ GroundZero is a community-driven issue reporting and volunteering platform desig
 
 GroundZero is built to bridge the gap between citizens and action — empowering communities to take ownership of local improvements. Every report, every volunteer, and every resolved issue begins from the ground up.
 
-## ⚡ Tech Stack (Planned)
+## ⚡ Tech Stack
 
-- **Frontend:** React.js + Tailwind CSS + Zustand + MaterialUI + DaisyUi
+- **Frontend:** React.js + Tailwind CSS + Zustand + MaterialUI + DaisyUi + PrimeReact
 
 - **Backend:** Node.js + Express + MongoDB
 
-- **AI Integration:** OpenAI API for issue description generation
+- **AI Integration:** Gemini API for issue description generation
 
 - **Deployment:** Netlify (Frontend) + Render (Backend)
 
-## 🛠️ Project Status
+## Live Demo
 
-🚧 Currently in development — stay tuned for updates as we build features and expand functionality.
+- [GroundZero](https://groundzeroapp.netlify.app/)
 
 ## 🤝 Contribute
 
