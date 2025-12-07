@@ -8,11 +8,23 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { HomeMenuItems, OtherPageMenuItems } from "../../../Contents/constants";
 import NavProfile from "./NavProfile";
 import NavStarted from "./NavStarted";
+import axios from "../../Services/axios";
 
 const Navbar = () => {
 
     const location = useLocation();
     const isAdminPanel = location.pathname.startsWith('/admin');
+
+    const [unreadAnnouncements,setUnreadAnnouncements] = useState(0);
+
+    const fetchUnreadAnnouncementsCount = async()=>{
+        try {
+            const response = await axios.get('/users/user-unread-announcements');
+            setUnreadAnnouncements(response.data.unreadAnnouncements);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
 
 
@@ -42,6 +54,10 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [isHome]);
 
+    useEffect(() => {
+        fetchUnreadAnnouncementsCount();
+    }, [user,fetchUnreadAnnouncementsCount]);
+
 
         if (loading) return null;
 
@@ -54,7 +70,7 @@ const Navbar = () => {
     if(isHome){
         return (
             <div>
-                <ProfileOverlayPanel panelRef={op} userId={userId} key={userId ?? "nouser"}/>
+                <ProfileOverlayPanel panelRef={op} userId={userId} unreadAnnouncements={unreadAnnouncements} key={userId ?? "nouser"}/>
                 <nav
                     className={` z-50 flex items-center justify-around lg:justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm transition-all duration-500 ease-in-out 
                         ${scrolled
@@ -81,7 +97,7 @@ const Navbar = () => {
 
                     <div className="flex gap-2">
                         {user ? (
-                            <NavProfile op={op} />
+                            <NavProfile op={op} unreadAnnouncements={unreadAnnouncements} />
                         ) : (
                             <NavStarted />
                         )}
@@ -123,7 +139,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <ProfileOverlayPanel panelRef={op} userId={userId} key={userId ?? "nouser"} />
+            <ProfileOverlayPanel panelRef={op} userId={userId} unreadAnnouncements={unreadAnnouncements} key={userId ?? "nouser"} />
             <nav
                 className="z-50 flex items-center justify-around lg:justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm fixed top-0 bg-white shadow-md"
             >
@@ -148,7 +164,7 @@ const Navbar = () => {
 
                 <div className="flex gap-2">
                     {user ? (
-                        <NavProfile op={op} />
+                        <NavProfile op={op} unreadAnnouncements={unreadAnnouncements} />
                     ) : (
                         <NavStarted />
                     )}
