@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import React, { useState } from 'react'
 import { Status } from "../../../Contents/constants";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/InputTextarea";
+import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { LuSend, LuUpload } from "react-icons/lu";
 import { MdClear } from "react-icons/md";

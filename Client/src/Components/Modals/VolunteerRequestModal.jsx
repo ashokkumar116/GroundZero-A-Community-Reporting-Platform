@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {Dialog} from "primereact/dialog"
-import { InputTextarea } from 'primereact/InputTextarea';
+import { InputTextarea } from 'primereact/inputtextarea';
 import { IoSendOutline } from 'react-icons/io5';
 import { FiSend } from 'react-icons/fi';
 import axios from '../../Services/axios';
