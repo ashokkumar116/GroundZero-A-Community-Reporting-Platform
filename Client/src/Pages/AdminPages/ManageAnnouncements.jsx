@@ -142,7 +142,7 @@ const ManageAnnouncements = () => {
       <div className='flex flex-col gap-4 mt-10'>
         {
           announcements.map((announcement)=>(
-            <AnnouncementCard key={announcement._id} announcement={announcement} handleEditShow={handleEditShow} />
+            <AnnouncementCard key={announcement._id} announcement={announcement} handleEditShow={handleEditShow} fetchAnnouncements={fetchAnnouncements} />
           ))
         }
       </div>
