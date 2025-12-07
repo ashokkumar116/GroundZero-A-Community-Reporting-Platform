@@ -42,6 +42,14 @@ const announcementSchema = new mongoose.Schema({
     viewedAt:{
         type:Date,
         default:Date.now()
+    },
+    editedAt:{
+        type:Date,
+        default:Date.now()
+    },
+    editedBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     }
 },{
     timestamps:true

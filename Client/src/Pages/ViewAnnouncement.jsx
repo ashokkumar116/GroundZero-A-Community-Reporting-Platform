@@ -117,7 +117,7 @@ const ViewAnnouncement = () => {
                 </p>
                 <p className='flex items-center gap-1 text-sm text-gray-700'>
                     <FaRegClock/>
-                    <span>Last updated {timeAgo(announcement?.updatedAt)}</span>
+                    <span>Last updated {timeAgo(announcement?.editedAt)}</span>
                 </p>
             </div>
         </div>

@@ -955,6 +955,56 @@ const fetchSingleAnnouncement = async(req,res)=>{
     }
 }
 
+const editAnnouncement = async(req,res)=>{
+    try {
+        
+        const {id} = req.params;
+        const announcement = await Announcement.findById(id);
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        const {title,description} = req.body;
+        const images = req.files;
+
+        if(!title || !description){
+            return res.status(400).json({
+                message:"Title and Description are required"
+            })
+        }
+
+        let formattedImages = [];
+
+        if(images){
+            formattedImages = images.map((image)=>{
+                return {
+                    publicId:image.filename,
+                    url:image.path
+                }
+            })
+        }
+
+        announcement.title = title;
+        announcement.description = description;
+        announcement.images.push(...formattedImages);
+        announcement.editedAt = Date.now();
+        announcement.editedBy = req.user.userId;
+        await announcement.save();
+
+        return res.status(200).json({
+            message:"Announcement Updated Successfully",
+            announcement
+        })
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
 
 module.exports = {
     reviewVolunteerRequest,
@@ -975,5 +1025,6 @@ module.exports = {
     getRecentReports,
     createAnnouncement,
     fetchAnnouncements,
-    fetchSingleAnnouncement
+    fetchSingleAnnouncement,
+    editAnnouncement
 };
