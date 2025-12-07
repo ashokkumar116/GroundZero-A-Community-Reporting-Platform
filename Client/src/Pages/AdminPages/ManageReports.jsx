@@ -173,7 +173,7 @@ const ManageReports = () => {
   return (
     <div>
         <ReportEditModal report={selectedReport} setModalVisible={setModalVisible} modalVisible={modalVisible} getReports={getReports} />
-        <div className='flex justify-between items-center'>
+        <div className='flex flex-col lg:flex-row lg:justify-between lg:items-center p-5 bg-white shadow-md mt-5 rounded-lg gap-4'>
           <div className='flex flex-col gap-2'>
             <h1 className='text-2xl font-bold'>Manage Reports</h1>
             <p className='text-gray-700'>View and manage all reports</p>
@@ -185,7 +185,7 @@ const ManageReports = () => {
             </button>
           </div>
         </div>
-        <div className='flex justify-between items-center p-5 bg-white shadow-md mt-5 rounded-lg'>
+        <div className='flex flex-col lg:flex-row justify-between items-center p-5 bg-white shadow-md mt-5 rounded-lg'>
           <div>
             <form onSubmit={(e)=>{e.preventDefault();handleSearch();}}>
               <IconField iconPosition="left">
@@ -203,9 +203,10 @@ const ManageReports = () => {
             </div>
           </div>
         </div>
-        <div className='mt-5'>
+        <div className='mt-5 max-w-[calc(100vw-6rem)] lg:max-w-full'>
           <ReportActionOverlay selectedReport={selectedReport} setModalVisible={setModalVisible} getReports={getReports} panelRef={op} />
-          <DataTable value={reports} size="small" sortMode='multiple' removableSort>
+          <div className='overflow-x-auto'>
+            <DataTable value={reports} size="small" sortMode='multiple' removableSort className="min-w-[800px]">
             <Column field='title' header='Title' body={titleBodyTemplate} sortable />
             <Column field='category' header='Category' sortable body={categoryBodyTemplate} />
             <Column field='priority' header='Priority' sortable body={priorityBodyTemplate} />
@@ -214,8 +215,9 @@ const ManageReports = () => {
             <Column field='reportedBy' header='Reported By' sortable body={reportedByBodyTemplate}/>
             <Column header="Action" body={actionBodyTemplate} />
           </DataTable>
+          </div>
         </div>
-        <div className='flex justify-between items-center mt-5'>
+        <div className='flex flex-col lg:flex-row justify-between items-center mt-5 gap-4'>
           <div >
             <p>Page {page} of {totalPages}</p>
           </div>

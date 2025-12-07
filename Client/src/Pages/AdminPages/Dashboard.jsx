@@ -120,7 +120,7 @@ const Dashboard = () => {
             <p className='text-gray-700'>Welcome back! Here's what's happening today.</p>
           </div>
         </div>
-        <div className='flex justify-between items-center gap-5 mt-5'>
+        <div className='flex flex-col lg:flex-row gap-5 mt-5'>
           <div className='flex flex-col gap-2 bg-white p-5 rounded-lg hover:shadow-md transition-all cursor-pointer'>
             <div>
               <h1 className='text-base font-semibold'>Users Summary</h1>
@@ -131,7 +131,7 @@ const Dashboard = () => {
             <div>
               <h1 className='text-base font-semibold'>Reports Summary</h1>
             </div>
-            <div className='flex flex-wrap gap-4'>
+            <div className='flex flex-wrap gap-4 '>
               <SummaryCard title="Total Reports" icon={FaRegFileLines} data={summary?.reports?.totalReports} backgroundColor="bg-blue-500/10" iconColor="text-blue-500"/>
               <SummaryCard title="Resolved Reports" icon={SiTicktick} data={summary?.reports?.resolvedReports} backgroundColor="bg-green-500/10" iconColor="text-green-500"/>
               <SummaryCard title="In Progress Reports" icon={FaRegClock} data={summary?.reports?.inProgressReports} backgroundColor="bg-yellow-500/10" iconColor="text-yellow-500"/>
@@ -169,7 +169,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className='flex items-center gap-5 mt-5 w-full'>
+        <div className='flex flex-col lg:flex-row items-center gap-5 mt-5 w-full'>
           <div className='flex-2'>
             <AgCharts options={chartOptions} className='flex-1'/>
           </div>

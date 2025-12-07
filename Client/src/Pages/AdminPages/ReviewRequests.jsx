@@ -130,13 +130,13 @@ const ReviewRequests = () => {
           <TabPanels className="mt-4">
               <TabPanel className="p-4 flex flex-col gap-3">
                 {VolunteerRequests.map((request,index)=>(
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between hover:shadow-xl transition-all duration-300 ease-in-out">
+                  <div key={index} className="bg-white p-4 rounded-lg shadow-md flex flex-col lg:flex-row lg:items-center lg:justify-between items-center justify-between gap-4 hover:shadow-xl transition-all duration-300 ease-in-out">
                     <div className='flex flex-col gap-3'>
                       <div className='flex flex-col gap-2'>
                           <h2 className="text-lg font-semibold capitalize">{request.note}</h2>
                           <p className="text-sm text-gray-600 hover:underline cursor-pointer" onClick={()=>navigate(`/issues/${request.report._id}`)}>{request.report.title}</p>
                       </div>
-                      <div className='flex items-center gap-10'>
+                      <div className='flex flex-col lg:flex-row lg:items-center lg:gap-10 items-center gap-2'>
                         <div className="flex items-center gap-2">
                           <p className='text-gray-700 text-sm capitalize'>Requested By:</p>
                           <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded-full" onClick={()=>navigate(`/profile/${request.volunteer._id}`)}>
@@ -211,7 +211,7 @@ const ReviewRequests = () => {
                     </div>
                   </div>
                 ))}
-                  <div className='flex justify-between items-center mt-5'>
+                  <div className='flex flex-col lg:flex-row justify-between items-center mt-5 gap-4'>
                     <div >
                       <p>Page {volunteerPage} of {volunteerTotalPages}</p>
                     </div>
@@ -234,7 +234,7 @@ const ReviewRequests = () => {
               </TabPanel>
               <TabPanel className="p-4 flex flex-col gap-3">
                 {StatusUpdateRequests.map((request,index)=>(
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out flex justify-between items-center">
+                  <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out flex flex-col lg:flex-row lg:items-center lg:justify-between items-center justify-between gap-4">
                     <div className='flex flex-col gap-3'>
                       <div className='flex flex-col gap-2'>
                           <h2 className="text-lg font-semibold">{request.report.title}</h2>
@@ -257,7 +257,7 @@ const ReviewRequests = () => {
                           ) : null
                         }
                       </div>
-                      <div className='flex items-center gap-10'>
+                      <div className='flex flex-col lg:flex-row lg:items-center lg:gap-10 items-center gap-2'>
                         <div className="flex items-center gap-2">
                           <p className='text-gray-700 text-sm capitalize'>Requested By:</p>
                           <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded-full" onClick={()=>navigate(`/profile/${request.requestedBy._id}`)}>
@@ -334,7 +334,7 @@ const ReviewRequests = () => {
                     </div>
                   </div>
                 ))}
-                <div className='flex justify-between items-center mt-5'>
+                <div className='flex flex-col lg:flex-row justify-between items-center mt-5 gap-4'>
                   <div >
                     <p>Page {statusUpdatePage} of {statusUpdateTotalPages}</p>
                   </div>

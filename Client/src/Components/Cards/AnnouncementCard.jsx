@@ -59,7 +59,7 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements,isUser
 
 
   return (
-    <div className='bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out rounded-md p-4 flex justify-between items-center'>
+    <div className='bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out rounded-md p-4 flex flex-col lg:flex-row lg:items-center lg:justify-between items-center justify-between gap-4'>
         <div className='flex flex-col gap-3 pr-4'>
             <h1 className={`${announcement.viewedBy?.some(v => v._id.toString() === user._id.toString()) ? "font-normal" : "font-bold"} text-lg cursor-pointer hover:underline transition-all duration-300 ease-in-out `} onClick={()=>navigate(`/announcement/${announcement._id}`)}>{announcement.title}</h1>
             <p className='text-sm text-gray-500 line-clamp-2'>{announcement.description}</p>
@@ -81,7 +81,7 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements,isUser
         </div>
         {
           !isUserSide && (
-            <div className='flex flex-col gap-2 pl-4 font-normal'>
+            <div className='flex flex-row lg:flex-col gap-2 pl-4 font-normal'>
             <button className='border border-gray-700/60 px-4 py-2 rounded-lg hover:border-gray-700/70 hover:bg-gray-300/20 transition-all duration-300 ease-in-out flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-900'
             onClick={()=>handleEditShow(announcement)}
             >
