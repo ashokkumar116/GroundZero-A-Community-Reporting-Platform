@@ -36,6 +36,11 @@ export const ProfileMenuItems = [
         name: "Volunteer Works",
         icon:MdOutlineVolunteerActivism,
         link:"/volunteer-works"
+    },
+    {
+        name: "Announcements",
+        icon:GrAnnounce,
+        link:"/announcements"
     }
 ]
 

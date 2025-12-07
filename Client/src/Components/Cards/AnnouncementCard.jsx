@@ -7,13 +7,16 @@ import { MdDeleteOutline } from "react-icons/md";
 import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
 
-import { ConfirmPopup } from 'primereact/confirmpopup'; // To use <ConfirmPopup> tag
-import { confirmPopup } from 'primereact/confirmpopup'; // To use confirmPopup method
+import { ConfirmPopup } from 'primereact/confirmpopup';
+import { confirmPopup } from 'primereact/confirmpopup'; 
 import axios from '../../Services/axios';
 import toast from 'react-hot-toast';
 import Loader from '../../Loaders/Loader';
+import { useAuthStore } from '../../lib/authStore';
+import { useEffect } from 'react';
 
-const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements}) => {
+const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements,isUserSide}) => {
+  const {user} = useAuthStore();
   const navigate = useNavigate();
   const [loading,setLoading] = useState(false);
 
@@ -32,6 +35,7 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements}) => {
       setLoading(false);
     }
   }
+
 
   const confirmDelete = (event) => {
         confirmPopup({
@@ -57,7 +61,7 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements}) => {
   return (
     <div className='bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out rounded-md p-4 flex justify-between items-center'>
         <div className='flex flex-col gap-3 pr-4'>
-            <h1 className='font-semibold text-lg'>{announcement.title}</h1>
+            <h1 className={`${announcement.viewedBy?.some(v => v._id.toString() === user._id.toString()) ? "font-normal" : "font-bold"} text-lg cursor-pointer hover:underline transition-all duration-300 ease-in-out `} onClick={()=>navigate(`/announcement/${announcement._id}`)}>{announcement.title}</h1>
             <p className='text-sm text-gray-500 line-clamp-2'>{announcement.description}</p>
             <div className='flex items-center gap-2'>
               <div className='flex items-center gap-2 text-gray-700 text-xs'>
@@ -75,7 +79,9 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements}) => {
               </div>
             </div>
         </div>
-        <div className='flex flex-col gap-2 pl-4 font-normal'>
+        {
+          !isUserSide && (
+            <div className='flex flex-col gap-2 pl-4 font-normal'>
             <button className='border border-gray-700/60 px-4 py-2 rounded-lg hover:border-gray-700/70 hover:bg-gray-300/20 transition-all duration-300 ease-in-out flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-900'
             onClick={()=>handleEditShow(announcement)}
             >
@@ -95,6 +101,8 @@ const AnnouncementCard = ({announcement,handleEditShow,fetchAnnouncements}) => {
               <p>Delete</p>
             </button>
         </div>
+          )
+        }
     </div>
   )
 }
