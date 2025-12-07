@@ -1,3 +1,4 @@
+const Announcement = require("../models/Announcement");
 const Reports = require("../models/Reports");
 const StatusUpdateRequest = require("../models/StatusUpdateRequest");
 const User = require("../models/User");
@@ -848,6 +849,190 @@ const getRecentReports = async(req,res)=>{
     }
 }
 
+const createAnnouncement = async(req,res)=>{
+    try {
+        const {title,description} = req.body;
+        const images = req.files;
+        if(!title || !description){
+            return res.status(400).json({
+                message:"Title and Description are required"
+            })
+        }
+
+        let formattedImages = [];
+
+        if(images){
+            formattedImages = images.map((image)=>{
+                return {
+                    publicId:image.filename,
+                    url:image.path
+                }
+            })
+        }
+
+        const announcement = new Announcement({
+            title,
+            description,
+            images:formattedImages,
+            postedBy:req.user.userId
+        })
+
+        await announcement.save();
+
+        return res.status(201).json({
+            message:"Announcement created successfully",
+            announcement
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const fetchAnnouncements = async(req,res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page-1)*limit;
+        const announcements = await Announcement.find()
+                                                .populate("postedBy","username profile_image")
+                                                .populate("viewedBy","username profile_image")
+                                                .sort({createdAt:-1})
+                                                .limit(limit)
+                                                .skip(skip);
+
+        const totalAnnouncements = await Announcement.countDocuments();
+
+        return res.status(200).json({
+            message:"Announcements Fetched Successfully",
+            announcements,
+            currentPage:page,
+            totalPages:Math.ceil(totalAnnouncements/limit),
+            totalAnnouncements
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const fetchSingleAnnouncement = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const userId = req.user.userId;
+        const announcement = await Announcement.findById(id)
+                                            .populate("postedBy","username profile_image")
+                                            .populate("viewedBy","username profile_image");
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        const alreadyViewed = announcement.viewedBy.some(v => v._id.toString() === userId.toString());
+
+        if(!alreadyViewed){
+            announcement.views += 1;
+            announcement.viewedBy.push(userId);
+            await announcement.save();
+        }
+
+        return res.status(200).json({
+            message:"Announcement Fetched Successfully",
+            announcement
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const editAnnouncement = async(req,res)=>{
+    try {
+        
+        const {id} = req.params;
+        const announcement = await Announcement.findById(id);
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        const {title,description} = req.body;
+        const images = req.files;
+
+        if(!title || !description){
+            return res.status(400).json({
+                message:"Title and Description are required"
+            })
+        }
+
+        let formattedImages = [];
+
+        if(images){
+            formattedImages = images.map((image)=>{
+                return {
+                    publicId:image.filename,
+                    url:image.path
+                }
+            })
+        }
+
+        announcement.title = title;
+        announcement.description = description;
+        announcement.images.push(...formattedImages);
+        announcement.editedAt = Date.now();
+        announcement.editedBy = req.user.userId;
+        await announcement.save();
+
+        return res.status(200).json({
+            message:"Announcement Updated Successfully",
+            announcement
+        })
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
+
+const deleteAnnouncement = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const announcement = await Announcement.findById(id);
+        if(!announcement){
+            return res.status(404).json({
+                message:"Announcement Not Found"
+            })
+        }
+
+        if(announcement.images.length > 0){
+            announcement.images.forEach((image)=>{
+                cloudinary.uploader.destroy(image.publicId);
+            })
+        }
+
+        await announcement.deleteOne();
+        return res.status(200).json({
+            message:"Announcement Deleted Successfully"
+        }) 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+}
 
 module.exports = {
     reviewVolunteerRequest,
@@ -865,5 +1050,10 @@ module.exports = {
     getStatusUpdateRequests,
     getDashboardSummary,
     getChartsData,
-    getRecentReports
+    getRecentReports,
+    createAnnouncement,
+    fetchAnnouncements,
+    fetchSingleAnnouncement,
+    editAnnouncement,
+    deleteAnnouncement
 };

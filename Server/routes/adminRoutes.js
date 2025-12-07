@@ -1,7 +1,8 @@
 const express = require("express");
 const isAdmin = require("../middlewares/isAdmin");
-const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports, searchReports,editReport, deleteReport, getVolunteerRequests, getStatusUpdateRequests, getDashboardSummary, getChartsData, getRecentReports } = require("../controllers/adminControllers");
+const { reviewVolunteerRequest, reviewStatusUpdateRequest, getUsers, editUser, makeAdmin, searchUsers, removeAdmin, getReports, searchReports,editReport, deleteReport, getVolunteerRequests, getStatusUpdateRequests, getDashboardSummary, getChartsData, getRecentReports, createAnnouncement, fetchAnnouncements, fetchSingleAnnouncement,editAnnouncement, deleteAnnouncement } = require("../controllers/adminControllers");
 const { uploadImage } = require("../Services/cloudinary");
+const isLoggedIn = require("../middlewares/isLoggedIn");
 
 const router = express.Router();
 
@@ -21,5 +22,10 @@ router.get('/statusupdaterequests',isAdmin,getStatusUpdateRequests);
 router.get('/dashboard/summary',isAdmin,getDashboardSummary);
 router.get('/dashboard/charts',isAdmin,getChartsData);
 router.get('/dashboard/recentreports',isAdmin,getRecentReports);
+router.post('/announcement/create',isAdmin,uploadImage.array('images',10),createAnnouncement);
+router.get('/announcement/fetch',isLoggedIn,fetchAnnouncements);
+router.get('/announcement/fetch/:id',isLoggedIn,fetchSingleAnnouncement);
+router.put('/announcement/edit/:id',isAdmin,uploadImage.array('images',10),editAnnouncement);
+router.delete('/announcement/delete/:id',isAdmin,deleteAnnouncement);
 
 module.exports = router;

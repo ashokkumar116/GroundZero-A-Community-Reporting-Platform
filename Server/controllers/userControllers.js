@@ -4,6 +4,7 @@ const { cloudinary } = require("../Services/cloudinary");
 const Reports = require("../models/Reports");
 const VolunteerRequest = require("../models/VolunteerRequest");
 const StatusUpdateRequest = require("../models/StatusUpdateRequest");
+const Announcement = require("../models/Announcement");
 
 const getUser = async (req, res) => {
   const userId = req.params.id;
@@ -239,6 +240,26 @@ const getStatusUpdateRequests = async(req,res)=>{
   })
 }
 
+const getUserUnreadAnnouncements = async(req,res)=>{
+  try {
+    const userId = req.user.userId;
+    const readAnnouncements = await Announcement.find({
+      "viewedBy":userId
+    })
+    const totalAnnouncements = await Announcement.countDocuments();
+    const unreadAnnouncements = totalAnnouncements - readAnnouncements.length;
+    return res.status(200).json({
+      message:"User Unread Announcements Fetched Successfully",
+      unreadAnnouncements
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message:"Internal Server Error"
+    })
+  }
+}
+
 
 module.exports = {
     getUser,
@@ -247,5 +268,6 @@ module.exports = {
     getVolunteerWorks,
     getUserReports,
     getUserVolunteerRequests,
-    getStatusUpdateRequests
+    getStatusUpdateRequests,
+    getUserUnreadAnnouncements
 }
